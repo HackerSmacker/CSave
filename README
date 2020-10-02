@@ -1,0 +1,27 @@
+HackerSmacker's CSave - Borderlands 3 Save Editor
+By using this software, you agree to the terms and conditions
+specified in the LICENSE file. Failure to comply with the terms
+and conditions may result in an arrangement of issues. As such,
+don't violate the license. 
+
+Compiling on Unix:
+1. Install libprotobuf-c. Follow the applicable installation
+instructions. If you are installing it in /usr/local and 
+/usr/local/lib is not in your library path, please execute
+"export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:/lib" before
+continuing.
+2. Compile CSave. This is as easy as installing GNU Make (which
+is probably already on your machine) and typing "make". Do a
+parallel make, "make -j12", if you want. 
+3. Read the documentation. Open and read the file named HELP.
+
+Compiling on Windows (Cygwin):
+1. Install libprotobuf-c the same way you would do on Unix.
+2. Compile CSave.
+
+Compiling on Windows (VSC):
+todo
+
+Compiling on VMS/OpenVMS:
+todo
+
