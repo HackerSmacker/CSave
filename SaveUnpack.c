@@ -212,6 +212,15 @@ int main(int argc, char** argv) {
 // Customizations
 	
 
+
+// Money (ICL)
+	OakSave__InventoryCategorySaveData** icl = charData->inventory_category_list;
+	int numICL = charData->n_inventory_category_list;
+	for(i = 0; i < numICL; i++) {
+		printf("CSAV001ICL InvCatList %d: %x | quantity: %lu\n", i, icl[i]->base_category_definition_hash, icl[i]->quantity);
+	}
+
+
 // Free the thing
 	oak_save__character__free_unpacked(charData, NULL);
 	return 0;

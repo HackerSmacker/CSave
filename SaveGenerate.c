@@ -4,6 +4,7 @@
 #include "OakShared.pb-c.h"
 #include "OakSave.pb-c.h"
 #include "FileTranslator.h"
+#include "HelperVars.h"
 
 #define FILESIZE_LIMIT 2000000
 
@@ -98,6 +99,23 @@ int main(int argc, char** argv) {
 			xpLevel = atoi(command);
 			charData->experience_points = levelToXP[xpLevel];
 			printf("CSAV001IMM Level set and XP counter updated\n");
+		}
+		else if(strcmp("set guardianrank\n", command) == 0) {
+			printf("CSAV001FNI Feature not implemented. Please contact the support center for a PTF.\n");
+		}
+		else if(strcmp("set money\n", command) == 0) {
+			OakSave__InventoryCategorySaveData** icl = charData->inventory_category_list;
+			int numICL = charData->n_inventory_category_list;
+			printf("CSAV001IMM Enter how much money you want\n");
+			printf("*Input\n");
+			fgets(command, 1024, stdin);
+			int32_t newMoney = atoi(command);
+			for(i = 0; i < numICL; i++) {
+				if(icl[i]->base_category_definition_hash == currencyHashes[0]) {
+					icl[i]->quantity = newMoney;
+				}
+			}
+			printf("CSAV001IMM Money updated\n");
 		}
 	}
 
