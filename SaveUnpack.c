@@ -58,7 +58,7 @@ int main(int argc, char** argv) {
 	skillData = charData->ability_data;
 	printf("CSAV001SKL Skill points: %d\n", skillData->ability_points);
 	printf("CSAV001SKL XP points: %d\n", charData->experience_points);
-	printf("CSAV001SLK Tree grade: %lu\n", skillData->tree_grade);
+	printf("CSAV001SKL Tree grade (unlock status): %lu\n", skillData->tree_grade);
 	//printf("CSAV001SKL Number of active abilities: %d\n", skillData->n_ability_slot_list);
 	//for(i = 0; i < skillData->n_ability_slot_list; i++) {
 	//	printf("CSAV001SKL Ability %d: %s\n", i, skillData->ability_slot_list[i]->ability_class_path);

@@ -142,6 +142,20 @@ int main(int argc, char** argv) {
 			printf("CSAV001IMM Eridium updated\n");
 
 		}
+		else if(strcmp("unlock skilltree\n", command) == 0) {
+			OakSave__OakPlayerAbilitySaveGameData* tree = charData->ability_data;
+			printf("CSAV001IMM Unlocking skill tree...\n");
+			tree->tree_grade = 2;
+			printf("CSAV001IMM Tree unlocked\n");	
+		}
+		else if(strcmp("set skillpoints\n", command) == 0) {
+			OakSave__OakPlayerAbilitySaveGameData* tree = charData->ability_data;
+			printf("CSAV001IMM Enter how many skill points you want\n*Input\n");
+			fgets(command, 1024, stdin);
+			int32_t newPoints = atoi(command);
+			tree->ability_points = newPoints;
+			printf("CSAV001IMM Skill points set\n");
+		}
 	}
 
 // -------------------------- End main loop --------------------------
