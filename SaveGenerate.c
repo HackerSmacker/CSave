@@ -90,6 +90,15 @@ int main(int argc, char** argv) {
 			charData->experience_points = newEXPointsCount;
 			printf("CSAV001IMM Experience point counter updated\n");
 		}
+		else if(strcmp("set level\n", command) == 0) {
+			int xpLevel;
+			printf("CSAV001IMM Enter new level\n");
+			printf("*Input\n");
+			fgets(command, 1024, stdin);
+			xpLevel = atoi(command);
+			charData->experience_points = levelToXP[xpLevel];
+			printf("CSAV001IMM Level set and XP counter updated\n");
+		}
 	}
 
 // -------------------------- End main loop --------------------------

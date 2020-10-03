@@ -57,7 +57,7 @@ int main(int argc, char** argv) {
 	OakSave__OakPlayerAbilitySaveGameData* skillData;
 	skillData = charData->ability_data;
 	printf("CSAV001SKL Skill points: %d\n", skillData->ability_points);
-	printf("CSAV001SKL Level (inverted value): %d\n", charData->experience_points);
+	printf("CSAV001SKL XP points: %d\n", charData->experience_points);
 	printf("CSAV001SLK Tree grade: %lu\n", skillData->tree_grade);
 	//printf("CSAV001SKL Number of active abilities: %d\n", skillData->n_ability_slot_list);
 	//for(i = 0; i < skillData->n_ability_slot_list; i++) {
