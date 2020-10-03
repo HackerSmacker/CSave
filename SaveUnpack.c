@@ -220,6 +220,13 @@ int main(int argc, char** argv) {
 		printf("CSAV001ICL InvCatList %d: %x | quantity: %lu\n", i, icl[i]->base_category_definition_hash, icl[i]->quantity);
 	}
 
+// Mayhem Mode
+	OakSave__GameStateSaveData** sgData = charData->game_state_save_data_for_playthrough;
+	int sgDataLen = charData->n_game_state_save_data_for_playthrough;
+	for(i = 0; i < sgDataLen; i++) {
+		printf("CSAV001MHM Mayhem level on playthrough %d: %d\n", i, sgData[i]->mayhem_level);
+		printf("CSAV001MHM Mayhem seed for playthrough %d: %x\n", i, sgData[i]->mayhem_random_seed);
+	}
 
 // Free the thing
 	oak_save__character__free_unpacked(charData, NULL);

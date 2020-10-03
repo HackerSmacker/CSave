@@ -20,6 +20,11 @@ int main(int argc, char** argv) {
 		fprintf(stderr, "CSAVAB050A Missing filenames (specify input file and output file)\n");
 		exit(1);
 	}
+	if(strcmp(argv[1], argv[2]) == 0) {
+		fprintf(stderr, "CSAVAB050B The input and output files cannot be the same.\n");
+		exit(1);
+	}
+
 // Open input and output files
 	FILE* inFile;
 	FILE* outFile;
@@ -79,7 +84,12 @@ int main(int argc, char** argv) {
 			printf("*Input\n");
 			fgets(command, 1024, stdin);
 			newMHLevel = atoi(command);
-			charData->mayhem_level = newMHLevel;
+			OakSave__GameStateSaveData** sgData = charData->game_state_save_data_for_playthrough;
+			int sgDataLen = charData->n_game_state_save_data_for_playthrough;
+			printf("CSAV001IMM Enter playthrough to modify\n*Input\n");
+			fgets(command, 1024, stdin);
+			int playthrough = atoi(command);
+			sgData[playthrough]->mayhem_level = newMHLevel;
 			printf("CSAV001IMM Mayhem level updated\n");
 		}
 		else if(strcmp("set expoints\n", command) == 0) {
@@ -116,6 +126,21 @@ int main(int argc, char** argv) {
 				}
 			}
 			printf("CSAV001IMM Money updated\n");
+		}
+		else if(strcmp("set eridium\n", command) == 0) {
+			OakSave__InventoryCategorySaveData** icl = charData->inventory_category_list;
+			int numICL = charData->n_inventory_category_list;
+			printf("CSAV001IMM Enter how much Eridium you want\n");
+			printf("*Input\n");
+			fgets(command, 1024, stdin);
+			int32_t newEridium = atoi(command);
+			for(i = 0; i < numICL; i++) {
+				if(icl[i]->base_category_definition_hash == currencyHashes[1]) {
+					icl[i]->quantity = newEridium;
+				}
+			}
+			printf("CSAV001IMM Eridium updated\n");
+
 		}
 	}
 
