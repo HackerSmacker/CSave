@@ -1,2 +1,6 @@
 *.tar
 *.sav
+*.o
+SaveUnpack
+SaveGenerate
+SaveToProto

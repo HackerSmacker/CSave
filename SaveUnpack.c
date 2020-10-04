@@ -203,11 +203,13 @@ int main(int argc, char** argv) {
 	OakSave__OakInventoryItemSaveGameData** invItems = charData->inventory_items;
 	int numInvItems = charData->n_inventory_items;
 	for(i = 0; i < numInvItems; i++) {
-		OakSave__InventoryBalanceStateInitializationData* currentGun = invItems[i]->development_save_data;
 		printf("CSAV001INV Backpack item %d, ", i);
 		printf("Item pickup index %d, ", invItems[i]->pickup_order_index);
-		printf("Serial number %x\n", invItems[i]->item_serial_number.data);
-		//printf("CSAV001INV For gun %d: Inventory data: %s, Balance data: %s, Manufacturer data: %s\n", i, currentGun->inventory_data, currentGun->inventory_balance_data, currentGun->manufacturer_data);
+		printf("Serial number %x, ", invItems[i]->item_serial_number.data);
+		printf("Skin %s\n", invItems[i]->weapon_skin_path);
+		//printf("CSAV001INV For gun %d: Inventory data: %s\n", i, invItems[i]->development_save_data->inventory_data);
+		//printf("CSAV001INV For gun %d: Balance data: %s\n", i, invItems[i]->development_save_data->inventory_balance_data);
+		//printf("CSAV001INV For gun %d: Manufacturer data: %s\n", i, invItems[i]->development_save_data->manufacturer_data);
 	}
 
 // Customizations
