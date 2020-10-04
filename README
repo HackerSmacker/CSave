@@ -4,24 +4,34 @@ specified in the LICENSE file. Failure to comply with the terms
 and conditions may result in an arrangement of issues. As such,
 don't violate the license. 
 
-Compiling on Unix:
-1. Install libprotobuf-c. Follow the applicable installation
-instructions. If you are installing it in /usr/local and 
-/usr/local/lib is not in your library path, please execute
-"export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:/lib" before
-continuing.
-2. Compile CSave. This is as easy as installing GNU Make (which
-is probably already on your machine) and typing "make". Do a
-parallel make, "make -j12", if you want. 
-3. Read the documentation. Open and read the file named HELP.
+----->>> LOOK <<<-----
+FREQUENTLY ASKED QUESTIONS:
+Q. What is this?
+A. It's a BL3 save editor.
 
-Compiling on Windows (Cygwin):
-1. Install libprotobuf-c the same way you would do on Unix.
-2. Compile CSave.
+Q. Where can I download it for Windows?
+A. Right now, you have to compile it yourself on Cygwin or WSL.
 
-Compiling on Windows (VSC):
-todo
+Q. How do I import items?
+A. You can't, well not yet at least. Coming soon (in 2 weeks or so).
 
-Compiling on VMS/OpenVMS:
-todo
+Q. What is this even useful for?
+A. Editing save files in batch mode.
 
+Q. What is batch mode?
+A. Running something without looking at it run.
+
+Q. Does it have a point-and-click GUI?
+A. Sorry, no. Command-line only.
+
+Q. I want to install it but I don't know how to compile it. Can you help me?
+A. Yes.
+
+Q. How can I contact you?
+A. HackerSmacker#8496 on Discord, HKRSMKR@VMSYS2 on HSNET/BITNET, and VAXSVR::HKRSMKR on HSNET/DECnet.
+
+
+---- VERY IMPORTANT, IF YOU DON'T READ ANYTHING ELSE READ THIS: ----
+Read the manual:
+groff -Tps -ms manual.ps | ps2pdf 
+Open and read manual.pdf!
