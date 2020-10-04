@@ -22,3 +22,4 @@ uint8_t* xorData(uint8_t* data, uint8_t seed) {
 	}
 	return out;
 }
+

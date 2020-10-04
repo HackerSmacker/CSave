@@ -1,0 +1,38 @@
+CC = wcc386
+LD = wlink386
+LDFLAGS = 
+CFLAGS = -bt=os2v2 -o2
+DEPS = include/*.h
+PROTOS = *.proto
+OBJS = OakProfile.pb-c.obj OakSave.pb-c.obj OakShared.pb-c.obj SaveUnpack.obj FileTranslator.obj SaveToProto.obj ItemCode.obj SaveGenerate.obj
+CPROTOS = OakProfile.pb-c.c OakSave.pb-c.c OakShared.pb-c.c
+PROGS = SaveUnpack SaveToProto SaveGenerate
+LIBRARIES = libBL3Proto.lib
+
+all: $(PROGS)
+
+
+%.obj: %.c
+	@echo " CC  " $<
+	@$(CC) $(CFLAGS) -c $@ $<
+
+%.pb-c.c: %.proto
+	@echo " PROTOC  " $<
+	@protoc-c --c_out=. $<
+	
+$(LIBRARIES): $(CPROTOS) $(OBJS)
+	@echo " WLIB   libBL3Proto"
+	@wlib create libBL3Proto.lib OakProfile.pb-c.obj OakSave.pb-c.obj OakShared.pb-c.obj
+
+$(PROGS): $(LIBRARIES)
+	@echo " WLINK   SaveUnpack"
+	@$(LD) /out=SaveUnpack SaveUnpack.obj FileTranslator.obj libBL3Proto.lib $(LDFLAGS)
+	@echo " WLINK   SaveToProto"
+	@$(LD) /out=SaveToProto SaveToProto.obj FileTranslator.obj libBL3Proto.lib $(LDFLAGS)
+	@echo " WLINK   SaveGenerate"
+	@$(LD) /out=SaveGenerate SaveGenerate.obj FileTranslator.obj libBL3Proto.lib $(LDFLAGS)
+
+.PHONY: clean
+
+clean:
+	del /f *.obj Oak*.pb-c.* *.lib *.exe
