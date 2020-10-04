@@ -229,7 +229,26 @@ int main(int argc, char** argv) {
 	}
 
 // Customizations
+	char** customizationsList = charData->selected_customizations;
+	int custListLen = charData->n_selected_customizations;
+	for(i = 0; i < custListLen; i++) {
+		printf("CSAV001CST Customization %d: %s\n", i, customizationsList[i]);
+	}
 	
+// Challenges
+	OakSave__ChallengeSaveGameData** challenges = charData->challenge_data;
+	int numChallenges = charData->n_challenge_data;
+	for(i = 0; i < numChallenges; i++) {
+		printf("CSAV001CHL Challenge %d is %s: | completed: %d, active: %d, completed progress level: %d, progress: %d\n", i, challenges[i]->challenge_class_path, challenges[i]->currently_completed, challenges[i]->is_active, challenges[i]->completed_progress_level, challenges[i]->progress_counter);
+		/* COMMENTED OUT - I'M GETTING A COMPILER AND IT'S LATE AND I'M TIRED
+		printf("CSAV001CHL Rewards for challenge %d:\n", i);
+		OakSave__OakChallengeRewardSaveGameData rewards = challenges[i]->challenge_reward_info;
+		int numRewards = challenges[i]->n_challenge_reward_info;
+		for(j = 0; j < numRewards; j++) {
+			printf("CSAV001CHL Reward %d for challenge %d - claimed: %d\n", j, i, rewards[j]->challenge_reward_claimed);
+		}
+		*/
+	}
 
 
 // Money (ICL)
