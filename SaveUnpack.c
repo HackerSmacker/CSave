@@ -29,7 +29,6 @@ int main(int argc, char** argv) {
 // Print the welcome message
 	printf("CSAV00100I Borderlands 3 CSave\n");
 	printf("CSAV00100I by HackerSmacker\n");
-	printf("CSAB00100I THIS IS NOT FREE SOFTWARE AT THE MOMENT.\n");
 	printf("CSAV00100S Save file size = %d\n", fileLen);
 
 // Define the object, and read the data from the buffer (i.e. unpack it)

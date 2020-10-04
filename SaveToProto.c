@@ -12,7 +12,6 @@ struct OakSave_RawHeader saveFile;
 
 int main(int argc, char** argv) {
 	printf("CSAV00200I Save to Protocol Buffer Data Translation Program\n");
-	printf("CSAV00200I THIS IS NOT FREE SOFTWARE AT THE MOMENT. COPYRIGHT (C) HACKERSMACKER\n");
 	if(argc < 2) {
 		fprintf(stderr, "CSAV002ABN Incorrect number of arguments (specify an input file)\n");
 		exit(1);
