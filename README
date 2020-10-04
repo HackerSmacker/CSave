@@ -5,6 +5,8 @@ and conditions may result in an arrangement of issues. As such,
 don't violate the license. 
 
 ----->>> LOOK <<<-----
+READ THE MANUAL FIRST. IT'S IN POSTSCRIPT AND PDF FORMAT.
+
 FREQUENTLY ASKED QUESTIONS:
 Q. What is this?
 A. It's a BL3 save editor.
@@ -33,5 +35,10 @@ A. HackerSmacker#8496 on Discord, HKRSMKR@VMSYS2 on HSNET/BITNET, and VAXSVR::HK
 
 ---- VERY IMPORTANT, IF YOU DON'T READ ANYTHING ELSE READ THIS: ----
 Read the manual:
-groff -Tps -ms manual.ps | ps2pdf 
+  groff -Tps -ms manual.ps
+  ps2pdf manual.ps manual.pdf
 Open and read manual.pdf!
+Print the manual: 
+  lpr -P printername manual.ps (BSD/Linux)
+  lp -d printername manual.ps (System V)
+  PRINT /QUEUE=printername MANUAL.PS (OpenVMS)
