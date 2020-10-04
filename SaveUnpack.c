@@ -88,12 +88,31 @@ int main(int argc, char** argv) {
 	}
 
 // Print out every quest
+	/* DEPRECATED CODE - NOT CONDUCIVE TO WRITING SAVE FILES REALLY
 	OakSave__MissionPlaythroughSaveGameData** questData = charData->mission_playthroughs_data;
 	int questDataSize = charData->n_mission_playthroughs_data;
 	for(i = 0; i < questDataSize; i++) {
 		int questChunkSize = questData[i]->n_mission_list;
 		for(j = 0; j < questChunkSize; j++) {
-			printf("CSAV001QST Quest %d,%d: %s\n", i, j, questData[i]->mission_list[j]->mission_class_path);
+			printf("CSAV001QST Quest %d on playthrough %d: %s\n", j, i, questData[i]->mission_list[j]->mission_class_path);
+		}
+	}
+	*/
+	OakSave__MissionPlaythroughSaveGameData** missionData = charData->mission_playthroughs_data;
+	int missionDataLen = charData->n_mission_playthroughs_data;
+	int k;
+	for(i = 0; i < missionDataLen; i++) {
+		OakSave__MissionStatusPlayerSaveGameData** missionDataForPlaythrough = missionData[i]->mission_list;
+		int missionDFPLen = missionData[i]->n_mission_list;
+		for(j = 0; j < missionDFPLen; j++) {
+			printf("CSAV001MSN Mission %d on playthrough %d: %s\n", j, i, missionDataForPlaythrough[j]->mission_class_path);
+			printf("CSAV001MSN Current objective for mission %d: %s\n", j, missionDataForPlaythrough[j]->active_objective_set_path);
+			printf("CSAV001MSN Objective completion status for mission %d: \n", j);
+			printf("CSAV001MSN ");
+			for(k = 0; k < missionDataForPlaythrough[j]->n_objectives_progress; k++) {
+				printf("%d ", missionDataForPlaythrough[j]->objectives_progress[k]);
+			}
+			printf("\n");
 		}
 	}
 
