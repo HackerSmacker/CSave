@@ -1,7 +1,7 @@
 CC = clang
 LD = clang
-LDFLAGS = -lprotobuf-c
-CFLAGS = -I.
+LDFLAGS = -lprotobuf-c -L/usr/local/lib
+CFLAGS = -I. -I/usr/local/include
 DEPS = include/*.h
 PROTOS = *.proto
 OBJS = OakProfile.pb-c.o OakSave.pb-c.o OakShared.pb-c.o SaveUnpack.o FileTranslator.o SaveToProto.o ItemCode.o SaveGenerate.o
@@ -11,16 +11,22 @@ LIBRARIES = libBL3Proto.a
 
 all: $(PROGS)
 
+.SUFFIXES: .c .h .o
 
-%.o: %.c
+.c.o:
 	@echo " CC  " $<
 	@$(CC) $(CFLAGS) -c -o $@ $<
 
-%.pb-c.c: %.proto
-	@echo " PROTOC  " $<
-	@protoc-c --c_out=. $<
+cprotos: *.proto
+	@echo " PROTOC  OakProfile.proto"
+	@protoc-c --c_out=. OakProfile.proto
+	@echo " PROTOC  OakSave.proto"
+	@protoc-c --c_out=. OakSave.proto
+	@echo " PROTOC  OakShared.proto"
+	@protoc-c --c_out=. OakShared.proto
+
 	
-$(LIBRARIES): $(CPROTOS) $(OBJS)
+$(LIBRARIES): cprotos $(OBJS)
 	@echo " AR   libBL3Proto"
 	@ar cr libBL3Proto.a OakProfile.pb-c.o OakSave.pb-c.o OakShared.pb-c.o
 
