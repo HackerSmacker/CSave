@@ -84,7 +84,64 @@ Getting SDU info
 "SaveUnpack in.sav | grep SDU"
 
 
-
 .NH 2
 Editing saves
+
+.NH 2
+Comprehensive List of SaveGenerate commands
+
+.NH 3
+quit, exit
+.PP
+Exit from SaveGenerate. The output file will be generated and saved. Please now run ProtoToSave to pack
+the save file into a BL3 binary format save.
+
+.NH 3
+set name
+.PP
+Set the player's preferred name. It will prompt for a string.
+
+.NH 3
+set mayhemlevel
+.PP
+Set the Mayhem Mode level for any playthrough you want. It will first prompt for the Mayhem level you
+want, then it will prompt for what playthrough you want to update. Playthrough 0 is NVMH, and 1 is TVHM.
+
+.NH 3
+set expoints
+.PP
+Set the total amount of experience points. This does not mean set the level - setting the EXP level affects
+the level because you need a certain amount of EXP to clear that level. Prompts for an integer value.
+
+.NH 3
+set level
+.PP
+Sets the player level by getting the level, and setting the EXP to the minimum required to clear that level.
+Prompts for an integer. The max accepted value is 80, although this will not be accepted by the game, and will
+instead drop you down to the current level cap.
+
+.NH 3
+set guardianrank
+.PP
+This feature is currently not implemented. Check back later for an update.
+
+.NH 3
+set money
+.PP
+Set how much money you have. Takes an integer.
+
+.NH 3
+set eridium
+.PP
+Sets how much Eridium you have. Takes an integer.
+
+.NH 3
+unlock skilltree
+.PP
+Enable the selection of all skills on the tree. Does not coorespond to how many skill points you have.
+
+.NH 3
+set skillpoints
+.PP
+Sets how many skill points you have. Takes an integer - there does not appear to be a cap on this value.
 
