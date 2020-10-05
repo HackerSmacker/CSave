@@ -1,6 +1,10 @@
 *.tar
 *.sav
 *.o
+*.exe
+*.obj
+*.a
+*.lib
 SaveUnpack
 SaveGenerate
 SaveToProto
