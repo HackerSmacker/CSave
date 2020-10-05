@@ -31,5 +31,5 @@ char xorMagic[] = {
 };
 
 size_t decryptSave(size_t len, uint8_t* saveData) {
-
+	return 0;
 }
