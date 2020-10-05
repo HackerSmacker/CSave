@@ -106,6 +106,12 @@ set class
 .PP
 Sets the player's class. Takes an integer. 0 is Amara, 1 is FL4K, 2 is Moze, and 3 is Zane.
 
+.NH 3
+set sdu
+.PP
+Sets SDU values. Iterates through each SDU and prompts for a new level. Press Enter to use the previous value,
+or specify a blank line if using a script file. If you are using a script file and you have too many blank lines,
+the editor will ignore them. If you don't have enough blank lines, the editor will set that SDU to zero.
 
 .NH 3
 set mayhemlevel
