@@ -177,6 +177,24 @@ int main(int argc, char** argv) {
 			charData->player_class_data->player_class_path = playerClassToObject[choice];
 			printf("CSAV001IMM Player class updated\n");
 		}
+		else if(strcmp("set sdu\n", command) == 0) {
+			OakSave__OakSDUSaveGameData** sduData = charData->sdu_list;
+        		int sduDataSize = charData->n_sdu_list;
+			printf("CSAV001IMM Starting SDU list\n");
+			for(i = 0; i < sduDataSize; i++) {
+				printf("CSAV001IMM Enter new value for SDU %s\n*Input (RETURN for default)\n", sduData[i]->sdu_data_path);
+				fgets(command, 1024, stdin);
+				int newSDUValue;
+				if(strcmp(command, "\n") == 0) {
+					newSDUValue = sduData[i]->sdu_level;
+				}
+				else { 
+					newSDUValue = atoi(command);
+				}
+				sduData[i]->sdu_level = newSDUValue;
+			}
+			printf("CSAV001IMM SDU edits complete\n");
+		}
 	}
 
 // -------------------------- End main loop --------------------------
