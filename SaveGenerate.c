@@ -155,6 +155,17 @@ int main(int argc, char** argv) {
 			tree->ability_points = newPoints;
 			printf("CSAV001IMM Skill points set\n");
 		}
+		else if(strcmp("xyzzy\n", command) == 0) {
+			printf("CSAV001IMM Nothing happens\n");
+		}
+		else if((strcmp("save\n", command) == 0) | (strcmp("write\n", command) == 0)) {
+			size_t writeLenCmd = oak_save__character__get_packed_size(charData);
+			outBuffer = malloc(writeLenCmd);
+			oak_save__character__pack(charData, outBuffer);
+			printf("CSAV001END Writing output file...\n");
+			fwrite(outBuffer, writeLenCmd, 1, outFile);
+			free(outBuffer);
+		}
 	}
 
 // -------------------------- End main loop --------------------------
