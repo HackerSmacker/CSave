@@ -145,3 +145,41 @@ set skillpoints
 .PP
 Sets how many skill points you have. Takes an integer - there does not appear to be a cap on this value.
 
+.NH 2
+Comprehensive list of SaveUnpack message prefixes
+
+.R
+.br
+CSAV001GEN - General information
+.br
+CSAV001CLS - Player class information
+.br
+CSAV001SKL - Skill points, XP, skills, and tree information
+.br
+CSAV001SDU - SDU information
+.br
+CSAV001VEH - Vehicle parts, loadouts, and configurations
+.br
+CSAV001MSN - Missions/quests
+.br
+CSAV001AMO - Ammo and grenades
+.br
+CSAV001GRD - Guardian rank, level, perks, and rewards
+.br
+CSAV001ROM - Crew quarters/bedroom information (including guns on the rack)
+.br
+CSAV001ECH - ECHO logs
+.br
+CSAV001FTM - Fast Travel machines: blacklisted, active, and reachable
+.br
+CSAV001INV - Inventory: backpack and equipped
+.br
+CSAV001CUS - Customizations: color, skin, emotes
+.br
+CSAV001CHL - Challenge information
+.br
+CSAV001ICL - Money (ICL means Inventory Category List)
+.br
+CSAV001MHM - Mayhem Mode information
+.br
+

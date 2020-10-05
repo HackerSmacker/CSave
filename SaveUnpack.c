@@ -62,7 +62,7 @@ int main(int argc, char** argv) {
 	//for(i = 0; i < skillData->n_ability_slot_list; i++) {
 	//	printf("CSAV001SKL Ability %d: %s\n", i, skillData->ability_slot_list[i]->ability_class_path);
 	//}
-	printf("CSAV00103S Number of skills: %d\n", skillData->n_tree_item_list);
+	printf("CSAV001SKL Number of skills: %d\n", skillData->n_tree_item_list);
 	for(i = 0; i < skillData->n_tree_item_list; i++) {
 		printf("CSAV001SKL Skill %d: %s\n", i, skillData->tree_item_list[i]->item_asset_path);
 	}
@@ -229,12 +229,6 @@ int main(int argc, char** argv) {
 		printf("CSAV001CUS Color %d: Primary = (%f, %f, %f), Secondary = (%f, %f, %f), using default color: %d, using split color: %d\n", i, colorData[i]->applied_color->x, colorData[i]->applied_color->y, colorData[i]->applied_color->z, colorData[i]->split_color->x, colorData[i]->split_color->y, colorData[i]->split_color->z, colorData[i]->use_default_color, colorData[i]->use_default_split_color);
 	}
 
-// Customizations
-	char** customizationsList = charData->selected_customizations;
-	int custListLen = charData->n_selected_customizations;
-	for(i = 0; i < custListLen; i++) {
-		printf("CSAV001CST Customization %d: %s\n", i, customizationsList[i]);
-	}
 	
 // Challenges
 	OakSave__ChallengeSaveGameData** challenges = charData->challenge_data;
