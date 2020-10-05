@@ -13,7 +13,7 @@ all: $(PROGS)
 
 
 %.obj: %.c
-	@echo " CC  " $<
+	@echo " WCC  " $<
 	@$(CC) $(CFLAGS) -c $@ $<
 
 %.pb-c.c: %.proto
