@@ -4,7 +4,7 @@
 #include "OakSave.pb-c.h"
 #include "FileTranslator.h"
 
-#define FILESIZE_LIMIT 2000000
+#define FILESIZE_LIMIT 5000000
 
 int i;
 int j;

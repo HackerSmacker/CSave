@@ -89,4 +89,11 @@ uint32_t currencyHashes[] = {
 	3679636065 	// Eridium
 };
 
+char* playerClassToObject[] = {
+	"/Game/PlayerCharacters/SirenBrawler/PlayerClassId_Siren.PlayerClassId_Siren",	// Amara
+	"/Game/PlayerCharacters/Beastmaster/PlayerClassId_Beastmaster.PlayerClassId_Beastmaster",	// FL4K
+	"/Game/PlayerCharacters/Gunner/PlayerClassId_Gunner.PlayerClassId_Gunner",	// Moze
+	"/Game/PlayerCharacters/Operative/PlayerClassId_Operative.PlayerClassId_Operative"	// Zane
+};
+
 #endif

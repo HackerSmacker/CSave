@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stddef.h>
 #include "OakShared.pb-c.h"
 #include "OakSave.pb-c.h"
 #include "FileTranslator.h"
@@ -74,7 +75,10 @@ int main(int argc, char** argv) {
 			printf("CSAV001IMM Specify new name now...\n");
 			printf("*Input\n");
 			fgets(command, 1024, stdin);
-			strcpy(charData->preferred_character_name, command);
+			char* cutText = malloc(strlen(command) - 1);
+			strncpy(cutText, command, (strlen(command) - 1));
+			cutText[strlen(command) - 1] = '\0';
+			charData->preferred_character_name = cutText;
 			printf("CSAV001IMM Name set complete\n");
 		}
 		else if(strcmp("set mayhemlevel\n", command) == 0) {
@@ -165,6 +169,13 @@ int main(int argc, char** argv) {
 			printf("CSAV001END Writing output file...\n");
 			fwrite(outBuffer, writeLenCmd, 1, outFile);
 			free(outBuffer);
+		}
+		else if(strcmp("set class\n", command) == 0) {
+			printf("CSAV001IMM Specify class now, read manual for input format\n*Input\n");
+			fgets(command, 1024, stdin);
+			int choice = atoi(command);
+			charData->player_class_data->player_class_path = playerClassToObject[choice];
+			printf("CSAV001IMM Player class updated\n");
 		}
 	}
 

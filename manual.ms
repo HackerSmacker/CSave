@@ -102,6 +102,12 @@ set name
 Set the player's preferred name. It will prompt for a string.
 
 .NH 3
+set class
+.PP
+Sets the player's class. Takes an integer. 0 is Amara, 1 is FL4K, 2 is Moze, and 3 is Zane.
+
+
+.NH 3
 set mayhemlevel
 .PP
 Set the Mayhem Mode level for any playthrough you want. It will first prompt for the Mayhem level you
