@@ -83,6 +83,13 @@ Getting SDU info
 .PP
 "SaveUnpack in.sav | grep SDU"
 
+.NH 3
+Getting quest info
+.PP
+"SaveUnpack in.sav | grep MSN". The listing will include the quest class path, completion status, current
+objective, and completion status for each objective. The editor (at the moment of writing this sentence)
+does not permit the user to directly manipulate quest states, as the software author needs to acquire data
+to identify each quest state for easy usability.
 
 .NH 2
 Editing saves
@@ -131,6 +138,14 @@ set level
 Sets the player level by getting the level, and setting the EXP to the minimum required to clear that level.
 Prompts for an integer. The max accepted value is 80, although this will not be accepted by the game, and will
 instead drop you down to the current level cap.
+
+.NH 3
+set quest
+.PP
+This command will prompt the user for three things: first, the quest path. Use "SaveUnpack name.proto | grep CSAV001MSN"
+to find the quest. Copy and paste the class path for the mission into the editor. When prompted for the playthrough,
+enter 0 for NVHM or 1 for TVHM. Next, enter the quest state like this: 0 is Not Started, 1 is Active, 2 is
+Completed, 3 is Failed, and 4 is Unknown. Do not enter 4, your game will most likely crash.
 
 .NH 3
 set guardianrank

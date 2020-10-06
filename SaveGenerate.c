@@ -11,6 +11,7 @@
 
 int i;
 int j;
+int k;
 int loopContinue = 1;
 uint8_t fileBuffer[FILESIZE_LIMIT];
 uint8_t* outBuffer;
@@ -194,6 +195,36 @@ int main(int argc, char** argv) {
 				sduData[i]->sdu_level = newSDUValue;
 			}
 			printf("CSAV001IMM SDU edits complete\n");
+		}
+		else if(strcmp("set quest\n", command) == 0) {
+			printf("CSAV001IMM Enter quest path name\n*Input\n");
+			fgets(command, 1024, stdin);
+			char* cutText = malloc(strlen(command) - 1);
+			strncpy(cutText, command, (strlen(command) - 1));
+			cutText[strlen(command) - 1] = '\0';
+			OakSave__MissionPlaythroughSaveGameData** missionData = charData->mission_playthroughs_data;
+			int missionDataLen = charData->n_mission_playthroughs_data;
+			int found = 0;
+			printf("CSAV001IMM Which playthrough to search on?\n*Input\n");
+			fgets(command, 1024, stdin);
+			i = atoi(command);
+			OakSave__MissionStatusPlayerSaveGameData** missionDataForPlaythrough = missionData[i]->mission_list;
+			int missionDFPLen = missionData[i]->n_mission_list;
+			for(j = 0; j < missionDFPLen; j++) {
+				if(strcmp(missionDataForPlaythrough[j]->mission_class_path, cutText) & found == 0) {
+					found = 1;
+					printf("CSAV001IMM Found quest. Enter state (consult manual for input type):\n*Input\n");
+					fgets(command, 1024, stdin);
+					int newState = atoi(command);
+					missionDataForPlaythrough[i]->status = newState;
+				}
+			}
+			if(found == 0) {
+				printf("CSAV001IMM Quest not found.\n");
+			}
+		}
+		else {
+			printf("CSAV001ERR Invalid command...\n");
 		}
 	}
 

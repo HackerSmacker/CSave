@@ -106,6 +106,22 @@ int main(int argc, char** argv) {
 		for(j = 0; j < missionDFPLen; j++) {
 			printf("CSAV001MSN Mission %d on playthrough %d: %s\n", j, i, missionDataForPlaythrough[j]->mission_class_path);
 			printf("CSAV001MSN Current objective for mission %d: %s\n", j, missionDataForPlaythrough[j]->active_objective_set_path);
+			printf("CSAV001MSN Quest state: ");
+			if(missionDataForPlaythrough[i]->status == 0) {
+				printf("Not started\n");
+			}
+			else if(missionDataForPlaythrough[i]->status == 1) {
+				printf("Active\n");
+			}
+			else if(missionDataForPlaythrough[i]->status == 2) {
+				printf("Complete\n");
+			}
+			else if(missionDataForPlaythrough[i]->status == 3) {
+				printf("Failed\n");
+			}
+			else if(missionDataForPlaythrough[i]->status == 4) {
+				printf("Unknown (this should not be possible)\n");
+			}
 			printf("CSAV001MSN Objective completion status for mission %d: \n", j);
 			printf("CSAV001MSN ");
 			for(k = 0; k < missionDataForPlaythrough[j]->n_objectives_progress; k++) {
