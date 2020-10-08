@@ -1,6 +1,6 @@
 CC = gcc
 LD = gcc
-LDFLAGS = -lprotobuf-c
+LDFLAGS = -lprotobuf-c -L/usr/local/lib -L/usr/lib
 CFLAGS = -I.
 DEPS = include/*.h
 PROTOS = *.proto
