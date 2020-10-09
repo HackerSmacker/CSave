@@ -3,6 +3,7 @@
 #include "OakShared.pb-c.h"
 #include "OakSave.pb-c.h"
 #include "FileTranslator.h"
+#include "ItemCode.h"
 
 #define FILESIZE_LIMIT 5000000
 
@@ -23,7 +24,7 @@ int main(int argc, char** argv) {
 	if(pbF == NULL) {
 		fprintf(stderr, "CSAVAB001A Failed to open file\n");
 		exit(1);
-	}	
+	}
 	int fileLen = read_buffer(FILESIZE_LIMIT, fileBuffer, pbF);
 
 // Print the welcome message
@@ -35,7 +36,7 @@ int main(int argc, char** argv) {
 	charData = oak_save__character__unpack(NULL, fileLen, fileBuffer);
 
 // Get some basic info about the save file.
-	printf("CSAV001GEN Name: %s\n", charData->preferred_character_name);	
+	printf("CSAV001GEN Name: %s\n", charData->preferred_character_name);
 	printf("CSAV001GEN Save game identifier: %lu\n", charData->save_game_id);
 	printf("CSAV001GEN Last save timestamp: %lu\n", charData->last_save_timestamp);
 	printf("CSAV001GEN Total time played, in seconds: %lu\n", charData->time_played_seconds);
@@ -44,7 +45,7 @@ int main(int argc, char** argv) {
 	printf("CSAV001GEN Preferred group mode: %lu\n", charData->preferred_group_mode);
 	printf("CSAV001GEN Save GUID: %s\n", charData->save_game_guid);
 	printf("CSAV001GEN Fast travel machine you will spawn at: %s\n", charData->last_active_travel_station);
-	printf("CSAV001GEN Showing the TVHM notification: %d\n", charData->show_new_playthrough_notification);	
+	printf("CSAV001GEN Showing the TVHM notification: %d\n", charData->show_new_playthrough_notification);
 
 // Get info about the player class
 	printf("CSAV001CLS Player class path: %s\n", charData->player_class_data->player_class_path);
@@ -72,7 +73,7 @@ int main(int argc, char** argv) {
 	int sduDataSize = charData->n_sdu_list;
 	for(i = 0; i < sduDataSize; i++) {
 		printf("CSAV001SDU %d SDUs, of type %s\n", sduData[i]->sdu_level, sduData[i]->sdu_data_path);
-	}	
+	}
 
 // Get info on vehicle parts
 	char** unlockedCarParts = charData->vehicle_parts_unlocked;
@@ -213,19 +214,22 @@ int main(int argc, char** argv) {
 	for(i = 0; i < numLastStation; i++) {
 		printf("CSAV001FTM Last active FT station for playthrough %d: %s\n", i, lastStation[i]);
 	}
-		
+	
 
 // Inventory (I know good and well you searched for that just now, if not, thanks for RTFS'ing)
 	OakSave__OakInventoryItemSaveGameData** invItems = charData->inventory_items;
 	int numInvItems = charData->n_inventory_items;
 	for(i = 0; i < numInvItems; i++) {
+		OakSave__InventoryBalanceStateInitializationData* dsd = invItems[i]->development_save_data;
 		printf("CSAV001INV Backpack item %d, ", i);
 		printf("Item pickup index %d, ", invItems[i]->pickup_order_index);
-		printf("Serial number %x, ", invItems[i]->item_serial_number.data);
 		printf("Skin %s\n", invItems[i]->weapon_skin_path);
-		//printf("CSAV001INV For gun %d: Inventory data: %s\n", i, invItems[i]->development_save_data->inventory_data);
-		//printf("CSAV001INV For gun %d: Balance data: %s\n", i, invItems[i]->development_save_data->inventory_balance_data);
-		//printf("CSAV001INV For gun %d: Manufacturer data: %s\n", i, invItems[i]->development_save_data->manufacturer_data);
+		dumpSerial(invItems[i]->item_serial_number.data);
+	// This data is not accessible to us mere mortals...
+		//printf("CSAV001INV Address of DSD: %x\n", &dsd);
+		//printf("CSAV001INV For gun %d: Inventory data: %x\n", i, dsd[0].inventory_data);
+		//printf("CSAV001INV For gun %d: Balance data: %x\n", i, dsd[0].inventory_balance_data);
+		//printf("CSAV001INV For gun %d: Manufacturer data: %x\n", i, dsd[0].manufacturer_data);
 	}
 
 // Customizations
@@ -247,18 +251,16 @@ int main(int argc, char** argv) {
 
 	
 // Challenges
-	OakSave__ChallengeSaveGameData** challenges = charData->challenge_data;
+	OakSave__ChallengeSaveGameData** chalData = charData->challenge_data;
 	int numChallenges = charData->n_challenge_data;
 	for(i = 0; i < numChallenges; i++) {
-		printf("CSAV001CHL Challenge %d is %s: | completed: %d, active: %d, completed progress level: %d, progress: %d\n", i, challenges[i]->challenge_class_path, challenges[i]->currently_completed, challenges[i]->is_active, challenges[i]->completed_progress_level, challenges[i]->progress_counter);
-		/* COMMENTED OUT - I'M GETTING A COMPILER AND IT'S LATE AND I'M TIRED
+		printf("CSAV001CHL Challenge %d is %s: | completed: %d, active: %d, completed progress level: %d, progress: %d\n", i, chalData[i]->challenge_class_path, chalData[i]->currently_completed, chalData[i]->is_active, chalData[i]->completed_progress_level, chalData[i]->progress_counter);
 		printf("CSAV001CHL Rewards for challenge %d:\n", i);
-		OakSave__OakChallengeRewardSaveGameData rewards = challenges[i]->challenge_reward_info;
-		int numRewards = challenges[i]->n_challenge_reward_info;
+		OakSave__OakChallengeRewardSaveGameData** rewards = chalData[i]->challenge_reward_info;
+		int numRewards = chalData[i]->n_challenge_reward_info;
 		for(j = 0; j < numRewards; j++) {
 			printf("CSAV001CHL Reward %d for challenge %d - claimed: %d\n", j, i, rewards[j]->challenge_reward_claimed);
 		}
-		*/
 	}
 
 
@@ -281,4 +283,3 @@ int main(int argc, char** argv) {
 	oak_save__character__free_unpacked(charData, NULL);
 	return 0;
 }
-	

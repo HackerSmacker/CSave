@@ -23,3 +23,10 @@ uint8_t* xorData(uint8_t* data, uint8_t seed) {
 	return out;
 }
 
+
+
+
+
+void dumpSerial(uint8_t* serial) {
+	printf("CSAV001INV Parsing serial %x\n", serial);
+}

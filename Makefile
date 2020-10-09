@@ -31,15 +31,15 @@ all: $(PROGS)
 	
 $(LIBRARIES): $(CPROTOS) $(OBJS)
 	@echo " AR    libBL3Proto"
-	@ar cr libBL3Proto.a OakProfile.pb-c.o OakSave.pb-c.o OakShared.pb-c.o
+	@ar cr libBL3Proto.a OakProfile.pb-c.o OakSave.pb-c.o OakShared.pb-c.o SaveToProto.o ItemCode.o FileTranslator.o
 
 $(PROGS): $(LIBRARIES)
 	@echo " LD    SaveUnpack"
-	@$(LD) -o SaveUnpack SaveUnpack.o FileTranslator.o libBL3Proto.a $(LDFLAGS)
+	@$(LD) -o SaveUnpack SaveUnpack.o libBL3Proto.a $(LDFLAGS)
 	@echo " LD    SaveToProto"
-	@$(LD) -o SaveToProto SaveToProto.o FileTranslator.o libBL3Proto.a $(LDFLAGS)
+	@$(LD) -o SaveToProto SaveToProto.o libBL3Proto.a $(LDFLAGS)
 	@echo " LD    SaveGenerate"
-	@$(LD) -o SaveGenerate SaveGenerate.o FileTranslator.o libBL3Proto.a $(LDFLAGS)
+	@$(LD) -o SaveGenerate SaveGenerate.o libBL3Proto.a $(LDFLAGS)
 
 manual: $(MANUALS_PS) $(MANUALS_PDF)
 		
