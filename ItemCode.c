@@ -151,18 +151,33 @@ uint8_t* serialIBDToPath(uint8_t* ibd) {
 
 // Load the lookup tables into memory.
 void loadLookupTables() {
+	// Define variables
 	int i, j, k;
+	char* current;
+	// Hardcoded limit on how many data files there are
 	lookupTableCount = 48;
-	printf("CSAV001FIL Loading lookup tables...\n");
-	printf("CSAV001FIL Will load %d files.\n", lookupTableCount);
-	for(i = 0; i < lookupTableCount; i++) {
-		printf("CSAV001FIL Loading file %d: %x\n", i, &lookupTableFiles[i]);
+	// Allocate space for some FILEs
+	lookupTableFiles = malloc(sizeof(FILE*) * lookupTableCount);
+	// Print messages
+	printf("CSAV001FIL Loading lookup tables... will load %d files.\n", lookupTableCount);
+	// Iterate through each file...
+	for(i = 1; i < lookupTableCount; i++) {
+		// ...print out a message to the user...
+		printf("CSAV001FIL Loading file %d: %s\n", i, lookupTableFilenames[i]);
+		// ...open the file...
 		lookupTableFiles[i] = fopen(lookupTableFilenames[i], "r");
+		// ...make sure it actually did.
 		if(lookupTableFiles[i] == NULL) {
 			fprintf(stderr, "CSAV001FIL FATAL PROCESSING ERROR WHEN OPENING FILE %s\n. EXECUTION MAY NOT CONTINUE.\n", lookupTableFilenames[i]);
 		}
-		else {
-			
+		// Now, read the file:
+		char line[2048];
+		// j is the line indicator
+		j = 0;
+		while (fgets(line, sizeof(line), lookupTableFiles[i])) {
+			strtok(line, "\n");
+			printf("%s\n", line);
+			j++;
 		}
-	}
+    	}
 }
