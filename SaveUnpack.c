@@ -224,7 +224,7 @@ int main(int argc, char** argv) {
 		printf("CSAV001INV Backpack item %d, ", i);
 		printf("Item pickup index %d, ", invItems[i]->pickup_order_index);
 		printf("Skin %s\n", invItems[i]->weapon_skin_path);
-		dumpSerial(invItems[i]->item_serial_number.data);
+		dumpSerial(invItems[i]->item_serial_number);
 	// This data is not accessible to us mere mortals...
 		//printf("CSAV001INV Address of DSD: %x\n", &dsd);
 		//printf("CSAV001INV For gun %d: Inventory data: %x\n", i, dsd[0].inventory_data);
