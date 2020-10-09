@@ -5,6 +5,68 @@
 #include "OakShared.pb-c.h"
 #include "OakSave.pb-c.h"
 #include "OakProfile.pb-c.h"
+#include "ItemCode.h"
+
+// File descriptors for lookup tables
+FILE** lookupTableFiles;
+
+// Array of strings containing all that good stuff
+char** lookupTable;
+
+// Number of LT files:
+int lookupTableCount;
+
+// Filenames to lookup tables
+char** lookupTableFilenames[][] = {
+	"LookupTables/BPInvPart_AR_COV_C.txt",
+	"LookupTables/BPInvPart_AR_DAL_C.txt",
+	"LookupTables/BPInvPart_AR_TOR_C.txt",
+	"LookupTables/BPInvPart_Artifact_C.txt",
+	"LookupTables/BPInvPart_ATL_AR_C.txt",
+	"LookupTables/BPInvPart_ATL_HW_C.txt",
+	"LookupTables/BPInvPart_ClassMod_C.txt",
+	"LookupTables/BPInvPart_Customization_Head_C.txt",
+	"LookupTables/BPInvPart_Customization_Skin_C.txt",
+	"LookupTables/BPInvPart_Dahl_SMG_C.txt",
+	"LookupTables/BPInvPart_GrenadeMod_C.txt",
+	"LookupTables/BPInvPart_HW_COV_C.txt",
+	"LookupTables/BPInvPart_HW_TOR_C.txt",
+	"LookupTables/BPInvPart_HW_VLA_C.txt",
+	"LookupTables/BPInvPart_Hyperion_Shotgun_C.txt",
+	"LookupTables/BPInvPart_JAK_AR_C.txt",
+	"LookupTables/BPInvPart_Jakobs_Pistol_C.txt",
+	"LookupTables/BPInvPart_MAL_SR_C.txt",
+	"LookupTables/BPInvPart_Maliwan_SMG_C.txt",
+	"LookupTables/BPInvPart_PS_ATL_C.txt",
+	"LookupTables/BPInvPart_PS_COV_C.txt",
+	"LookupTables/BPInvPart_PS_DAL_C.txt",
+	"LookupTables/BPInvPart_PS_MAL_C.txt",
+	"LookupTables/BPInvPart_PS_TOR_C.txt",
+	"LookupTables/BPInvPart_PS_VLA_C.txt",
+	"LookupTables/BPInvPart_SG_JAK_C.txt",
+	"LookupTables/BPInvPart_SG_MAL_C.txt",
+	"LookupTables/BPInvPart_SG_TED_C.txt",
+	"LookupTables/BPInvPart_SG_Torgue_C.txt",
+	"LookupTables/BPInvPart_Shield_C.txt",
+	"LookupTables/BPInvPart_SM_Hyperion_C.txt",
+	"LookupTables/BPInvPart_SM_TED_C.txt",
+	"LookupTables/BPInvPart_SR_DAL_C.txt",
+	"LookupTables/BPInvPart_SR_HYP_C.txt",
+	"LookupTables/BPInvPart_SR_JAK_C.txt",
+	"LookupTables/BPInvPart_Tediore_Pistol_C.txt",
+	"LookupTables/BPInvPart_VLA_AR_C.txt",
+	"LookupTables/BPInvPart_VLA_SR_C.txt",
+	"LookupTables/BPInvPartData_EridianFabricator_C.txt",
+	"LookupTables/BPVehiclePart_C.txt",
+	"LookupTables/DownloadableEntitlementPartData.txt",
+	"LookupTables/InventoryBalanceData.txt",
+	"LookupTables/InventoryCustomizationPartData.txt",
+	"LookupTables/InventoryData.txt",
+	"LookupTables/InventoryGenericPartData.txt",
+	"LookupTables/ItemPoolData.txt",
+	"LookupTables/ManufacturerData.txt",
+	"LookupTables/OakDownloadableContentLicenseData.txt"
+};
 
 
 // de-XOR the save file.
@@ -82,6 +144,25 @@ void dumpSerial(ProtobufCBinaryData item_serial_number) {
 }
 
 // Convert the InventoryBalanceData from the serial into the full path.
+
 uint8_t* serialIBDToPath(uint8_t* ibd) {
 	return NULL;
+}
+
+// Load the lookup tables into memory.
+void loadLookupTables() {
+	int i, j, k;
+	lookupTableCount = 48;
+	printf("CSAV001FIL Loading lookup tables...\n");
+	printf("CSAV001FIL Will load %d files.\n", lookupTableCount);
+	for(i = 0; i < lookupTableCount; i++) {
+		printf("CSAV001FIL Loading file %d: %s\n", i, lookupTableFiles[i]);
+		lookupTableFiles[i] = fopen(lookupTableFilenames[i], "r");
+		if(lookupTableFiles[i] == NULL) {
+			fprintf(stderr, "CSAV001FIL FATAL PROCESSING ERROR WHEN OPENING FILE %s\n. EXECUTION MAY NOT CONTINUE.\n", lookupTableFilenames[i]);
+		}
+		else {
+			
+		}
+	}
 }
