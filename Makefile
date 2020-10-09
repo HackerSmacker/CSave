@@ -28,7 +28,7 @@ all: $(PROGS)
 %.pb-c.c: %.proto
 	@echo " PROTOC   " $<
 	@protoc-c --c_out=. $<
-	
+
 $(LIBRARIES): $(CPROTOS) $(OBJS)
 	@echo " AR    libBL3Proto"
 	@ar cr libBL3Proto.a OakProfile.pb-c.o OakSave.pb-c.o OakShared.pb-c.o SaveToProto.o ItemCode.o FileTranslator.o
@@ -42,7 +42,6 @@ $(PROGS): $(LIBRARIES)
 	@$(LD) -o SaveGenerate SaveGenerate.o libBL3Proto.a $(LDFLAGS)
 
 manual: $(MANUALS_PS) $(MANUALS_PDF)
-		
 
 .PHONY: clean
 

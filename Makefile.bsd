@@ -8,8 +8,20 @@ OBJS = OakProfile.pb-c.o OakSave.pb-c.o OakShared.pb-c.o SaveUnpack.o FileTransl
 CPROTOS = OakProfile.pb-c.c OakSave.pb-c.c OakShared.pb-c.c
 PROGS = SaveUnpack SaveToProto SaveGenerate
 LIBRARIES = libBL3Proto.a
+MANUALS_PS = manual.ps
+MANUALS_PDF = manual.pdf
 
 all: $(PROGS)
+
+.SUFFIXES: .ps .ms .pdf
+
+.ms.ps:
+	@echo " TROFF   " $<
+	@groff -Tps -ms $< > $@
+
+.ps.pdf:
+	@echo " PS2PDF   " $<
+	@ps2pdf $< $@
 
 .SUFFIXES: .c .h .o
 
@@ -25,18 +37,19 @@ cprotos: *.proto
 	@echo " PROTOC  OakShared.proto"
 	@protoc-c --c_out=. OakShared.proto
 
-	
 $(LIBRARIES): cprotos $(OBJS)
 	@echo " AR   libBL3Proto"
-	@ar cr libBL3Proto.a OakProfile.pb-c.o OakSave.pb-c.o OakShared.pb-c.o
+	@ar cr libBL3Proto.a OakProfile.pb-c.o OakSave.pb-c.o OakShared.pb-c.o FileTranslator.o SaveToProto.o ItemCode.o
 
 $(PROGS): $(LIBRARIES)
 	@echo " LD   SaveUnpack"
-	@$(LD) -o SaveUnpack SaveUnpack.o FileTranslator.o libBL3Proto.a $(LDFLAGS)
+	@$(LD) -o SaveUnpack SaveUnpack.o libBL3Proto.a $(LDFLAGS)
 	@echo " LD   SaveToProto"
-	@$(LD) -o SaveToProto SaveToProto.o FileTranslator.o libBL3Proto.a $(LDFLAGS)
+	@$(LD) -o SaveToProto SaveToProto.o libBL3Proto.a $(LDFLAGS)
 	@echo " LD   SaveGenerate"
-	@$(LD) -o SaveGenerate SaveGenerate.o FileTranslator.o libBL3Proto.a $(LDFLAGS)
+	@$(LD) -o SaveGenerate SaveGenerate.o libBL3Proto.a $(LDFLAGS)
+
+manual: $(MANUALS_PS) $(MANUALS_PDF)
 
 .PHONY: clean
 
