@@ -17,7 +17,7 @@ char** lookupTable;
 int lookupTableCount;
 
 // Filenames to lookup tables
-char** lookupTableFilenames[][] = {
+const char lookupTableFilenames[50][256] = {
 	"LookupTables/BPInvPart_AR_COV_C.txt",
 	"LookupTables/BPInvPart_AR_DAL_C.txt",
 	"LookupTables/BPInvPart_AR_TOR_C.txt",
@@ -156,7 +156,7 @@ void loadLookupTables() {
 	printf("CSAV001FIL Loading lookup tables...\n");
 	printf("CSAV001FIL Will load %d files.\n", lookupTableCount);
 	for(i = 0; i < lookupTableCount; i++) {
-		printf("CSAV001FIL Loading file %d: %s\n", i, lookupTableFiles[i]);
+		printf("CSAV001FIL Loading file %d: %x\n", i, &lookupTableFiles[i]);
 		lookupTableFiles[i] = fopen(lookupTableFilenames[i], "r");
 		if(lookupTableFiles[i] == NULL) {
 			fprintf(stderr, "CSAV001FIL FATAL PROCESSING ERROR WHEN OPENING FILE %s\n. EXECUTION MAY NOT CONTINUE.\n", lookupTableFilenames[i]);
