@@ -48,4 +48,4 @@ manual: $(MANUALS_PS) $(MANUALS_PDF)
 .PHONY: clean
 
 clean:
-	rm -f *.o Oak*.pb-c.* *.a *.ps *.pdf SaveUnpack SaveToProto SaveGenerate
+	rm -f *.o Oak*.pb-c.* *.a *.ps *.pdf SaveUnpack SaveToProto SaveGenerate ItemLookupTest

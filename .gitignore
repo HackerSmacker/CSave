@@ -4,6 +4,8 @@
 *.obj
 *.a
 *.lib
+*.stackdump
 SaveUnpack
 SaveGenerate
 SaveToProto
+ItemLookupTest

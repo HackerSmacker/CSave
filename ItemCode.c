@@ -11,10 +11,12 @@
 FILE** lookupTableFiles;
 
 // Array of strings containing all that good stuff
-char** lookupTable;
+// Explanation:
+// X, Y, Z. X is the current table, Y is the line, and Z is the character.
+char lookupTable[50][500][2000];
 
-// Number of LT files:
-int lookupTableCount;
+// Number of LT files (this value is hardcoded):
+int lookupTableCount = 48;
 
 // Filenames to lookup tables
 const char lookupTableFilenames[50][256] = {
@@ -153,9 +155,6 @@ uint8_t* serialIBDToPath(uint8_t* ibd) {
 void loadLookupTables() {
 	// Define variables
 	int i, j, k;
-	char* current;
-	// Hardcoded limit on how many data files there are
-	lookupTableCount = 48;
 	// Allocate space for some FILEs
 	lookupTableFiles = malloc(sizeof(FILE*) * lookupTableCount);
 	// Print messages
@@ -172,12 +171,15 @@ void loadLookupTables() {
 		}
 		// Now, read the file:
 		char line[2048];
-		// j is the line indicator
+		// j is the line indicator, i is the file number
 		j = 0;
 		while (fgets(line, sizeof(line), lookupTableFiles[i])) {
 			strtok(line, "\n");
-			printf("%s\n", line);
+			//printf("%s\n", line);
+			strcpy(lookupTable[i][j], line);
+			//printf("%s\n", lookupTable[i][j]);
 			j++;
 		}
     	}
+	printf("CSAV001FIL Lookup table load complete\n");
 }
