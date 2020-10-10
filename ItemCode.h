@@ -11,5 +11,6 @@ uint8_t* xorItemSerialData(uint8_t* data, uint32_t seed, int len);
 void loadLookupTables();
 char* lookupInTable(int tableIndex, int lineNumber);
 int findLookupTable(char* searchText);
+int findInTable(int tableIndex, char* searchText);
 
 #endif
