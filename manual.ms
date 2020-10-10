@@ -209,4 +209,7 @@ CSAV001ICL - Money (ICL means Inventory Category List)
 .br
 CSAV001MHM - Mayhem Mode information
 .br
-
+CSAVOO1ILT - Item Lookup Test program
+.br
+CSAV001FIL - CSave file processing messages
+.br
