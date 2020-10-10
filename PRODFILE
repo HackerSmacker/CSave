@@ -1,0 +1,35 @@
+!HSPRODFILE
+%% Program Product Directory File
+%% This file is only useful on HSnet systems.
+
+%% What is the name of this?
+!NAME:CSave
+
+%% What is the program product prefix?
+!PREFIX:CSAV001
+
+%% What is the PPI number?
+!REG:0001-0070
+
+%% Does this product require license keys?
+!LIC:$NO
+
+%% Does this product require one of my custom hardware lock dongles?
+!HSLOCKDONGLE:$NO
+
+%% What OSes does this mess support?
+!TARGETOS:AIX,HP-UX,OSF/1,Linux,FreeBSD,OS X,Windows NT,OpenVMS
+
+%% Where does it go on Unix-style systems? 
+!INSTALLPREFIX_UNIX:/opt/hsnet/prod/csave
+
+%% Where does it go on OpenVMS systems?
+!INSTALLPREFIX_VMS:DKA300:[PROD.CSAVE]
+
+%% Where does it go on Windows systems?
+!INSTALLPREFIX_WINNT:C:\Program Files\CSave
+
+%% Does this service include any daemons (network services, not demons)?
+!DAEMON:$NO
+
+!END

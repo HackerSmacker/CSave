@@ -7,6 +7,20 @@
 #include "OakProfile.pb-c.h"
 #include "ItemCode.h"
 
+/*
+
+A general explanation of what's going on here:
+1. You have an array of filenames that point to required dist files.
+2. These files contain lines of text that map the element number in the item serial
+   to an object. The usefulness of this is debatable.
+3. You first have to find what number lookup table you're after. There's a spiffy function
+   to automate this.
+4. After you figure out what table you need to search, search it and pull out what value
+   you actually need.
+
+*/
+
+
 // File descriptors for lookup tables
 FILE** lookupTableFiles;
 
@@ -70,6 +84,56 @@ const char lookupTableFilenames[50][256] = {
 	"LookupTables/OakDownloadableContentLicenseData.txt"
 };
 
+const char lookupTableIndex[50][256] = {
+	"BPInvPart_AR_COV_C.txt",
+	"BPInvPart_AR_DAL_C.txt",
+	"BPInvPart_AR_TOR_C.txt",
+	"BPInvPart_Artifact_C.txt",
+	"BPInvPart_ATL_AR_C.txt",
+	"BPInvPart_ATL_HW_C.txt",
+	"BPInvPart_ClassMod_C.txt",
+	"BPInvPart_Customization_Head_C.txt",
+	"BPInvPart_Customization_Skin_C.txt",
+	"BPInvPart_Dahl_SMG_C.txt",
+	"BPInvPart_GrenadeMod_C.txt",
+	"BPInvPart_HW_COV_C.txt",
+	"BPInvPart_HW_TOR_C.txt",
+	"BPInvPart_HW_VLA_C.txt",
+	"BPInvPart_Hyperion_Shotgun_C.txt",
+	"BPInvPart_JAK_AR_C.txt",
+	"BPInvPart_Jakobs_Pistol_C.txt",
+	"BPInvPart_MAL_SR_C.txt",
+	"BPInvPart_Maliwan_SMG_C.txt",
+	"BPInvPart_PS_ATL_C.txt",
+	"BPInvPart_PS_COV_C.txt",
+	"BPInvPart_PS_DAL_C.txt",
+	"BPInvPart_PS_MAL_C.txt",
+	"BPInvPart_PS_TOR_C.txt",
+	"BPInvPart_PS_VLA_C.txt",
+	"BPInvPart_SG_JAK_C.txt",
+	"BPInvPart_SG_MAL_C.txt",
+	"BPInvPart_SG_TED_C.txt",
+	"BPInvPart_SG_Torgue_C.txt",
+	"BPInvPart_Shield_C.txt",
+	"BPInvPart_SM_Hyperion_C.txt",
+	"BPInvPart_SM_TED_C.txt",
+	"BPInvPart_SR_DAL_C.txt",
+	"BPInvPart_SR_HYP_C.txt",
+	"BPInvPart_SR_JAK_C.txt",
+	"BPInvPart_Tediore_Pistol_C.txt",
+	"BPInvPart_VLA_AR_C.txt",
+	"BPInvPart_VLA_SR_C.txt",
+	"BPInvPartData_EridianFabricator_C.txt",
+	"BPVehiclePart_C.txt",
+	"DownloadableEntitlementPartData.txt",
+	"InventoryBalanceData.txt",
+	"InventoryCustomizationPartData.txt",
+	"InventoryData.txt",
+	"InventoryGenericPartData.txt",
+	"ItemPoolData.txt",
+	"ManufacturerData.txt",
+	"OakDownloadableContentLicenseData.txt"
+};
 
 // de-XOR the save file.
 uint8_t* xorSaveData(uint8_t* data, uint8_t seed) {
@@ -145,12 +209,6 @@ void dumpSerial(ProtobufCBinaryData item_serial_number) {
 
 }
 
-// Convert the InventoryBalanceData from the serial into the full path.
-
-uint8_t* serialIBDToPath(uint8_t* ibd) {
-	return NULL;
-}
-
 // Load the lookup tables into memory.
 void loadLookupTables() {
 	// Define variables
@@ -182,4 +240,35 @@ void loadLookupTables() {
 		}
     	}
 	printf("CSAV001FIL Lookup table load complete\n");
+}
+
+// Function to get a value from the lookup table without using extern char*** lookupTable
+// This is for decoding item serials
+char* lookupInTable(int tableIndex, int lineNumber) {
+	return lookupTable[tableIndex][lineNumber];
+}
+
+// Find something in a table. AKA the line number in a table file.
+// This is for generating item serials
+int findInTable(int tableIndex, char* searchText) {
+	int i;
+	// 500 is the arbitrary max... this is horrifically dangerous
+	for(i = 0; i < 500; i++) {
+		if(strcmp(searchText, lookupTable[tableIndex][i]) == 0) {
+			return i;
+		}
+	}
+}
+
+// Find a lookup table's index.
+int findLookupTable(char* searchText) {
+	int i;
+	for(i = 0; i < lookupTableCount; i++) {
+		if(strcmp(searchText, lookupTableIndex[i]) == 0) {
+			return i;
+		}
+		else {
+			return -1;
+		}
+	}
 }
