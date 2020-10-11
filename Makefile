@@ -10,8 +10,14 @@ PROGS = SaveUnpack SaveToProto SaveGenerate ItemLookupTest
 LIBRARIES = libBL3Proto.a
 MANUALS_PS = manual.ps
 MANUALS_PDF = manual.pdf
+MANUALS_TEXT = manual.txt
 
 all: $(PROGS)
+
+%.txt: %.ms
+	@echo " TROFF   " $< " TEXT"
+	@groff -Tascii -ms $< > $@
+
 
 %.ps: %.ms
 	@echo " TROFF   " $<
@@ -43,7 +49,7 @@ $(PROGS): $(LIBRARIES)
 	@echo " LD    ItemLookupTest"
 	@$(LD) -o ItemLookupTest ItemLookupTest.o libBL3Proto.a $(LDFLAGS)
 
-manual: $(MANUALS_PS) $(MANUALS_PDF)
+manual: $(MANUALS_PS) $(MANUALS_PDF) $(MANUALS_TEXT)
 
 .PHONY: clean
 

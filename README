@@ -5,11 +5,11 @@ and conditions may result in an arrangement of issues. As such,
 don't violate the license. 
 
 ----->>> LOOK <<<-----
-READ THE MANUAL FIRST. IT'S IN POSTSCRIPT AND PDF FORMAT.
+READ THE MANUAL FIRST. IT'S IN POSTSCRIPT AND PDF FORMAT (and now text format!).
 
 VERY FREQUENTLY ASKED QUESTIONS:
 Q. How can I download this?
-A. Message me on Discord.
+A. Download a binary for your machine from the build_win64/linux64/bsd64 folder.
 
 Q. What's with all of the CSAV001xxxy format messages? Do you work at IBM or something?
 A. %FAQ_ANS_WRGCPY Wrong company. No, I don't work at DEC either. 
@@ -41,9 +41,6 @@ A. HackerSmacker#8496 on Discord, HKRSMKR@VMSYS2 on HSNET/BITNET, and VAXSVR::HK
 
 
 ---- VERY IMPORTANT, IF YOU DON'T READ ANYTHING ELSE READ THIS: ----
-Read the manual:
-  groff -Tps -ms manual.ps
-  ps2pdf manual.ps manual.pdf
 Open and read manual.pdf!
 Print the manual: 
   lpr -P printername manual.ps (BSD/Linux)
