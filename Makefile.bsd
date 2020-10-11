@@ -4,16 +4,22 @@ LDFLAGS = -lprotobuf-c -L/usr/local/lib
 CFLAGS = -I. -I/usr/local/include
 DEPS = include/*.h
 PROTOS = *.proto
-OBJS = OakProfile.pb-c.o OakSave.pb-c.o OakShared.pb-c.o SaveUnpack.o FileTranslator.o SaveToProto.o ItemCode.o SaveGenerate.o
+OBJS = OakProfile.pb-c.o OakSave.pb-c.o OakShared.pb-c.o SaveUnpack.o FileTranslator.o SaveToProto.o ItemCode.o SaveGenerate.o ItemLookupTest.o
 CPROTOS = OakProfile.pb-c.c OakSave.pb-c.c OakShared.pb-c.c
-PROGS = SaveUnpack SaveToProto SaveGenerate
+PROGS = SaveUnpack SaveToProto SaveGenerate ItemLookupTest
 LIBRARIES = libBL3Proto.a
 MANUALS_PS = manual.ps
 MANUALS_PDF = manual.pdf
+MANUALS_TXT = manual.txt
+PREFIX = /usr/local
 
 all: $(PROGS)
 
-.SUFFIXES: .ps .ms .pdf
+.SUFFIXES: .ps .ms .pdf .txt
+
+.ms.txt:
+	@echo " TROFF   " $< " TEXT"
+	@groff -Tascii -ms $< > $@
 
 .ms.ps:
 	@echo " TROFF   " $<
@@ -48,8 +54,27 @@ $(PROGS): $(LIBRARIES)
 	@$(LD) -o SaveToProto SaveToProto.o libBL3Proto.a $(LDFLAGS)
 	@echo " LD   SaveGenerate"
 	@$(LD) -o SaveGenerate SaveGenerate.o libBL3Proto.a $(LDFLAGS)
+	@echo " LD   ItemLookupTest"
+	@$(LD) -o ItemLookupTest ItemLookupTest.o libBL3Proto.a $(LDFLAGS)
 
 manual: $(MANUALS_PS) $(MANUALS_PDF)
+
+install:
+	@echo " INSTALL    SaveGenerate"
+	@install SaveGenerate $(PREFIX)/bin
+	@echo " INSTALL    SaveToProto"
+	@install SaveToProto $(PREFIX)/bin
+	@echo " INSTALL    SaveUnpack"
+	@install SaveUnpack $(PREFIX)/bin
+
+uninstall:
+	@echo " RM    SaveGenerate"
+	@rm $(PREFIX)/bin/SaveGenerate
+	@echo " RM    SaveToProto"
+	@rm $(PREFIX)/bin/SaveToProto
+	@echo " RM    SaveUnpack"
+	@rm $(PREFIX)/bin/SaveUnpack
+
 
 .PHONY: clean
 

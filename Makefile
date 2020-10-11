@@ -11,6 +11,8 @@ LIBRARIES = libBL3Proto.a
 MANUALS_PS = manual.ps
 MANUALS_PDF = manual.pdf
 MANUALS_TEXT = manual.txt
+PREFIX = /usr/local
+
 
 all: $(PROGS)
 
@@ -50,6 +52,22 @@ $(PROGS): $(LIBRARIES)
 	@$(LD) -o ItemLookupTest ItemLookupTest.o libBL3Proto.a $(LDFLAGS)
 
 manual: $(MANUALS_PS) $(MANUALS_PDF) $(MANUALS_TEXT)
+
+install: $(PROGS) manual
+	@echo " INSTALL    SaveUnpack"
+	@install SaveUnpack $(PREFIX)/bin
+	@echo " INSTALL    SaveToProto"
+	@install SaveToProto $(PREFIX)/bin
+	@echo " INSTALL    SaveGenerate"
+	@install SaveGenerate $(PREFIX)/bin
+
+uninstall:
+	@echo " RM    SaveUnpack"
+	@rm $(PREFIX)/bin/SaveUnpack
+	@echo " RM    SaveToProto"
+	@rm $(PREFIX)/bin/SaveToProto
+	@echo " RM    SaveGenerate"
+	@rm $(PREFIX)/bin/SaveGenerate
 
 .PHONY: clean
 
