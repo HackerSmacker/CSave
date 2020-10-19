@@ -68,3 +68,20 @@ size_t decryptSave(uint8_t* buffer, int offset, int length) {
 	return length;
 }
 
+void readSave(uint8_t* save) {
+	// The actual save.
+	struct Save save_t;
+	// Pointer that holds the position in the file.
+	int pos = 0;
+	// Allocate some space to hold "GVAS"
+	save_t.header = malloc(4);
+	// Copy in "GVAS"
+	printf("%d\n", pos);
+	memcpy(save_t.header, save, 4);
+	// Increment the counter
+	pos += 4;
+	printf("%d\n", pos);
+	char sgVersion[4];
+	char pkgVersion[4];
+	// TODO: finish defining chars and then use atoi to put the data into the struct
+}
