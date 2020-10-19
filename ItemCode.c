@@ -8,7 +8,7 @@
 #include "ItemCode.h"
 
 #ifndef PREFIX
-#warning WARNING: PREFIX is undefined. CSave will not run.
+#warning WARNING: PREFIX is undefined. CSave will not run when installed.
 #define PREFIX ./
 #endif
 

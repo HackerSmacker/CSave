@@ -23,6 +23,8 @@ struct Save {
 	char* sg_type;
 };
 
+void readSave(uint8_t* save, FILE* file);
+
 #endif
 
 
