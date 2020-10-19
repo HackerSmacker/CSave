@@ -46,8 +46,9 @@ int main(int argc, char** argv) {
 	printf("CSAV00200I Magic number: %s, Version: %d, Package version: %d\n", saveFile.header, saveFile.sg_version, saveFile.pkg_version);
 	printf("CSAV00200I Engine version: %d.%d.%d\n", saveFile.engine_major, saveFile.engine_minor, saveFile.engine_patch);
 */
+	rewind(inFile); // Rewind the tape drive like it's 1981
 	printf("CSAV00200I File size = %d\n", fileLen);
-	readSave(inputBuffer);
+	readSave(inputBuffer, inFile);
 	return 0;
 }
 

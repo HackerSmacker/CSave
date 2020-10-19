@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <inttypes.h>
 #include "FileTranslator.h"
 
 
@@ -68,20 +69,62 @@ size_t decryptSave(uint8_t* buffer, int offset, int length) {
 	return length;
 }
 
-void readSave(uint8_t* save) {
+void readSave(uint8_t* save, FILE* file) {
 	// The actual save.
 	struct Save save_t;
 	// Pointer that holds the position in the file.
 	int pos = 0;
 	// Allocate some space to hold "GVAS"
+/* CRUSTY CODE BEGINS
 	save_t.header = malloc(4);
 	// Copy in "GVAS"
 	printf("%d\n", pos);
 	memcpy(save_t.header, save, 4);
 	// Increment the counter
-	pos += 4;
+	pos += 3;
 	printf("%d\n", pos);
+	// Memory for the save data
 	char sgVersion[4];
 	char pkgVersion[4];
-	// TODO: finish defining chars and then use atoi to put the data into the struct
+	char major[2];
+	char minor[2];
+	char patch[2];
+	char build[4];
+	// Read the save
+	memcpy(sgVersion, save + pos, 4);
+	printf("%d\n", pos);
+	pos += 4;
+	memcpy(pkgVersion, save + pos, 4);
+	printf("%d\n", pos);
+	pos += 4;
+	memcpy(major, save + pos, 2);
+	printf("%d\n", pos);
+	pos += 2;
+	memcpy(minor, save + pos, 2);
+	printf("%d\n", pos);
+	pos += 2;
+	memcpy(patch, save + pos, 2);
+	printf("%d\n", pos);
+	pos += 2;
+	memcpy(build, save + pos, 4);
+	printf("%d\n", pos);
+	pos += 4;
+	printf("%d,%d,%d,%d,%d,%d\n", sgVersion, pkgVersion, major, minor, patch, build);
+	// Convert and put in the struct
+	save_t.sg_version = strtol(sgVersion, NULL, 10);
+	save_t.pkg_version = strtol(pkgVersion, NULL, 10);
+	save_t.engine_major = strtol(major, NULL, 10);
+	save_t.engine_minor = strtol(minor, NULL, 10);
+	save_t.engine_patch = strtol(patch, NULL, 10);
+	save_t.engine_build = strtol(build, NULL, 10);
+END CRUSTY CODE */
+	fscanf(file, "%4c", save_t.header);
+	fscanf(file, "%" SCNd32, save_t.sg_version);
+	fscanf(file, "%" SCNd32, save_t.pkg_version);
+	printf("CSAV001RWS Save information:\n");
+	printf("Header: %s\n", save_t.header);
+	printf("SG version: %" SCNd32 "\n", save_t.sg_version);
+	printf("Package version: %" SCNd32 "\n", save_t.pkg_version);
+	//printf("Engine version: %d.%d.%d\n", save_t.engine_major, save_t.engine_minor, save_t.engine_patch);
+	//printf("Engine build: %d\n", save_t.engine_build);
 }
