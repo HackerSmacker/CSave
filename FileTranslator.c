@@ -119,12 +119,26 @@ void readSave(uint8_t* save, FILE* file) {
 	save_t.engine_build = strtol(build, NULL, 10);
 END CRUSTY CODE */
 	fscanf(file, "%4c", save_t.header);
-	fscanf(file, "%" SCNd32, save_t.sg_version);
-	fscanf(file, "%" SCNd32, save_t.pkg_version);
+	fscanf(file, "%1" SCNd32, &save_t.sg_version);
+	fscanf(file, "%1" SCNd32, &save_t.pkg_version);
+	fscanf(file, "%1" SCNd16, &save_t.engine_major);
+	fscanf(file, "%1" SCNd16, &save_t.engine_minor);
+	fscanf(file, "%1" SCNd16, &save_t.engine_patch);
+	fscanf(file, "%1" SCNu32, &save_t.engine_build);
+	fscanf(file, "%1" SCNd32, &save_t.build_id_length);
+	save_t.build_id = malloc(save_t.build_id_length);
+	int i;
+	for(i = 0; i < save_t.build_id_length; i++) {
+		fscanf(file, "%c", save_t.build_id[i]);
+	}
+
 	printf("CSAV001RWS Save information:\n");
 	printf("Header: %s\n", save_t.header);
 	printf("SG version: %" SCNd32 "\n", save_t.sg_version);
-	printf("Package version: %" SCNd32 "\n", save_t.pkg_version);
+	printf("Engine version: %d.%d.%d\n", save_t.engine_major, save_t.engine_minor, save_t.engine_patch);
+	printf("Build ID: %s\n", save_t.build_id);
+
+
 	//printf("Engine version: %d.%d.%d\n", save_t.engine_major, save_t.engine_minor, save_t.engine_patch);
 	//printf("Engine build: %d\n", save_t.engine_build);
 }
