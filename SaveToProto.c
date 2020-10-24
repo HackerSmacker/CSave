@@ -8,8 +8,6 @@
 
 #define FILESIZE_LIMIT 2000000
 
-struct OakSave_RawHeader saveFile;
-
 int main(int argc, char** argv) {
 	printf("CSAV00200I Save to Protocol Buffer Data Translation Program\n");
 	if(argc < 2) {
@@ -31,6 +29,7 @@ int main(int argc, char** argv) {
 
 	uint8_t inputBuffer[FILESIZE_LIMIT];
 	int fileLen = read_buffer(FILESIZE_LIMIT, inputBuffer, inFile);
+/*
 	saveFile.header = malloc(4);
 	memcpy(inputBuffer, saveFile.header, 4);
 	char* buf;
@@ -46,7 +45,10 @@ int main(int argc, char** argv) {
 	saveFile.engine_build = atoi(buf);
 	printf("CSAV00200I Magic number: %s, Version: %d, Package version: %d\n", saveFile.header, saveFile.sg_version, saveFile.pkg_version);
 	printf("CSAV00200I Engine version: %d.%d.%d\n", saveFile.engine_major, saveFile.engine_minor, saveFile.engine_patch);
-	printf("CSAV00200I File size = %d\n", fileLen);	
+*/
+	rewind(inFile); // Rewind the tape drive like it's 1981
+	printf("CSAV00200I File size = %d\n", fileLen);
+	readSave(inputBuffer, inFile);
 	return 0;
 }
 

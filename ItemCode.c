@@ -7,6 +7,11 @@
 #include "OakProfile.pb-c.h"
 #include "ItemCode.h"
 
+#ifndef PREFIX
+#warning WARNING: PREFIX is undefined. CSave will not run when installed.
+#define PREFIX ./
+#endif
+
 /*
 
 A general explanation of what's going on here:
