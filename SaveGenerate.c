@@ -217,6 +217,13 @@ int main(int argc, char** argv) {
 					fgets(command, 1024, stdin);
 					int newState = atoi(command);
 					missionDataForPlaythrough[i]->status = newState;
+					printf("CSAV001IMM Do you want to change individual mission states too? (1 for yes and 2 for no)\n*Input\n");
+					fgets(command, 1024, stdin);
+					int choice = atoi(command);
+					if(choice == 1) {
+						// TODO: ACTUALLY FINISH THIS
+						printf("CSAV001IMM There are %d objectives/mission states.\n", 0);
+					}
 				}
 			}
 			if(found == 0) {
