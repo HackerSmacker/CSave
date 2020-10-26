@@ -24,6 +24,11 @@ struct Save {
 	char* sg_type;
 };
 
+struct keyValuePair {
+	char guid;
+	int entry;
+};
+
 void readSave(uint8_t* save, FILE* file);
 
 #endif
