@@ -27,28 +27,11 @@ int main(int argc, char** argv) {
 		exit(1);
 	}
 
-	uint8_t inputBuffer[FILESIZE_LIMIT];
-	int fileLen = read_buffer(FILESIZE_LIMIT, inputBuffer, inFile);
-/*
-	saveFile.header = malloc(4);
-	memcpy(inputBuffer, saveFile.header, 4);
-	char* buf;
-	buf = malloc(2);
-	memcpy(buf, inputBuffer+4, 2);
-	saveFile.sg_version = atoi(buf);
-	memcpy(buf, inputBuffer+6, 2);
-	saveFile.pkg_version = atoi(buf);
-	saveFile.engine_major = (short) inputBuffer[8];
-	saveFile.engine_minor = (short) inputBuffer[9];
-	saveFile.engine_patch = (short) inputBuffer[10];
-	memcpy(buf, inputBuffer+11, 2);
-	saveFile.engine_build = atoi(buf);
-	printf("CSAV00200I Magic number: %s, Version: %d, Package version: %d\n", saveFile.header, saveFile.sg_version, saveFile.pkg_version);
-	printf("CSAV00200I Engine version: %d.%d.%d\n", saveFile.engine_major, saveFile.engine_minor, saveFile.engine_patch);
-*/
-	rewind(inFile); // Rewind the tape drive like it's 1981
-	printf("CSAV00200I File size = %d\n", fileLen);
-	readSave(inputBuffer, inFile);
+	//uint8_t inputBuffer[FILESIZE_LIMIT];
+	//int fileLen = read_buffer(FILESIZE_LIMIT, inputBuffer, inFile);
+	//rewind(inFile); // Rewind the tape drive like it's 1981
+	//printf("CSAV00200I File size = %d\n", fileLen);
+	readSave(inFile);
 	return 0;
 }
 

@@ -1,7 +1,7 @@
 CC = gcc
 LD = gcc
 LDFLAGS = -lprotobuf-c -L/usr/local/lib -L/usr/lib
-CFLAGS = -I.
+CFLAGS = -I. -O0
 DEPS = include/*.h
 PROTOS = *.proto
 OBJS = OakProfile.pb-c.o OakSave.pb-c.o OakShared.pb-c.o SaveUnpack.o FileTranslator.o SaveToProto.o ItemCode.o SaveGenerate.o ItemLookupTest.o

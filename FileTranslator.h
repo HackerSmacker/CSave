@@ -9,27 +9,28 @@
 size_t read_buffer(int max_length, uint8_t* out, FILE* f);
 
 struct Save {
-	char* header;		// 4
-	int32_t sg_version;	// 4
-	int32_t pkg_version;	// 4
-	int16_t engine_major;	// 2
-	int16_t engine_minor;	// 2
-	int16_t engine_patch;	// 2
-	uint32_t engine_build;	// 4
-	char* build_id;		// ?
-	int build_id_length;	// Not actually in the header
-	int32_t fmt_version;	// 4
-	int32_t fmt_count;	// 4
-	char** custom_format_data;	// ?
+	char* header;
+	int32_t sg_version;
+	int32_t pkg_version;
+	int16_t engine_major;
+	int16_t engine_minor;
+	int16_t engine_patch;
+	uint32_t engine_build;
+	char* build_id;
+	int build_id_length;
+	int32_t fmt_version;
+	int32_t fmt_count;
+	char** custom_format_data; // DON'T use, use struct keyValuePair
+	int32_t sg_type_len;
 	char* sg_type;
 };
 
 struct keyValuePair {
-	char guid;
+	char* guid;
 	int entry;
 };
 
-void readSave(uint8_t* save, FILE* file);
+void readSave(FILE* file);
 
 #endif
 

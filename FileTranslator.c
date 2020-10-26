@@ -69,85 +69,64 @@ size_t decryptSave(uint8_t* buffer, int offset, int length) {
 	return length;
 }
 
-void readSave(uint8_t* save, FILE* file) {
+void readSave(FILE* file) {
+	printf("CSAV001RWS Reading file...\n");
 	// The actual save.
 	struct Save save_t;
-	// Pointer that holds the position in the file.
-	int pos = 0;
-	// Allocate some space to hold "GVAS"
-/* CRUSTY CODE BEGINS
+	// Read it byte by byte.
+	printf("%d, ", ftell(file));
 	save_t.header = malloc(4);
-	// Copy in "GVAS"
-	printf("%d\n", pos);
-	memcpy(save_t.header, save, 4);
-	// Increment the counter
-	pos += 3;
-	printf("%d\n", pos);
-	// Memory for the save data
-	char sgVersion[4];
-	char pkgVersion[4];
-	char major[2];
-	char minor[2];
-	char patch[2];
-	char build[4];
-	// Read the save
-	memcpy(sgVersion, save + pos, 4);
-	printf("%d\n", pos);
-	pos += 4;
-	memcpy(pkgVersion, save + pos, 4);
-	printf("%d\n", pos);
-	pos += 4;
-	memcpy(major, save + pos, 2);
-	printf("%d\n", pos);
-	pos += 2;
-	memcpy(minor, save + pos, 2);
-	printf("%d\n", pos);
-	pos += 2;
-	memcpy(patch, save + pos, 2);
-	printf("%d\n", pos);
-	pos += 2;
-	memcpy(build, save + pos, 4);
-	printf("%d\n", pos);
-	pos += 4;
-	printf("%d,%d,%d,%d,%d,%d\n", sgVersion, pkgVersion, major, minor, patch, build);
-	// Convert and put in the struct
-	save_t.sg_version = strtol(sgVersion, NULL, 10);
-	save_t.pkg_version = strtol(pkgVersion, NULL, 10);
-	save_t.engine_major = strtol(major, NULL, 10);
-	save_t.engine_minor = strtol(minor, NULL, 10);
-	save_t.engine_patch = strtol(patch, NULL, 10);
-	save_t.engine_build = strtol(build, NULL, 10);
-END CRUSTY CODE */
-	fscanf(file, "%4c", save_t.header);
+	fread(save_t.header, sizeof(char), 4, file);
 	printf("%d, ", ftell(file));
-	fscanf(file, "%1" SCNd32, &save_t.sg_version);
+	fread(&save_t.sg_version, sizeof(int32_t), 1, file);
 	printf("%d, ", ftell(file));
-	fscanf(file, "%1" SCNd32, &save_t.pkg_version);
+	fread(&save_t.pkg_version, sizeof(int32_t), 1, file);
 	printf("%d, ", ftell(file));
-	fscanf(file, "%1" SCNd16, &save_t.engine_major);
+	fread(&save_t.engine_major, sizeof(int16_t), 1, file);
 	printf("%d, ", ftell(file));
-	fscanf(file, "%1" SCNd16, &save_t.engine_minor);
+	fread(&save_t.engine_minor, sizeof(int16_t), 1, file);
 	printf("%d, ", ftell(file));
-	fscanf(file, "%1" SCNd16, &save_t.engine_patch);
+	fread(&save_t.engine_patch, sizeof(int16_t), 1, file);
 	printf("%d, ", ftell(file));
-	fscanf(file, "%1" SCNu32, &save_t.engine_build);
+	fread(&save_t.engine_build, sizeof(uint32_t), 1, file);
 	printf("%d, ", ftell(file));
-	fscanf(file, "%1" SCNd32, &save_t.build_id_length);
+	fread(&save_t.build_id_length, sizeof(int32_t), 1, file);
 	printf("%d, ", ftell(file));
 	save_t.build_id = malloc(save_t.build_id_length);
+	fread(save_t.build_id, sizeof(char), save_t.build_id_length, file);
+	printf("%d, ", ftell(file));
+	fread(&save_t.fmt_version, sizeof(int32_t), 1, file);
+	printf("%d, ", ftell(file));
+	fread(&save_t.fmt_count, sizeof(int32_t), 1, file);
+	printf("%d, ", ftell(file));
+	
+	struct keyValuePair* kvp_t;
+	kvp_t = malloc(save_t.fmt_count * sizeof(struct keyValuePair));
 	int i;
-	for(i = 0; i < save_t.build_id_length; i++) {
-		fscanf(file, "%c", save_t.build_id[i]);
+	for(i = 0; i < save_t.fmt_count; i++) {
+		kvp_t[i].guid = malloc(16);
+		fread(kvp_t[i].guid, sizeof(char), 16, file);
+		printf("%d, ", ftell(file));
+		fread(&kvp_t[i].entry, sizeof(int32_t), 1, file);
 		printf("%d, ", ftell(file));
 	}
+	printf("%d, ", ftell(file));
+	fread(&save_t.sg_type_len, sizeof(int32_t), 1, file);
+	save_t.sg_type = malloc(save_t.sg_type_len);
+	fread(save_t.sg_type, sizeof(char), save_t.sg_type_len, file);
 
 	printf("CSAV001RWS Save information:\n");
 	printf("Header: %s\n", save_t.header);
 	printf("SG version: %" SCNd32 "\n", save_t.sg_version);
+	printf("Package version: %d\n", save_t.pkg_version);
 	printf("Engine version: %d.%d.%d\n", save_t.engine_major, save_t.engine_minor, save_t.engine_patch);
+	printf("Build ID length: %d\n", save_t.build_id_length);
 	printf("Build ID: %s\n", save_t.build_id);
-
-
-	//printf("Engine version: %d.%d.%d\n", save_t.engine_major, save_t.engine_minor, save_t.engine_patch);
-	//printf("Engine build: %d\n", save_t.engine_build);
+	printf("Custom format version: %d\n", save_t.fmt_version);
+	printf("Custom format count: %d\n", save_t.fmt_count);
+	//for(i = 0; i < save_t.fmt_count; i++) {
+	//	printf("Custom format %d: GUID: %x, entry %d\n", i, kvp_t[i].guid, kvp_t[i].entry);
+	//}
+	printf("Save type length: %d\n", save_t.sg_type_len);
+	printf("Save type: %s\n", save_t.sg_type);
 }
