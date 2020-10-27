@@ -33,43 +33,25 @@ char XorMagic[] = {
 };
 
 size_t decryptSave(uint8_t* buffer, int offset, int length) {
-	/*
-	if(buffer == NULL) {
-		printf("CSAV001RWS Save decryption error: null encountered.\n");
-		return -1;
-	}
-	else if(offset < 0) {
-		printf("CSAV001RWS Caller specified a negative offset for some reason.\n");
-		return -1;
-	}
-	else if(length < 0) {
-		printf("CSAV001RWS Caller specified a negative length for some reason.\n");
-		return -1;
-	}
-	else if(offset > strlen(buffer)) {
-		printf("CSAV001RWS Offset specified was larger than strlen's measure of the buffer length.\n");
-		return -1;
-	}
-	else if(offset + length > strlen(buffer)) {
-		printf("CSAV001RWS Offset plus length was larger than strlen(buffer).\n");
-		return -1;
-	}
-	else if(length == 0) {
-		printf("CSAV001RWS Offset was zero. Save not processed.\n");
-		return -1;
-	}
-	*/
 	int i;
-	//int o;
-	//o = offset + 1;
-	//for(i = length - 1; i >= 0; i--) {
-	//	char b = i < 32 ? PrefixMagic[i] : buffer[o - 32];
-	//	b ^= XorMagic[o % 32];
-	//	buffer[o] ^= b;
-	//	o--;
-	//}
 	char b;
 	for(i = length - 1; i >= 0; i--) {
+		if(i < 32) {
+			b = PrefixMagic[i];
+		}
+		else {
+			b = buffer[i - 32];
+		}
+		b ^= XorMagic[i % 32];
+		buffer[i] ^= b;
+	}
+	return length;
+}
+
+size_t encryptSave(uint8_t* buffer, int offset, int length) {
+	int i;
+	char b;
+	for(i = 0; i < length; i++) {
 		if(i < 32) {
 			b = PrefixMagic[i];
 		}
@@ -150,4 +132,63 @@ void readSave(FILE* file) {
 	printf("Payload length: %d\n", save_t.remaining_data_len);
 
 	int processedLen = decryptSave(save_t.remaining_data, 0, save_t.remaining_data_len);
+}
+
+void writeSave(FILE* file, FILE* outFile, char* data, int dataLen) {
+	// 1. Load in an existing file as a template
+	printf("CSAV001RWS Loading existing file...\n");
+	save_t.header = malloc(4);
+	fread(save_t.header, sizeof(char), 4, file);
+	fread(&save_t.sg_version, sizeof(int32_t), 1, file);
+	fread(&save_t.pkg_version, sizeof(int32_t), 1, file);
+	fread(&save_t.engine_major, sizeof(int16_t), 1, file);
+	fread(&save_t.engine_minor, sizeof(int16_t), 1, file);
+	fread(&save_t.engine_patch, sizeof(int16_t), 1, file);
+	fread(&save_t.engine_build, sizeof(uint32_t), 1, file);
+	fread(&save_t.build_id_length, sizeof(int32_t), 1, file);
+	save_t.build_id = malloc(save_t.build_id_length);
+	fread(save_t.build_id, sizeof(char), save_t.build_id_length, file);
+	fread(&save_t.fmt_version, sizeof(int32_t), 1, file);
+	fread(&save_t.fmt_count, sizeof(int32_t), 1, file);
+	struct keyValuePair* kvp_t;
+	kvp_t = malloc(save_t.fmt_count * sizeof(struct keyValuePair));
+	int i;
+	for(i = 0; i < save_t.fmt_count; i++) {
+		kvp_t[i].guid = malloc(16);
+		fread(kvp_t[i].guid, sizeof(char), 16, file);
+		fread(&kvp_t[i].entry, sizeof(int32_t), 1, file);
+	}
+	fread(&save_t.sg_type_len, sizeof(int32_t), 1, file);
+	save_t.sg_type = malloc(save_t.sg_type_len);
+	fread(save_t.sg_type, sizeof(char), save_t.sg_type_len, file);
+	fread(&save_t.remaining_data_len, sizeof(int32_t), 1, file);
+	int payloadStart = ftell(file);
+	save_t.remaining_data = malloc(save_t.remaining_data_len);
+	fread(save_t.remaining_data, sizeof(char), save_t.remaining_data_len, file);
+	// 2. Load in the new data
+	save_t.remaining_data = data;
+	save_t.remaining_data_len = dataLen;
+	// 3. Encrypt it
+	int processedLen = encryptSave(save_t.remaining_data, 0, save_t.remaining_data_len);
+	// 4. Crank it out to a file and hope for the best! Protip: It's not the best!
+	printf("CSAV001CNV Writing new file...\n");
+	fwrite(save_t.header, sizeof(char), 4, outFile);
+	fwrite(&save_t.sg_version, sizeof(int32_t), 1, outFile);
+	fwrite(&save_t.pkg_version, sizeof(int32_t), 1, outFile);
+	fwrite(&save_t.engine_major, sizeof(int16_t), 1, outFile);
+	fwrite(&save_t.engine_minor, sizeof(int16_t), 1, outFile);
+	fwrite(&save_t.engine_patch, sizeof(int16_t), 1, outFile);
+	fwrite(&save_t.engine_build, sizeof(uint32_t), 1, outFile);
+	fwrite(&save_t.build_id_length, sizeof(int32_t), 1, outFile);
+	fwrite(save_t.build_id, sizeof(char), save_t.build_id_length, outFile);
+	fwrite(&save_t.fmt_version, sizeof(int32_t), 1, outFile);
+	fwrite(&save_t.fmt_count, sizeof(int32_t), 1, file);
+	for(i = 0; i < save_t.fmt_count; i++) {
+		fwrite(kvp_t[i].guid, sizeof(char), 16, file);
+		fwrite(&kvp_t[i].entry, sizeof(int32_t), 1, file);
+	}
+	fwrite(&save_t.sg_type_len, sizeof(int32_t), 1, file);
+	fwrite(save_t.sg_type, sizeof(char), save_t.sg_type_len, file);
+	fwrite(&save_t.remaining_data_len, sizeof(int32_t), 1, file);
+	fwrite(save_t.remaining_data, sizeof(char), dataLen, file);
 }

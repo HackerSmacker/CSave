@@ -33,6 +33,8 @@ struct keyValuePair {
 };
 
 void readSave(FILE* file);
+void writeSave(FILE* file, FILE* outFile, char* data, int dataLen);
+
 
 #endif
 
