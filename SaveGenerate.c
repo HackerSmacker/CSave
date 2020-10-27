@@ -19,11 +19,11 @@ OakSave__Character* charData;
 
 int main(int argc, char** argv) {
 	if(argc < 3) {
-		fprintf(stderr, "CSAVAB050A Missing filenames (specify input file and output file)\n");
+		printf("CSAV001ABD Missing filenames (specify input file and output file)\n");
 		exit(1);
 	}
 	if(strcmp(argv[1], argv[2]) == 0) {
-		fprintf(stderr, "CSAVAB050B The input and output files cannot be the same.\n");
+		printf("CSAV001ABD The input and output files cannot be the same.\n");
 		exit(1);
 	}
 
@@ -33,11 +33,11 @@ int main(int argc, char** argv) {
 	inFile = fopen(argv[1], "r");
 	outFile = fopen(argv[2], "w");
 	if(inFile == NULL) {
-		fprintf(stderr, "CSAVAB001A Failed to open input file\n");
+		printf("CSAV001ABD Failed to open input file\n");
 		exit(1);
 	}
 	if(outFile == NULL) {
-		fprintf(stderr, "CSAVAB001A Failed to open output file\n");
+		printf("CSAV001ABD Failed to open output file\n");
 		exit(1);
 	}
 	int fileLen = read_buffer(FILESIZE_LIMIT, fileBuffer, inFile);

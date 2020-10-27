@@ -13,19 +13,19 @@ extern struct Save save_t;
 int main(int argc, char** argv) {
 	printf("CSAV001CNV Save to Protocol Buffer Data Translation Program\n");
 	if(argc < 2) {
-		fprintf(stderr, "CSAV001ABN Incorrect number of arguments (specify an input file)\n");
+		printf("CSAV001ABN Incorrect number of arguments (specify an input file)\n");
 		exit(1);
 	}
 	FILE* inFile = fopen(argv[1], "r");
 	if(inFile == NULL) {
-		fprintf(stderr, "CSAV001ABN File not found\n");
+		printf("CSAV001ABN File not found\n");
 		exit(1);
 	}
 	char* outFileName = strcat(argv[1], ".proto");
 	printf("CSAV00200I Output file = %s\n", outFileName);
 	FILE* outFile = fopen(outFileName, "w");
 	if(outFile == NULL) {
-		fprintf(stderr, "CSAV001ABN Failed to open output file (read-only file system or bad DDNAME?)\n"),
+		printf("CSAV001ABN Failed to open output file (read-only file system or bad DDNAME?)\n"),
 		exit(1);
 	}
 

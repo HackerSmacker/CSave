@@ -15,14 +15,14 @@ OakSave__Character* charData;
 
 int main(int argc, char** argv) {
 	if(argc < 2) {
-		fprintf(stderr, "CSAVAB050A Missing filename\n");
+		printf("CSAV001ABD Missing filename\n");
 		exit(1);
 	}
 // Read the file
 	FILE* pbF;
 	pbF = fopen(argv[1], "r");
 	if(pbF == NULL) {
-		fprintf(stderr, "CSAVAB001A Failed to open file\n");
+		printf("CSAV001ABD Failed to open file\n");
 		exit(1);
 	}
 	int fileLen = read_buffer(FILESIZE_LIMIT, fileBuffer, pbF);

@@ -4,9 +4,9 @@ LDFLAGS = -lprotobuf-c -L/usr/local/lib -L/usr/lib
 CFLAGS = -I. -O0
 DEPS = include/*.h
 PROTOS = *.proto
-OBJS = OakProfile.pb-c.o OakSave.pb-c.o OakShared.pb-c.o SaveUnpack.o FileTranslator.o SaveToProto.o ItemCode.o SaveGenerate.o ItemLookupTest.o ProtoToSave.o
+OBJS = OakProfile.pb-c.o OakSave.pb-c.o OakShared.pb-c.o SaveUnpack.o FileTranslator.o SaveToProto.o ItemCode.o SaveGenerate.o ItemLookupTest.o ProtoToSave.o CSaveGUI.c
 CPROTOS = OakProfile.pb-c.c OakSave.pb-c.c OakShared.pb-c.c
-PROGS = SaveUnpack SaveToProto SaveGenerate ItemLookupTest ProtoToSave
+PROGS = SaveUnpack SaveToProto SaveGenerate ItemLookupTest ProtoToSave CSaveGUI
 LIBRARIES = libBL3Proto.a
 MANUALS_PS = manual.ps
 MANUALS_PDF = manual.pdf
@@ -52,6 +52,8 @@ $(PROGS): $(LIBRARIES)
 	@$(LD) -o SaveGenerate SaveGenerate.o libBL3Proto.a $(LDFLAGS)
 	@echo " LD    ItemLookupTest"
 	@$(LD) -o ItemLookupTest ItemLookupTest.o libBL3Proto.a $(LDFLAGS)
+	@echo " LD    CSaveGUI"
+	@$(LD) -o CSaveGUI CSaveGUI.c -lncurses
 
 manual: $(MANUALS_PS) $(MANUALS_PDF) $(MANUALS_TEXT)
 
@@ -74,4 +76,4 @@ uninstall:
 .PHONY: clean
 
 clean:
-	rm -f *.o Oak*.pb-c.* *.a *.ps *.pdf SaveUnpack SaveToProto SaveGenerate ItemLookupTest
+	rm -f *.o Oak*.pb-c.* *.a *.ps *.pdf $(PROGS)
