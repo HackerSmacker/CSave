@@ -48,12 +48,15 @@ Make sure your GCC version in GNV is 8.0.0 or newer, as the protobuf-c outputs w
 Operation
 
 .NH 2
+Quick start
+.PP
+Start by running "SaveToProto XXX.sav" and then "SaveUnpack XXX.sav.proto" to get information about a save file. You can then use "SaveGenerate XXX.sav.proto" and then "ProtoToSave XXX.proto" to get a usable file.
+
+
+.NH 2
 Converting saves
 .PP
-You must convert saves from the "binary format" (AKA .sav) to "protobuf" format (the raw data)
-before you can actually use them. To acomplish this, do: "SaveToProto input.sav output.proto".
-Warning: this tool is currently not finished. Use Apocalyptech's bl3-cli-saveedit:
-"python -m bl3save.cli_edit -o protobuf in.sav out.proto". I will finish SaveToProto soon.
+The included utilities "SaveToProto" and "ProtoToSave" to convert to and from "binary format" (i.e. a normal save file) and "protobuf format" (the data actually in the save file) with ease. These programs take one parameter each - the name of the save file. 
 
 .NH 2
 Dumping save information

@@ -33,6 +33,7 @@ char XorMagic[] = {
 };
 
 size_t decryptSave(uint8_t* buffer, int offset, int length) {
+	/*
 	if(buffer == NULL) {
 		printf("CSAV001RWS Save decryption error: null encountered.\n");
 		return -1;
@@ -57,22 +58,35 @@ size_t decryptSave(uint8_t* buffer, int offset, int length) {
 		printf("CSAV001RWS Offset was zero. Save not processed.\n");
 		return -1;
 	}
+	*/
 	int i;
-	int o;
-	o = offset + 1;
+	//int o;
+	//o = offset + 1;
+	//for(i = length - 1; i >= 0; i--) {
+	//	char b = i < 32 ? PrefixMagic[i] : buffer[o - 32];
+	//	b ^= XorMagic[o % 32];
+	//	buffer[o] ^= b;
+	//	o--;
+	//}
+	char b;
 	for(i = length - 1; i >= 0; i--) {
-		char b = i < 32 ? PrefixMagic[i] : buffer[o - 32];
-		b ^= XorMagic[o % 32];
-		buffer[o] ^= b;
-		o--;
+		if(i < 32) {
+			b = PrefixMagic[i];
+		}
+		else {
+			b = buffer[i - 32];
+		}
+		b ^= XorMagic[i % 32];
+		buffer[i] ^= b;
 	}
 	return length;
 }
 
+struct Save save_t;
+
 void readSave(FILE* file) {
 	printf("CSAV001RWS Reading file...\n");
 	// The actual save.
-	struct Save save_t;
 	// Read it byte by byte.
 	printf("%d, ", ftell(file));
 	save_t.header = malloc(4);
@@ -99,7 +113,6 @@ void readSave(FILE* file) {
 	printf("%d, ", ftell(file));
 	fread(&save_t.fmt_count, sizeof(int32_t), 1, file);
 	printf("%d, ", ftell(file));
-	
 	struct keyValuePair* kvp_t;
 	kvp_t = malloc(save_t.fmt_count * sizeof(struct keyValuePair));
 	int i;
@@ -114,6 +127,10 @@ void readSave(FILE* file) {
 	fread(&save_t.sg_type_len, sizeof(int32_t), 1, file);
 	save_t.sg_type = malloc(save_t.sg_type_len);
 	fread(save_t.sg_type, sizeof(char), save_t.sg_type_len, file);
+	fread(&save_t.remaining_data_len, sizeof(int32_t), 1, file);
+	int payloadStart = ftell(file);
+	save_t.remaining_data = malloc(save_t.remaining_data_len);
+	fread(save_t.remaining_data, sizeof(char), save_t.remaining_data_len, file);
 
 	printf("CSAV001RWS Save information:\n");
 	printf("Header: %s\n", save_t.header);
@@ -129,4 +146,8 @@ void readSave(FILE* file) {
 	//}
 	printf("Save type length: %d\n", save_t.sg_type_len);
 	printf("Save type: %s\n", save_t.sg_type);
+	printf("Payload start position: %d\n", payloadStart);
+	printf("Payload length: %d\n", save_t.remaining_data_len);
+
+	int processedLen = decryptSave(save_t.remaining_data, 0, save_t.remaining_data_len);
 }

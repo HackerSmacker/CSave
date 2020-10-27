@@ -8,22 +8,24 @@
 
 #define FILESIZE_LIMIT 2000000
 
+extern struct Save save_t;
+
 int main(int argc, char** argv) {
-	printf("CSAV00200I Save to Protocol Buffer Data Translation Program\n");
+	printf("CSAV001CNV Save to Protocol Buffer Data Translation Program\n");
 	if(argc < 2) {
-		fprintf(stderr, "CSAV002ABN Incorrect number of arguments (specify an input file)\n");
+		fprintf(stderr, "CSAV001ABN Incorrect number of arguments (specify an input file)\n");
 		exit(1);
 	}
 	FILE* inFile = fopen(argv[1], "r");
 	if(inFile == NULL) {
-		fprintf(stderr, "CSAV002ABN File not found\n");
+		fprintf(stderr, "CSAV001ABN File not found\n");
 		exit(1);
 	}
 	char* outFileName = strcat(argv[1], ".proto");
 	printf("CSAV00200I Output file = %s\n", outFileName);
 	FILE* outFile = fopen(outFileName, "w");
 	if(outFile == NULL) {
-		fprintf(stderr, "CSAV002ABN Failed to open output file (read-only file system or bad DDNAME?)\n"),
+		fprintf(stderr, "CSAV001ABN Failed to open output file (read-only file system or bad DDNAME?)\n"),
 		exit(1);
 	}
 
@@ -32,6 +34,8 @@ int main(int argc, char** argv) {
 	//rewind(inFile); // Rewind the tape drive like it's 1981
 	//printf("CSAV00200I File size = %d\n", fileLen);
 	readSave(inFile);
+	fwrite(save_t.remaining_data, sizeof(char), save_t.remaining_data_len, outFile);
+	printf("CSAV001CNV Execution complete\n");
 	return 0;
 }
 

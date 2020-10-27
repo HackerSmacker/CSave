@@ -23,6 +23,8 @@ struct Save {
 	char** custom_format_data; // DON'T use, use struct keyValuePair
 	int32_t sg_type_len;
 	char* sg_type;
+	int32_t remaining_data_len;
+	char* remaining_data;
 };
 
 struct keyValuePair {
