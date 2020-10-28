@@ -1,0 +1,330 @@
+
+
+
+
+
+
+
+
+
+     [1mCSave: Installation, Configuration, and Operation[0m
+
+
+                        [4mHS[24m [4mSoftware[0m
+
+
+
+[1m1.  Installation - Unix, Linux, BSD, and Windows (Cygwin)[0m
+
+     The first thing you need to do is set up your build en-
+vironment - install protobuf,  gcc,  pkg-config,  make,  and
+git.  After you've installed everything, retrieve the source
+code   for    protobuf-c    by    executing    "git    clone
+https://github.com/protobuf-c/protobuf-c.git".  Next,  enter
+the source code directory (cd protobuf-c) and execute "./au-
+togen.sh", "./configure", "make -j4", and "make install". If
+the shell script isn't executable,  do  a  "chmod  +x  auto-
+gen.sh" before attempting to compile. Once you have success-
+fully installed protobuf-c, return to your home directory  -
+execute  "cd" - and download the CSave source code with "git
+clone  https://github.com/HackerSmacker/CSave.git".    Enter
+the  CSave source code directory with "cd CSave" and compile
+it with "make". Continue to the Operations section.
+
+
+[1m2.  Installation - Windows (Native)[0m
+
+     You need to compile libprotobuf-c with MINGW64 and  use
+the  headers/libraries/executables  from  that  and put them
+into the Lib, Include, and  Bin  folders,  respectively,  of
+your VSC installation.
+
+
+[1m3.  Installation - OS/2 (Watcom C/C++ 11)[0m
+
+     Download  the  source code and transfer it to your OS/2
+machine. Please note that you  will  have  to  cross-compile
+libprotobuf-c with GCC targeting OS/2. Transfer libprotobuf-
+c.lib and the header files over to OS/2.  You  may  need  to
+compile the C protobuf files with GCC, the rest will compile
+cleanly with Watcom.
+
+
+[1m4.  Installation - OS/2 (EMX/ArcaOS Packages)[0m
+
+     Follow  the  Unix  installation  instructions   written
+above. The same process should apply. You might need to edit
+the Makefile to
+
+
+
+
+
+
+
+
+
+
+
+
+                             -2-
+
+
+[1m5.  Installation - OpenVMS 8.4 (DEC C/C++)[0m
+
+     CSave does not cleanly compile with the DEC C compiler.
+Use a cross compiler or use GNV.  Make sure your GCC version
+in GNV is 8.0.0 or newer, as the protobuf-c outputs will not
+compile.
+
+
+
+[1m6.  Operation[0m
+
+
+[1m6.1.  Quick start[0m
+
+     Start  by running "SaveToProto XXX.sav" and then "Save-
+Unpack XXX.sav.proto" to get information about a save  file.
+You can then use "SaveGenerate XXX.sav.proto" and then "Pro-
+toToSave XXX.proto" to  get  a  usable  file.  If  you  have
+CSaveGUI installed, please just use that.
+
+
+
+[1m6.2.  Converting saves[0m
+
+     The  included utilities "SaveToProto" and "ProtoToSave"
+to convert to and from "binary format" (i.e. a  normal  save
+file)  and  "protobuf format" (the data actually in the save
+file) with ease. These programs take one  parameter  each  -
+the name of the save file.
+To  convert  a  save to protobuf format: "SaveToProto origi-
+nal.sav"
+To   edit   the   file:   "SaveGenerate   original.sav.proto
+edited.proto"
+To  convert from protobuf format to binary format: "ProtoTo-
+Save edited.proto original.sav"
+
+
+[1m6.3.  Dumping save information[0m
+
+
+[1m6.3.1.  Getting XP information[0m
+
+     To determine what level the save file is at,  run  this
+command:  "SaveUnpack in.proto | grep SKL | head -n 3".  The
+XP value will coorespond to the level. Examine  CommonVars.h
+to figure out the base XP required to be at that level.
+
+
+[1m6.3.2.  Getting Mayhem Mode information[0m
+
+     The  editor can display Mayhem Mode stats with "SaveUn-
+pack  in.sav  |  grep  MHM".  Playthrough  0  is  NVHM   and
+playthrough  1  is TVHM. Of course, you could always add an-
+other playthrough and set it active, because UVHM can't come
+
+
+
+
+
+
+
+
+
+                             -3-
+
+
+soon enough.
+
+
+[1m6.3.3.  Getting name, GUID, ID, slot number, and TVHM status[0m
+
+     This  info  appears  at the top of SaveUnpack. Specifi-
+cally, you can run "SaveUnpack in.sav | grep  GEN"  to  pull
+the info off of the top.
+
+
+[1m6.3.4.  Getting SDU info[0m
+
+     "SaveUnpack in.sav | grep SDU"
+
+
+[1m6.3.5.  Getting quest info[0m
+
+     "SaveUnpack  in.sav  |  grep MSN". The listing will in-
+clude the quest class path, completion status,  current  ob-
+jective,  and completion status for each objective. The edi-
+tor (at the moment of writing this sentence) does not permit
+the  user  to directly manipulate quest states, as the soft-
+ware author needs to acquire data  to  identify  each  quest
+state for easy usability.
+
+
+[1m6.4.  Editing saves[0m
+
+
+[1m6.5.  Comprehensive List of SaveGenerate commands[0m
+
+
+[1m6.5.1.  quit, exit[0m
+
+     Exit  from SaveGenerate. The output file will be gener-
+ated and saved. Please now run ProtoToSave to pack the  save
+file into a BL3 binary format save.
+
+
+[1m6.5.2.  set name[0m
+
+     Set  the  player's preferred name. It will prompt for a
+string.
+
+
+[1m6.5.3.  set class[0m
+
+     Sets the player's class. Takes an integer. 0 is  Amara,
+1 is FL4K, 2 is Moze, and 3 is Zane.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                             -4-
+
+
+[1m6.5.4.  set sdu[0m
+
+     Sets  SDU values. Iterates through each SDU and prompts
+for a new level. Press Enter to use the previous  value,  or
+specify  a blank line if using a script file. If you are us-
+ing a script file and you have too many blank lines, the ed-
+itor will ignore them. If you don't have enough blank lines,
+the editor will set that SDU to zero.
+
+
+[1m6.5.5.  set mayhemlevel[0m
+
+     Set the Mayhem Mode level for any playthrough you want.
+It  will first prompt for the Mayhem level you want, then it
+will  prompt  for  what  playthrough  you  want  to  update.
+Playthrough 0 is NVMH, and 1 is TVHM.
+
+
+[1m6.5.6.  set expoints[0m
+
+     Set  the  total  amount of experience points. This does
+not mean set the level - setting the EXP level  affects  the
+level because you need a certain amount of EXP to clear that
+level. Prompts for an integer value.
+
+
+[1m6.5.7.  set level[0m
+
+     Sets the player level by getting the level, and setting
+the  EXP  to  the  minimum  required  to  clear  that level.
+Prompts for an integer. The max accepted value  is  80,  al-
+though  this  will not be accepted by the game, and will in-
+stead drop you down to the current level cap.
+
+
+[1m6.5.8.  set quest[0m
+
+     This command will prompt the  user  for  three  things:
+first,  the  quest  path.  Use "SaveUnpack name.proto | grep
+CSAV001MSN" to find the quest. Copy and paste the class path
+for  the  mission  into  the  editor.  When prompted for the
+playthrough, enter 0 for NVHM or 1 for TVHM. Next, enter the
+quest  state  like this: 0 is Not Started, 1 is Active, 2 is
+Completed, 3 is Failed, and 4 is Unknown. Do  not  enter  4,
+your game will most likely crash.
+
+
+[1m6.5.9.  set guardianrank[0m
+
+     This  feature  is currently not implemented. Check back
+later for an update.
+
+
+
+
+
+
+
+
+
+
+
+
+                             -5-
+
+
+[1m6.5.10.  set money[0m
+
+     Set how much money you have. Takes an integer.
+
+
+[1m6.5.11.  set eridium[0m
+
+     Sets how much Eridium you have. Takes an integer.
+
+
+[1m6.5.12.  unlock skilltree[0m
+
+     Enable the selection of all skills on  the  tree.  Does
+not coorespond to how many skill points you have.
+
+
+[1m6.5.13.  set skillpoints[0m
+
+     Sets how many skill points you have. Takes an integer -
+there does not appear to be a cap on this value.
+
+
+[1m6.6.  Comprehensive list of SaveUnpack message prefixes[0m
+
+CSAV001GEN - General information
+CSAV001CLS - Player class information
+CSAV001SKL - Skill points, XP, skills, and tree information
+CSAV001SDU - SDU information
+CSAV001VEH - Vehicle parts, loadouts, and configurations
+CSAV001MSN - Missions/quests
+CSAV001AMO - Ammo and grenades
+CSAV001GRD - Guardian rank, level, perks, and rewards
+CSAV001ROM - Crew  quarters/bedroom  information  (including
+guns on the rack)
+CSAV001ECH - ECHO logs
+CSAV001FTM  - Fast Travel machines: blacklisted, active, and
+reachable
+CSAV001INV - Inventory: backpack and equipped
+CSAV001CUS - Customizations: color, skin, emotes
+CSAV001CHL - Challenge information
+CSAV001ICL - Money (ICL means Inventory Category List)
+CSAV001MHM - Mayhem Mode information
+CSAVOO1ILT - Item Lookup Test program
+CSAV001FIL - CSave file processing messages
+CSAV001ABD - Abnormal End (crash)
+CSAV001RWS - Read Write Save operations: loading and  saving
+files
+CSAV001CNV - Conversion functions
+
+
+
+
+
+
+
+
+
+
+
+

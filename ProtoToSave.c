@@ -6,7 +6,7 @@
 #include "OakShared.pb-c.h"
 #include "FileTranslator.h"
 
-#define FILESIZE_LIMIT 2000000
+#define FILESIZE_LIMIT 9000000
 
 extern struct Save save_t;
 
@@ -37,10 +37,19 @@ int main(int argc, char** argv) {
 		exit(1);
 	}
 
-	uint8_t protoData[FILESIZE_LIMIT];
-	size_t protoDataLen = read_buffer(FILESIZE_LIMIT, protoData, inFile);
-	printf("CSAV001CNV Input protobuf file length: %d\n");
-	writeSave(origFile, outFile, protoData, protoDataLen);
+	uint8_t* protoData;
+	fseek(inFile, 0, SEEK_END);
+	int inFileLen = ftell(inFile);
+	fseek(inFile, 0, SEEK_SET);
+	protoData = malloc(inFileLen);
+	if(!protoData) {
+		printf("CSAV001ABD OUT OF MEMORY.\n");
+		exit(420);
+	}
+	fread(protoData, inFileLen, sizeof(uint8_t), inFile);
+	fclose(inFile);
+	printf("CSAV001CNV Input protobuf file length: %d\n", inFileLen);
+	writeSave(origFile, outFile, protoData, inFileLen);
 	printf("CSAV001CNV Execution complete\n");
 	return 0;
 }

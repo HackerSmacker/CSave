@@ -50,13 +50,19 @@ Operation
 .NH 2
 Quick start
 .PP
-Start by running "SaveToProto XXX.sav" and then "SaveUnpack XXX.sav.proto" to get information about a save file. You can then use "SaveGenerate XXX.sav.proto" and then "ProtoToSave XXX.proto" to get a usable file.
+Start by running "SaveToProto XXX.sav" and then "SaveUnpack XXX.sav.proto" to get information about a save file. You can then use "SaveGenerate XXX.sav.proto" and then "ProtoToSave XXX.proto" to get a usable file. If you have CSaveGUI installed, please just use that.
 
 
 .NH 2
 Converting saves
 .PP
 The included utilities "SaveToProto" and "ProtoToSave" to convert to and from "binary format" (i.e. a normal save file) and "protobuf format" (the data actually in the save file) with ease. These programs take one parameter each - the name of the save file. 
+.br
+To convert a save to protobuf format: "SaveToProto original.sav"
+.br
+To edit the file: "SaveGenerate original.sav.proto edited.proto"
+.br
+To convert from protobuf format to binary format: "ProtoToSave edited.proto original.sav"
 
 .NH 2
 Dumping save information
@@ -216,3 +222,8 @@ CSAVOO1ILT - Item Lookup Test program
 .br
 CSAV001FIL - CSave file processing messages
 .br
+CSAV001ABD - Abnormal End (crash)
+.br
+CSAV001RWS - Read Write Save operations: loading and saving files
+.br
+CSAV001CNV - Conversion functions

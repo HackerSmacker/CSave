@@ -134,7 +134,7 @@ void readSave(FILE* file) {
 	int processedLen = decryptSave(save_t.remaining_data, 0, save_t.remaining_data_len);
 }
 
-void writeSave(FILE* file, FILE* outFile, char* data, int dataLen) {
+void writeSave(FILE* file, FILE* outFile, char* data, int32_t dataLen) {
 	// 1. Load in an existing file as a template
 	printf("CSAV001RWS Loading existing file...\n");
 	save_t.header = malloc(4);
@@ -165,14 +165,11 @@ void writeSave(FILE* file, FILE* outFile, char* data, int dataLen) {
 	int payloadStart = ftell(file);
 	save_t.remaining_data = malloc(save_t.remaining_data_len);
 	fread(save_t.remaining_data, sizeof(char), save_t.remaining_data_len, file);
-	// 2. Load in the new data
-	save_t.remaining_data = data;
-	save_t.remaining_data_len = dataLen;
-	// 3. Encrypt it
-	int processedLen = encryptSave(save_t.remaining_data, 0, save_t.remaining_data_len);
-	save_t.remaining_data_len = processedLen;
 
-	printf("CSAV001RWS Encrypted payload length: %d\n", processedLen);
+	// 3. Encrypt it
+	int processedLen = encryptSave(data, 0, dataLen);
+
+	//printf("CSAV001RWS Encrypted payload length: %d\n", processedLen);
 	printf("CSAV001RWS Original save information:\n");
 	printf("Header: %s\n", save_t.header);
 	printf("SG version: %" SCNd32 "\n", save_t.sg_version);
@@ -204,14 +201,13 @@ void writeSave(FILE* file, FILE* outFile, char* data, int dataLen) {
 	fwrite(&save_t.build_id_length, sizeof(int32_t), 1, outFile);
 	fwrite(save_t.build_id, sizeof(char), save_t.build_id_length, outFile);
 	fwrite(&save_t.fmt_version, sizeof(int32_t), 1, outFile);
-	fwrite(&save_t.fmt_count, sizeof(int32_t), 1, file);
+	fwrite(&save_t.fmt_count, sizeof(int32_t), 1, outFile);
 	for(i = 0; i < save_t.fmt_count; i++) {
-		fwrite(kvp_t[i].guid, sizeof(char), 16, file);
-		fwrite(&kvp_t[i].entry, sizeof(int32_t), 1, file);
+		fwrite(kvp_t[i].guid, sizeof(char), 16, outFile);
+		fwrite(&kvp_t[i].entry, sizeof(int32_t), 1, outFile);
 	}
-	fwrite(&save_t.sg_type_len, sizeof(int32_t), 1, file);
-	fwrite(save_t.sg_type, sizeof(char), save_t.sg_type_len, file);
-	fwrite(&save_t.remaining_data_len, sizeof(int32_t), 1, file);
-	fwrite(save_t.remaining_data, sizeof(char), dataLen, file);
-
+	fwrite(&save_t.sg_type_len, sizeof(int32_t), 1, outFile);
+	fwrite(save_t.sg_type, sizeof(char), save_t.sg_type_len, outFile);
+	fwrite(&dataLen, sizeof(int32_t), 1, outFile);
+	fwrite(data, sizeof(char), dataLen, outFile);
 }
