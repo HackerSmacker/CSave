@@ -4,7 +4,7 @@ LDFLAGS = -lprotobuf-c -L/usr/local/lib -L/usr/lib
 CFLAGS = -I. -O0
 DEPS = include/*.h
 PROTOS = *.proto
-OBJS = OakProfile.pb-c.o OakSave.pb-c.o OakShared.pb-c.o SaveUnpack.o FileTranslator.o SaveToProto.o ItemCode.o SaveGenerate.o ItemLookupTest.o ProtoToSave.o CSaveGUI.c
+OBJS = OakProfile.pb-c.o OakSave.pb-c.o OakShared.pb-c.o SaveUnpack.o FileTranslator.o SaveToProto.o ItemCode.o SaveGenerate.o ItemLookupTest.o ProtoToSave.o CSaveGUI.o
 CPROTOS = OakProfile.pb-c.c OakSave.pb-c.c OakShared.pb-c.c
 PROGS = SaveUnpack SaveToProto SaveGenerate ItemLookupTest ProtoToSave CSaveGUI
 LIBRARIES = libBL3Proto.a
@@ -53,7 +53,7 @@ $(PROGS): $(LIBRARIES)
 	@echo " LD    ItemLookupTest"
 	@$(LD) -o ItemLookupTest ItemLookupTest.o libBL3Proto.a $(LDFLAGS)
 	@echo " LD    CSaveGUI"
-	@$(LD) -o CSaveGUI CSaveGUI.c -lncurses
+	@$(LD) -o CSaveGUI CSaveGUI.o -lncurses
 
 manual: $(MANUALS_PS) $(MANUALS_PDF) $(MANUALS_TEXT)
 

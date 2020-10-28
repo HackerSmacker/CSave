@@ -170,6 +170,28 @@ void writeSave(FILE* file, FILE* outFile, char* data, int dataLen) {
 	save_t.remaining_data_len = dataLen;
 	// 3. Encrypt it
 	int processedLen = encryptSave(save_t.remaining_data, 0, save_t.remaining_data_len);
+	save_t.remaining_data_len = processedLen;
+
+	printf("CSAV001RWS Encrypted payload length: %d\n", processedLen);
+	printf("CSAV001RWS Original save information:\n");
+	printf("Header: %s\n", save_t.header);
+	printf("SG version: %" SCNd32 "\n", save_t.sg_version);
+	printf("Package version: %d\n", save_t.pkg_version);
+	printf("Engine version: %d.%d.%d\n", save_t.engine_major, save_t.engine_minor, save_t.engine_patch);
+	printf("Build ID length: %d\n", save_t.build_id_length);
+	printf("Build ID: %s\n", save_t.build_id);
+	printf("Custom format version: %d\n", save_t.fmt_version);
+	printf("Custom format count: %d\n", save_t.fmt_count);
+	//for(i = 0; i < save_t.fmt_count; i++) {
+	//	printf("Custom format %d: GUID: %x, entry %d\n", i, kvp_t[i].guid, kvp_t[i].entry);
+	//}
+	printf("Save type length: %d\n", save_t.sg_type_len);
+	printf("Save type: %s\n", save_t.sg_type);
+	printf("Payload start position: %d\n", payloadStart);
+	printf("Payload length: %d\n", save_t.remaining_data_len);
+
+
+
 	// 4. Crank it out to a file and hope for the best! Protip: It's not the best!
 	printf("CSAV001CNV Writing new file...\n");
 	fwrite(save_t.header, sizeof(char), 4, outFile);
@@ -191,4 +213,5 @@ void writeSave(FILE* file, FILE* outFile, char* data, int dataLen) {
 	fwrite(save_t.sg_type, sizeof(char), save_t.sg_type_len, file);
 	fwrite(&save_t.remaining_data_len, sizeof(int32_t), 1, file);
 	fwrite(save_t.remaining_data, sizeof(char), dataLen, file);
+
 }

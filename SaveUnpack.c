@@ -5,7 +5,7 @@
 #include "FileTranslator.h"
 #include "ItemCode.h"
 
-#define FILESIZE_LIMIT 5000000
+#define FILESIZE_LIMIT 9000000
 
 int i;
 int j;

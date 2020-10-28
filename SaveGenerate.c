@@ -7,7 +7,7 @@
 #include "FileTranslator.h"
 #include "HelperVars.h"
 
-#define FILESIZE_LIMIT 2000000
+#define FILESIZE_LIMIT 9000000
 
 int i;
 int j;
@@ -201,7 +201,7 @@ int main(int argc, char** argv) {
 			fgets(command, 1024, stdin);
 			char* cutText = malloc(strlen(command) - 1);
 			strncpy(cutText, command, (strlen(command) - 1));
-			cutText[strlen(command) - 1] = '\0';
+			//cutText[strlen(command) - 1] = '\0';
 			OakSave__MissionPlaythroughSaveGameData** missionData = charData->mission_playthroughs_data;
 			int missionDataLen = charData->n_mission_playthroughs_data;
 			int found = 0;
@@ -210,8 +210,9 @@ int main(int argc, char** argv) {
 			i = atoi(command);
 			OakSave__MissionStatusPlayerSaveGameData** missionDataForPlaythrough = missionData[i]->mission_list;
 			int missionDFPLen = missionData[i]->n_mission_list;
+			printf("CSAV001IMM Searching for %s\n", cutText);
 			for(j = 0; j < missionDFPLen; j++) {
-				if(strcmp(missionDataForPlaythrough[j]->mission_class_path, cutText) & found == 0) {
+				if((strcmp(missionDataForPlaythrough[j]->mission_class_path, cutText) == 0) && (found == 0)) {
 					found = 1;
 					printf("CSAV001IMM Found quest. Enter state (consult manual for input type):\n*Input\n");
 					fgets(command, 1024, stdin);
@@ -228,6 +229,31 @@ int main(int argc, char** argv) {
 			}
 			if(found == 0) {
 				printf("CSAV001IMM Quest not found.\n");
+			}
+		}
+		else if(strcmp("set challenge\n", command) == 0) {
+			OakSave__ChallengeSaveGameData** challenge_data = charData->challenge_data;
+			size_t n_challenge_data = charData->n_challenge_data;
+			printf("CSAV001IMM Enter challenge name/class path\n*Input\n");
+			fgets(command, 1024, stdin);
+			char* cutText = malloc(strlen(command) - 1);
+			strncpy(cutText, command, (strlen(command) - 1));
+			//cutText[strlen(command) - 1] = '\0';
+			int i;
+			int found = 0;
+			for(i = 0; i < n_challenge_data; i++) {
+				//printf("%s\n", challenge_data[i]->challenge_class_path);
+				if((strstr(cutText, challenge_data[i]->challenge_class_path) != NULL) & (found == 0)) {
+					found = 1;
+					printf("CSAV001IMM Found challenge. Enter completion state (0 for no and 1 for yes)\n*Input\n");
+					fgets(command, 1024, stdin);
+					int newState = atoi(command);
+					challenge_data[i]->currently_completed = newState;
+					printf("CSAV001IMM Updated to %d\n", challenge_data[i]->currently_completed);
+				}
+			}
+			if(found == 0) {
+				printf("CSAV001IMM Challenge not found.\n");
 			}
 		}
 		else {

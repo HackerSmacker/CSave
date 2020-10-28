@@ -37,8 +37,9 @@ int main(int argc, char** argv) {
 		exit(1);
 	}
 
-	char protoData[FILESIZE_LIMIT];
-	int protoDataLen = read_buffer(FILESIZE_LIMIT, protoData, inFile);
+	uint8_t protoData[FILESIZE_LIMIT];
+	size_t protoDataLen = read_buffer(FILESIZE_LIMIT, protoData, inFile);
+	printf("CSAV001CNV Input protobuf file length: %d\n");
 	writeSave(origFile, outFile, protoData, protoDataLen);
 	printf("CSAV001CNV Execution complete\n");
 	return 0;
