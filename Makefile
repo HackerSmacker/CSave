@@ -4,9 +4,9 @@ LDFLAGS = -lprotobuf-c -L/usr/local/lib -L/usr/lib
 CFLAGS = -I. -O0
 DEPS = include/*.h
 PROTOS = *.proto
-OBJS = OakProfile.pb-c.o OakSave.pb-c.o OakShared.pb-c.o SaveUnpack.o FileTranslator.o SaveToProto.o ItemCode.o SaveGenerate.o ItemLookupTest.o ProtoToSave.o CSaveGUI.o
+OBJS = OakProfile.pb-c.o OakSave.pb-c.o OakShared.pb-c.o SaveUnpack.o FileTranslator.o SaveToProto.o ItemCode.o SaveGenerate.o ItemLookupTest.o ProtoToSave.o CSaveGUI.o ProfileUnpack.o ProfileGenerate.o
 CPROTOS = OakProfile.pb-c.c OakSave.pb-c.c OakShared.pb-c.c
-PROGS = SaveUnpack SaveToProto SaveGenerate ItemLookupTest ProtoToSave CSaveGUI
+PROGS = SaveUnpack SaveToProto SaveGenerate ItemLookupTest ProtoToSave CSaveGUI ProfileUnpack ProfileGenerate
 LIBRARIES = libBL3Proto.a
 MANUALS_PS = manual.ps
 MANUALS_PDF = manual.pdf
@@ -52,6 +52,10 @@ $(PROGS): $(LIBRARIES)
 	@$(LD) -o SaveGenerate SaveGenerate.o libBL3Proto.a $(LDFLAGS)
 	@echo " LD    ItemLookupTest"
 	@$(LD) -o ItemLookupTest ItemLookupTest.o libBL3Proto.a $(LDFLAGS)
+	@echo " LD    ProfileUnpack"
+	@$(LD) -o ProfileUnpack ProfileUnpack.o libBL3Proto.a $(LDFLAGS)
+	@echo " LD    ProfileGenerate"
+	@$(LD) -o ProfileGenerate ProfileGenerate.o libBL3Proto.a $(LDFLAGS)
 	@echo " LD    CSaveGUI"
 	@$(LD) -o CSaveGUI CSaveGUI.o -lncurses
 
@@ -64,14 +68,22 @@ install: $(PROGS) manual
 	@install SaveToProto $(PREFIX)/bin
 	@echo " INSTALL    SaveGenerate"
 	@install SaveGenerate $(PREFIX)/bin
+	@echo " INSTALL    ProtoToSave"
+	@install ProtoToSave $(PREFIX)/bin
+	@echo " INSTALL    CSaveGUI"
+	@install CSaveGUI $(PREFIX)/bin
 
 uninstall:
 	@echo " RM    SaveUnpack"
 	@rm $(PREFIX)/bin/SaveUnpack
 	@echo " RM    SaveToProto"
 	@rm $(PREFIX)/bin/SaveToProto
+	@echo " RM    ProtoToSave"
+	@rm $(PREFIX)/bin/ProtoToSave
 	@echo " RM    SaveGenerate"
 	@rm $(PREFIX)/bin/SaveGenerate
+	@echo " RM    CSaveGUI"
+	@rm $(PREFIX)/bin/CSaveGUI
 
 .PHONY: clean
 
