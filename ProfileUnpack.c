@@ -57,7 +57,39 @@ int main(int argc, char** argv) {
 		printf("CSAV001ICL Inventory Category %d is of type %x and has value %d\n", i, bank_inventory_category_list[i]->base_category_definition_hash, bank_inventory_category_list[i]->quantity);
 	}
 
+// SDUs in the profile
+	size_t n_profile_sdu_list = profData->n_profile_sdu_list;
+	OakSave__OakSDUSaveGameData** profile_sdu_list = profData->profile_sdu_list;
+	for(i = 0; i < n_profile_sdu_list; i++) {
+		printf("CSAV001SDU %d SDUs, of type %s\n", profile_sdu_list[i]->sdu_level, profile_sdu_list[i]->sdu_data_path);
+	}
 
+// Customizations	
+	size_t n_unlocked_customizations = profData->n_unlocked_customizations;
+	OakSave__OakCustomizationSaveGameData** unlocked_customizations = profData->unlocked_customizations;
+	for(i = 0; i < n_unlocked_customizations; i++) {
+		printf("CSAV001CST Customization %d: %s\n", i, unlocked_customizations[i]->customization_asset_path);
+	}
+
+
+// Inventory customizations
+	size_t n_unlocked_inventory_customization_parts = profData->n_unlocked_inventory_customization_parts;
+	OakSave__OakInventoryCustomizationPartInfo** unlocked_inventory_customization_parts = profData->unlocked_inventory_customization_parts;
+	for(i = 0; i < n_unlocked_inventory_customization_parts; i++) {
+		printf("CSAV001CST Inventory Customization %d: hash %x\n", i, unlocked_inventory_customization_parts[i]->customization_part_hash);
+	}
+
+// Decorations
+	size_t n_unlocked_crew_quarters_decorations = profData->n_unlocked_crew_quarters_decorations;
+	OakSave__CrewQuartersDecorationItemSaveGameData** unlocked_crew_quarters_decorations = profData->unlocked_crew_quarters_decorations;
+	for(i = 0; i < n_unlocked_crew_quarters_decorations; i++) {
+		printf("CSAV001CST Decoration %d: %s\n", i, unlocked_crew_quarters_decorations[i]->decoration_item_asset_path);
+	}
+
+
+// Rooms
+	size_t n_unlocked_crew_quarters_rooms = profData->n_unlocked_crew_quarters_rooms;
+	OakSave__CrewQuartersRoomItemSaveGameData** unlocked_crew_quarters_rooms = profData->unlocked_crew_quarters_rooms;
 
 	oak_save__profile__free_unpacked(profData, NULL);
 	return 0;

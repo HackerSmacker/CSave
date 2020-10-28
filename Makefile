@@ -70,6 +70,10 @@ install: $(PROGS) manual
 	@install SaveGenerate $(PREFIX)/bin
 	@echo " INSTALL    ProtoToSave"
 	@install ProtoToSave $(PREFIX)/bin
+	@echo " INSTALL    ProfileUnpack"
+	@install ProfileUnpack $(PREFIX)/bin
+	@echo " INSTALL    ProfileGenerate"
+	@install ProfileGenerate $(PREFIX)/bin
 	@echo " INSTALL    CSaveGUI"
 	@install CSaveGUI $(PREFIX)/bin
 
@@ -82,6 +86,10 @@ uninstall:
 	@rm $(PREFIX)/bin/ProtoToSave
 	@echo " RM    SaveGenerate"
 	@rm $(PREFIX)/bin/SaveGenerate
+	@echo " RM    ProfileGenerate"
+	@rm $(PREFIX)/bin/ProfileGenerate
+	@echo " RM    ProfileUnpack"
+	@rm $(PREFIX)/bin/ProfileUnpack
 	@echo " RM    CSaveGUI"
 	@rm $(PREFIX)/bin/CSaveGUI
 
