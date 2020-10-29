@@ -1,20 +1,45 @@
+// FOR WIN32:
+// Compile and link against PDCurses. 
+// FOR UNIX:
+// Compile and link against libncurses.
+// FOR VMS:
+// Only compiles on Alpha VMS and not VAX VMS. Good luck. The VMSCURSES image should be loaded by default.
+
+#ifndef _WIN32
 #include <ncurses.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
 #include <dirent.h>
+#else
+#include <curses.h>
+#include <stdlib.h>
+#include <string.h>
+#include <windows.h>
+#include <winuser.h>
+#include <winreg.h>
+#endif
 
+// Visual C++ is so incompentent I have to define these variables here.
+char* menuHeaderText = "CSave Functions Menu";
 int row;
 int col;
 char* currentFile;
 int loopContinue = 1;
+char filename[1024];
+FILE* fp;
+char path[8192];
+char* command;
+int outRow = 4;
+int outCol = 2;
+char* myLine;
+char choice;
 
 
 void drawMainMenu() {
 	clear();
 	attron(A_BOLD);
 	attron(COLOR_PAIR(1));
-	char* menuHeaderText = "CSave Functions Menu";
 	mvprintw(0, (col - strlen(menuHeaderText)) / 2, "%s", menuHeaderText);
 	attroff(A_BOLD);
 	attroff(COLOR_PAIR(1));
@@ -42,6 +67,7 @@ void defineColors() {
 	init_pair(4, COLOR_RED, COLOR_BLACK);
 }
 
+#ifndef _WIN32
 void listDirectory(char* path, char* grep) {
 	struct dirent* de;
 	DIR* dr = opendir(path);
@@ -73,13 +99,17 @@ void listDirectory(char* path, char* grep) {
 	refresh();
 	getch();
 }
+#else
+void listDirectory(char* path, char* grep) {
+	return;
+}
+#endif
 
 void saveToProto() {
 	clear();
 	attron(COLOR_PAIR(1));
 	mvprintw(0, (col - strlen("Save to Protobuf")) / 2, "Save To Protobuf");
 	attroff(COLOR_PAIR(1));
-	char filename[1024];
 	attron(COLOR_PAIR(2));
 	mvprintw(1, 0, "Please specify a filename.");
 	attroff(COLOR_PAIR(2));
@@ -91,9 +121,7 @@ void saveToProto() {
 	attron(COLOR_PAIR(2));
 	mvprintw(2, 0, "Will convert %s", filename);
 	refresh();
-	FILE* fp;
-	char path[8192];
-	char* command = malloc(strlen("SaveToProto ") + strlen(filename) + 1);
+	command = malloc(strlen("SaveToProto ") + strlen(filename) + 1);
 	strcpy(command, "SaveToProto ");
 	strcat(command, filename);
 	fp = popen(command, "r");
@@ -105,12 +133,12 @@ void saveToProto() {
 		getch();
 		return;
 	}
-	int outRow = 4;
-	int outCol = 2;
+	outRow = 4;
+	outCol = 2;
 	attron(COLOR_PAIR(3));
 	move(outRow, outCol);
 	while(fgets(path, sizeof(path), fp) != NULL) {
-		char myLine[col - 4];
+		myLine = malloc(col - 4);
 		memcpy(myLine, path, col - 4);
 		if(outRow > row - 4) {
 			getch();
@@ -134,7 +162,6 @@ void protoToSave() {
 	attron(COLOR_PAIR(1));
 	mvprintw(0, (col - strlen("Protobuf To Save")) / 2, "Protobuf To Save");
 	attroff(COLOR_PAIR(1));
-	char filename[1024];
 	attron(COLOR_PAIR(2));
 	mvprintw(1, 0, "Please specify a filename.");
 	attroff(COLOR_PAIR(2));
@@ -146,9 +173,7 @@ void protoToSave() {
 	attron(COLOR_PAIR(2));
 	mvprintw(2, 0, "Will convert %s", filename);
 	refresh();
-	FILE* fp;
-	char path[8192];
-	char* command = malloc(strlen("ProtoToSave ") + strlen(filename) + 1);
+	command = malloc(strlen("ProtoToSave ") + strlen(filename) + 1);
 	strcpy(command, "ProtoToSave ");
 	strcat(command, filename);
 	fp = popen(command, "r");
@@ -160,12 +185,12 @@ void protoToSave() {
 		getch();
 		return;
 	}
-	int outRow = 4;
-	int outCol = 2;
+	outRow = 4;
+	outCol = 2;
 	attron(COLOR_PAIR(3));
 	move(outRow, outCol);
 	while(fgets(path, sizeof(path), fp) != NULL) {
-		char myLine[col - 4];
+		myLine = malloc(col - 4);
 		memcpy(myLine, path, col - 4);
 		if(outRow > row - 4) {
 			getch();
@@ -189,7 +214,6 @@ void saveUnpack() {
 	attron(COLOR_PAIR(1));
 	mvprintw(0, (col - strlen("Save Info")) / 2, "Save Info");
 	attroff(COLOR_PAIR(1));
-	char filename[1024];
 	attron(COLOR_PAIR(2));
 	mvprintw(1, 0, "Please specify a filename.");
 	attroff(COLOR_PAIR(2));
@@ -201,9 +225,7 @@ void saveUnpack() {
 	attron(COLOR_PAIR(2));
 	mvprintw(2, 0, "Will process %s", filename);
 	refresh();
-	FILE* fp;
-	char path[8192];
-	char* command = malloc(strlen("SaveUnpack ") + strlen(filename) + 1);
+	command = malloc(strlen("SaveUnpack ") + strlen(filename) + 1);
 	strcpy(command, "SaveUnpack ");
 	strcat(command, filename);
 	fp = popen(command, "r");
@@ -215,12 +237,12 @@ void saveUnpack() {
 		getch();
 		return;
 	}
-	int outRow = 4;
-	int outCol = 2;
+	outRow = 4;
+	outCol = 2;
 	attron(COLOR_PAIR(3));
 	move(outRow, outCol);
 	while(fgets(path, sizeof(path), fp) != NULL) {
-		char myLine[col - 4];
+		myLine = malloc(col - 4);
 		memcpy(myLine, path, col - 4);
 		if(outRow > row - 4) {
 			getch();
@@ -244,7 +266,6 @@ void profUnpack() {
 	attron(COLOR_PAIR(1));
 	mvprintw(0, (col - strlen("Profile Info")) / 2, "Profile Info");
 	attroff(COLOR_PAIR(1));
-	char filename[1024];
 	attron(COLOR_PAIR(2));
 	mvprintw(1, 0, "Please specify a filename.");
 	attroff(COLOR_PAIR(2));
@@ -256,9 +277,7 @@ void profUnpack() {
 	attron(COLOR_PAIR(2));
 	mvprintw(2, 0, "Will process %s", filename);
 	refresh();
-	FILE* fp;
-	char path[8192];
-	char* command = malloc(strlen("ProfileUnpack ") + strlen(filename) + 1);
+	command = malloc(strlen("ProfileUnpack ") + strlen(filename) + 1);
 	strcpy(command, "ProfileUnpack ");
 	strcat(command, filename);
 	fp = popen(command, "r");
@@ -270,12 +289,12 @@ void profUnpack() {
 		getch();
 		return;
 	}
-	int outRow = 4;
-	int outCol = 2;
+	outRow = 4;
+	outCol = 2;
 	attron(COLOR_PAIR(3));
 	move(outRow, outCol);
 	while(fgets(path, sizeof(path), fp) != NULL) {
-		char myLine[col - 4];
+		myLine = malloc(col - 4);
 		memcpy(myLine, path, col - 4);
 		if(outRow > row - 4) {
 			getch();
@@ -302,7 +321,7 @@ int main(int argc, char** argv) {
 	// Start.
 	do {
 		drawMainMenu();
-		char choice = getch();
+		choice = getch();
 		if(choice == 'z') {
 			loopContinue = 0;
 		}
