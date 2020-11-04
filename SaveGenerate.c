@@ -222,8 +222,13 @@ int main(int argc, char** argv) {
 					fgets(command, 1024, stdin);
 					int choice = atoi(command);
 					if(choice == 1) {
-						// TODO: ACTUALLY FINISH THIS
-						printf("CSAV001IMM There are %d objectives/mission states.\n", 0);
+						printf("CSAV001IMM There are %d objectives/mission states.\n", missionDataForPlaythrough[j]->n_objectives_progress);
+						int k;
+						for(k = 0; k < missionDataForPlaythrough[j]->n_objectives_progress; k++) {
+							printf("CSAV001IMM Enter state for objective %d\n*Input\n", k);
+							fgets(command, 1024, stdin);
+							missionDataForPlaythrough[j]->objectives_progress[k] = atoi(command);
+						}
 					}
 				}
 			}
