@@ -92,3 +92,5 @@
 /Game/PatchDLC/Geranium/Gear/Weapon/_Unique/Flipper/Parts/Part_SM_MAL_Material_Flipper.Part_SM_MAL_Material_Flipper
 /Game/PatchDLC/Ixora/Gear/Weapons/_Unique/PlasmaCoil/Parts/Part_SM_MAL_Barrel_PlasmaCoil.Part_SM_MAL_Barrel_PlasmaCoil
 /Game/PatchDLC/Ixora/Gear/Weapons/_Unique/PlasmaCoil/Parts/Part_SM_MAL_Material_PlasmaCoil.Part_SM_MAL_Material_PlasmaCoil
+/Game/PatchDLC/Ixora/Gear/Weapons/_Unique/PlasmaCoil/Parts/Part_SM_MAL_Mag_01_PlasmaCoil.Part_SM_MAL_Mag_01_PlasmaCoil
+/Game/PatchDLC/Ixora/Gear/Weapons/_Unique/PlasmaCoil/Parts/Part_SM_MAL_Mag_03_PlasmaCoil.Part_SM_MAL_Mag_03_PlasmaCoil

@@ -69,3 +69,4 @@
 /Game/PatchDLC/Geranium/Gear/Weapon/_Unique/Satisfaction/Parts/Part_HW_TOR_Barrel_Satisfaction.Part_HW_TOR_Barrel_Satisfaction
 /Game/PatchDLC/Geranium/Gear/Weapon/_Unique/Satisfaction/Parts/Part_HW_TOR_Material_Satisfaction.Part_HW_TOR_Material_Satisfaction
 /Game/PatchDLC/Ixora/Gear/Weapons/_Unique/IceAge/Parts/Part_HW_TOR_Material_IceAge.Part_HW_TOR_Material_IceAge
+/Game/PatchDLC/Ixora/Gear/Weapons/_Unique/IceAge/Parts/Part_HW_TOR_Barrel_IceAge.Part_HW_TOR_Barrel_IceAge

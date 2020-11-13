@@ -69,3 +69,6 @@
 /Game/PatchDLC/Alisma/Gear/Weapon/_Unique/PAT_Mk3/Parts/Part_SM_TED_Barrel_PatMk3_Parent.Part_SM_TED_Barrel_PatMk3_Parent
 /Game/PatchDLC/Ixora/Gear/Weapons/_Unique/DarkArmy/Parts/Part_SM_TED_Barrel_DarkArmy.Part_SM_TED_Barrel_DarkArmy
 /Game/PatchDLC/Ixora/Gear/Weapons/_Unique/DarkArmy/Parts/Part_SM_TED_Material_DarkArmy.Part_SM_TED_Material_DarkArmy
+/Game/PatchDLC/Ixora/Gear/Weapons/_Unique/DarkArmy/Parts/Part_SM_TED_BarrelMod_DarkArmy1.Part_SM_TED_BarrelMod_DarkArmy1
+/Game/PatchDLC/Ixora/Gear/Weapons/_Unique/DarkArmy/Parts/Part_SM_TED_BarrelMod_DarkArmy2.Part_SM_TED_BarrelMod_DarkArmy2
+/Game/PatchDLC/Ixora/Gear/Weapons/_Unique/DarkArmy/Parts/Part_SM_TED_BarrelMod_DarkArmy3.Part_SM_TED_BarrelMod_DarkArmy3

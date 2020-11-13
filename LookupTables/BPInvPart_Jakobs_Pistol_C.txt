@@ -114,3 +114,5 @@
 /Game/PatchDLC/Geranium/Gear/Weapon/_Unique/Peashooter/Parts/Part_PS_JAK_Material_Peashooter.Part_PS_JAK_Material_Peashooter
 /Game/PatchDLC/Ixora/Gear/Weapons/_Unique/Trickshot/Parts/Part_PS_JAK_Barrel_Trickshot.Part_PS_JAK_Barrel_Trickshot
 /Game/PatchDLC/Ixora/Gear/Weapons/_Unique/Trickshot/Parts/Part_PS_JAK_Material_Trickshot.Part_PS_JAK_Material_Trickshot
+/Game/PatchDLC/Ixora/Gear/Weapons/_Unique/Trickshot/Parts/Part_PS_JAK_Hammer_02_Trickshot.Part_PS_JAK_Hammer_02_Trickshot
+/Game/PatchDLC/Ixora/Gear/Weapons/_Unique/Trickshot/Parts/Part_PS_JAK_Hammer_03_Trickshot.Part_PS_JAK_Hammer_03_Trickshot

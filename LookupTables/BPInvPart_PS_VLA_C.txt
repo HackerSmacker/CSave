@@ -73,3 +73,4 @@
 /Game/PatchDLC/Ixora/Gear/Weapons/_Unique/Firefly/Parts/Part_PS_VLA_Barrel_Firefly.Part_PS_VLA_Barrel_Firefly
 /Game/PatchDLC/Ixora/Gear/Weapons/_Unique/Firefly/Parts/Part_PS_VLA_Mag_Firefly.Part_PS_VLA_Mag_Firefly
 /Game/PatchDLC/Ixora/Gear/Weapons/_Unique/Firefly/Parts/Part_PS_VLA_Material_Firefly.Part_PS_VLA_Material_Firefly
+/Game/PatchDLC/Ixora/Gear/Weapons/_Unique/Firefly/Parts/Part_PS_VLA_Rail_04_Firefly.Part_PS_VLA_Rail_04_Firefly

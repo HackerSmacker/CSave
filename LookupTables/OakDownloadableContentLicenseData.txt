@@ -11,3 +11,7 @@
 /Game/PatchDLC/Daffodil/GameData/DLCData/DlcLicense_Daffodil.DlcLicense_Daffodil
 /Game/PatchDLC/Alisma/GameData/DLCData/DlcLicenseData_Alisma.DlcLicenseData_Alisma
 /Game/PatchDLC/Ixora/GameData/DLCData/DlcLicenseData_Ixora.DlcLicenseData_Ixora
+/Game/PatchDLC/Ixora/GameData/DLCData/DlcLicenseData_Ixora_BeastmasterBodyMesh.DlcLicenseData_Ixora_BeastmasterBodyMesh
+/Game/PatchDLC/Ixora/GameData/DLCData/DlcLicenseData_Ixora_GunnerBodyMesh.DlcLicenseData_Ixora_GunnerBodyMesh
+/Game/PatchDLC/Ixora/GameData/DLCData/DlcLicenseData_Ixora_OperativeBodyMesh.DlcLicenseData_Ixora_OperativeBodyMesh
+/Game/PatchDLC/Ixora/GameData/DLCData/DlcLicenseData_Ixora_SirenBodyMesh.DlcLicenseData_Ixora_SirenBodyMesh

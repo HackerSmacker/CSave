@@ -68,3 +68,4 @@
 /Game/PatchDLC/Ixora/Gear/Weapons/_Unique/CriticalThug/Parts/Part_SG_Torgue_Body_CriticalThug.Part_SG_Torgue_Body_CriticalThug
 /Game/PatchDLC/Ixora/Gear/Weapons/_Unique/CriticalThug/Parts/Part_SG_Torgue_CriticalThug.Part_SG_Torgue_CriticalThug
 /Game/PatchDLC/Ixora/Gear/Weapons/_Unique/CriticalThug/Parts/Part_SG_Torgue_Material_CriticalThug.Part_SG_Torgue_Material_CriticalThug
+/Game/PatchDLC/Ixora/Gear/Weapons/_Unique/CriticalThug/Parts/Part_SG_Torgue_Grip_01_CriticalThug.Part_SG_Torgue_Grip_01_CriticalThug

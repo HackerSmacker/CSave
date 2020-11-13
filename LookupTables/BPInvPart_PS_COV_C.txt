@@ -62,3 +62,4 @@
 /Game/PatchDLC/Geranium/Gear/Weapon/_Unique/Gargoyle/Parts/Part_PS_COV_Material_Gargoyle.Part_PS_COV_Material_Gargoyle
 /Game/PatchDLC/Ixora/Gear/Weapons/_Unique/Tizzy/Parts/Part_PS_COV_Barrel_Tizzy.Part_PS_COV_Barrel_Tizzy
 /Game/PatchDLC/Ixora/Gear/Weapons/_Unique/Tizzy/Parts/Part_PS_COV_Material_Tizzy.Part_PS_COV_Material_Tizzy
+/Game/PatchDLC/Ixora/Gear/Weapons/_Unique/Tizzy/Parts/Part_PS_COV_Stock_02_Tizzy.Part_PS_COV_Stock_02_Tizzy

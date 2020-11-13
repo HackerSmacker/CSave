@@ -159,4 +159,6 @@
 /Game/PatchDLC/Takedown2/Gear/GrenadeMods/Lightspeed/Parts/Part_GM_Mat_Lightspeed.Part_GM_Mat_Lightspeed
 /Game/PatchDLC/Geranium/Gear/Grenade/SkagOil/Parts/Part_GM_Aug_SkagOil.Part_GM_Aug_SkagOil
 /Game/PatchDLC/Geranium/Gear/Grenade/SkagOil/Parts/Part_GM_Material_SkagOil.Part_GM_Material_SkagOil
-/Game/PatchDLC/Ixora/Gear/GrenadeMods/HOTSpring/Parts/Part_GM_Aug_HOTSpring.Part_GM_Aug_HOTSpring
+/Game/PatchDLC/Ixora/Gear/GrenadeMods/HOTSpring/Parts/Part_GM_Aug_HOTSpring1.Part_GM_Aug_HOTSpring1
+/Game/PatchDLC/Ixora/Gear/GrenadeMods/HOTSpring/Parts/Part_GM_Aug_HOTSpring2.Part_GM_Aug_HOTSpring2
+/Game/PatchDLC/Ixora/Gear/GrenadeMods/HOTSpring/Parts/Part_GM_Aug_HOTSpring3.Part_GM_Aug_HOTSpring3
