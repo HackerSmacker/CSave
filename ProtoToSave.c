@@ -7,6 +7,7 @@
 #include "FileTranslator.h"
 
 #define FILESIZE_LIMIT 9000000
+#define OUTPUT_EXTENSION ".edited.sav"
 
 extern struct Save save_t;
 
@@ -22,8 +23,10 @@ int main(int argc, char** argv) {
 		fprintf(stderr, "CSAV001ABN Failed to open input file.\n");
 		exit(1);
 	}
-	char* outFileName = strcat(argv[1], ".edited.sav");
-	printf("CSAV00200I Output file = %s\n", outFileName);
+	char* outFileName = malloc(strlen(argv[1]) + strlen(OUTPUT_EXTENSION));
+	strcpy(outFileName, argv[1]);
+	strcat(outFileName, OUTPUT_EXTENSION);
+	printf("CSAV00100I Output file = %s\n", outFileName);
 
 	FILE* origFile = fopen(argv[2], "r");
 	if(origFile == NULL) {
