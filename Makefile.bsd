@@ -4,9 +4,9 @@ LDFLAGS = -lprotobuf-c -L/usr/local/lib
 CFLAGS = -I. -I/usr/local/include
 DEPS = include/*.h
 PROTOS = *.proto
-OBJS = OakProfile.pb-c.o OakSave.pb-c.o OakShared.pb-c.o SaveUnpack.o FileTranslator.o SaveToProto.o ItemCode.o SaveGenerate.o ItemLookupTest.o
+OBJS = OakProfile.pb-c.o OakSave.pb-c.o OakShared.pb-c.o SaveUnpack.o FileTranslator.o SaveToProto.o ItemCode.o SaveGenerate.o ItemLookupTest.o ProtoToSave.o CSaveGUI.o ProfileUnpack.o ProfileGenerate.o
 CPROTOS = OakProfile.pb-c.c OakSave.pb-c.c OakShared.pb-c.c
-PROGS = SaveUnpack SaveToProto SaveGenerate ItemLookupTest
+PROGS = SaveUnpack SaveToProto SaveGenerate ItemLookupTest ProtoToSave CSaveGUI ProfileUnpack ProfileGenerate
 LIBRARIES = libBL3Proto.a
 MANUALS_PS = manual.ps
 MANUALS_PDF = manual.pdf
@@ -48,35 +48,59 @@ $(LIBRARIES): cprotos $(OBJS)
 	@ar cr libBL3Proto.a OakProfile.pb-c.o OakSave.pb-c.o OakShared.pb-c.o FileTranslator.o SaveToProto.o ItemCode.o
 
 $(PROGS): $(LIBRARIES)
-	@echo " LD   SaveUnpack"
+	@echo " LD    SaveUnpack"
 	@$(LD) -o SaveUnpack SaveUnpack.o libBL3Proto.a $(LDFLAGS)
-	@echo " LD   SaveToProto"
+	@echo " LD    SaveToProto"
 	@$(LD) -o SaveToProto SaveToProto.o libBL3Proto.a $(LDFLAGS)
-	@echo " LD   SaveGenerate"
+	@echo " LD    ProtoToSave"
+	@$(LD) -o ProtoToSave ProtoToSave.o libBL3Proto.a $(LDFLAGS)
+	@echo " LD    SaveGenerate"
 	@$(LD) -o SaveGenerate SaveGenerate.o libBL3Proto.a $(LDFLAGS)
-	@echo " LD   ItemLookupTest"
+	@echo " LD    ItemLookupTest"
 	@$(LD) -o ItemLookupTest ItemLookupTest.o libBL3Proto.a $(LDFLAGS)
+	@echo " LD    ProfileUnpack"
+	@$(LD) -o ProfileUnpack ProfileUnpack.o libBL3Proto.a $(LDFLAGS)
+	@echo " LD    ProfileGenerate"
+	@$(LD) -o ProfileGenerate ProfileGenerate.o libBL3Proto.a $(LDFLAGS)
+	@echo " LD    CSaveGUI"
+	@$(LD) -o CSaveGUI CSaveGUI.o -lncurses
 
 manual: $(MANUALS_PS) $(MANUALS_PDF)
 
 install:
-	@echo " INSTALL    SaveGenerate"
-	@install SaveGenerate $(PREFIX)/bin
-	@echo " INSTALL    SaveToProto"
-	@install SaveToProto $(PREFIX)/bin
 	@echo " INSTALL    SaveUnpack"
 	@install SaveUnpack $(PREFIX)/bin
+	@echo " INSTALL    SaveToProto"
+	@install SaveToProto $(PREFIX)/bin
+	@echo " INSTALL    SaveGenerate"
+	@install SaveGenerate $(PREFIX)/bin
+	@echo " INSTALL    ProtoToSave"
+	@install ProtoToSave $(PREFIX)/bin
+	@echo " INSTALL    ProfileUnpack"
+	@install ProfileUnpack $(PREFIX)/bin
+	@echo " INSTALL    ProfileGenerate"
+	@install ProfileGenerate $(PREFIX)/bin
+	@echo " INSTALL    CSaveGUI"
+	@install CSaveGUI $(PREFIX)/bin
 
 uninstall:
-	@echo " RM    SaveGenerate"
-	@rm $(PREFIX)/bin/SaveGenerate
-	@echo " RM    SaveToProto"
-	@rm $(PREFIX)/bin/SaveToProto
 	@echo " RM    SaveUnpack"
 	@rm $(PREFIX)/bin/SaveUnpack
+	@echo " RM    SaveToProto"
+	@rm $(PREFIX)/bin/SaveToProto
+	@echo " RM    ProtoToSave"
+	@rm $(PREFIX)/bin/ProtoToSave
+	@echo " RM    SaveGenerate"
+	@rm $(PREFIX)/bin/SaveGenerate
+	@echo " RM    ProfileGenerate"
+	@rm $(PREFIX)/bin/ProfileGenerate
+	@echo " RM    ProfileUnpack"
+	@rm $(PREFIX)/bin/ProfileUnpack
+	@echo " RM    CSaveGUI"
+	@rm $(PREFIX)/bin/CSaveGUI
 
 
 .PHONY: clean
 
 clean:
-	rm -f *.o Oak*.pb-c.* *.a SaveUnpack SaveToProto SaveGenerate
+	rm -f *.o Oak*.pb-c.* *.a $(MANUALS_PS) $(MANUALS_PDF) $(MANUALS_TEXT) $(PROGS)

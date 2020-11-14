@@ -7,6 +7,7 @@
 #include "OakSave.pb-c.h"
 #include "FileTranslator.h"
 #include "HelperVars.h"
+#include "Customizations.h"
 
 #define FILESIZE_LIMIT 9000000
 
@@ -75,6 +76,23 @@ int main(int argc, char** argv) {
 				}
 			}
 			printf("CSAV001IMM Golden keys updated\n");
+		}
+		else if(strcmp("unlock all\n", command) == 0) {
+			printf("CSAV001IMM Have you legit purchased all cosmetics?\n*Input\n");
+			fgets(command, 1024, stdin);
+			if(command[0] == 'y') {
+				printf("CSAV001IMM Unlocking all customizations...\n");
+				// 0. fool save file
+				profData->n_unlocked_customizations = numAllAssets;
+				// 1. allocate space for everything
+				OakSave__OakCustomizationSaveGameData* custs = malloc(sizeof(OakSave__OakCustomizationSaveGameData) * numAllAssets);
+				// 2. copy them in
+				for(i = 0; i < numAllAssets; i++) {
+					custs[0].customization_asset_path = allAssetPaths[i];
+				}
+				// 3. store value
+				//profData->unlocked_customizations = custs;
+			}
 		}
 		else {
 			printf("CSAV001IMM Invalid command...\n");

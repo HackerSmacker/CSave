@@ -8,7 +8,6 @@
 #include "ItemCode.h"
 
 #ifndef PREFIX
-#warning WARNING: PREFIX is undefined. CSave will not run when installed.
 #define PREFIX ./
 #endif
 
@@ -276,4 +275,9 @@ int findLookupTable(char* searchText) {
 			return -1;
 		}
 	}
+}
+
+
+struct Item parseItemCode(size_t length, uint8_t* data, int outcome) {
+
 }

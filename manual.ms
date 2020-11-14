@@ -4,7 +4,25 @@ CSave: Installation, Configuration, and Operation
 HS Software
 
 .NH 1
-Installation - Unix, Linux, BSD, and Windows (Cygwin)
+Installation (Prebuilt Builds) - Windows
+.PP
+This is the recommended way to get CSave up and running. You need to do two things:
+First, download everything in the build_win64 folder and put all of those files into
+a folder somewhere. Then, create a folder named "LookupTables" in the folder where you
+put the CSave executables. Download everything from the LookupTables folder on GitHub
+and copy them into your LookupTables folder. It is MUCH easier just to use GitHub's
+"download zip" function to get CSave. That way, you can drag-and-drop the files to
+anywhere you want. Please note that CSave
+.I
+will not function correctly
+.R
+if you do not download the LookupTables properly. Next, open up a command prompt, and use
+the "cd" command to navigate to where your CSave folder is. It is easiest to open the
+CSave folder on Windows Explorer, click up top where the path is displayed, and copy and
+paste the path after the "cd" command on your command prompt. 
+
+.NH 1
+Installation (Compiling) - Unix, Linux, BSD, and Windows (Cygwin)
 .PP
 The first thing you need to do is set up your build environment - install protobuf, gcc, 
 pkg-config, make, and git. After you've installed everything, retrieve the source code for
@@ -17,14 +35,14 @@ Enter the CSave source code directory with "cd CSave" and compile it with "make"
 to the Operations section.
 
 .NH 1
-Installation - Windows (Native)
+Installation (Compiling) - Windows (Native)
 .PP
 You need to compile libprotobuf-c with MINGW64
 and use the headers/libraries/executables from that and put them into the Lib, Include, and Bin
 folders, respectively, of your VSC installation.
 
 .NH 1
-Installation - OS/2 (Watcom C/C++ 11)
+Installation (Compiling) - OS/2 (Watcom C/C++ 11)
 .PP
 Download the source code and transfer it to your OS/2 machine. Please note that you will have
 to cross-compile libprotobuf-c with GCC targeting OS/2. Transfer libprotobuf-c.lib and the
@@ -32,13 +50,13 @@ header files over to OS/2. You may need to compile the C protobuf files with GCC
 compile cleanly with Watcom. 
 
 .NH 1
-Installation - OS/2 (EMX/ArcaOS Packages)
+Installation (Compiling) - OS/2 (EMX/ArcaOS Packages)
 .PP
 Follow the Unix installation instructions written above. The same process should apply. You might
-need to edit the Makefile to 
+need to edit the Makefile to get it to properly compile.
 
 .NH 1
-Installation - OpenVMS 8.4 (DEC C/C++)
+Installation (Compiling) - OpenVMS 8.4 (DEC C/C++)
 .PP
 CSave does not cleanly compile with the DEC C compiler. Use a cross compiler or use GNV.
 Make sure your GCC version in GNV is 8.0.0 or newer, as the protobuf-c outputs will not compile.
@@ -63,45 +81,35 @@ To convert a save to protobuf format: "SaveToProto original.sav"
 To edit the file: "SaveGenerate original.sav.proto edited.proto"
 .br
 To convert from protobuf format to binary format: "ProtoToSave edited.proto original.sav"
-
-.NH 2
-Dumping save information
-
-.NH 3
-Getting XP information
+.br
 .PP
-To determine what level the save file is at, run this command: "SaveUnpack in.proto | grep SKL | head -n 3".
-The XP value will coorespond to the level. Examine CommonVars.h to figure out the base XP required to be at
-that level.
+Likewise, you must also convert your profile saves. To acomplish this, use the same programs as listed above. 
 
-.NH 3
-Getting Mayhem Mode information
-.PP
-The editor can display Mayhem Mode stats with "SaveUnpack in.sav | grep MHM". Playthrough 0 is NVHM
-and playthrough 1 is TVHM. Of course, you could always add another playthrough and set it active, because
-UVHM can't come soon enough.
-
-.NH 3
-Getting name, GUID, ID, slot number, and TVHM status
-.PP
-This info appears at the top of SaveUnpack. Specifically, you can run "SaveUnpack in.sav | grep GEN" to
-pull the info off of the top.
-
-.NH 3
-Getting SDU info
-.PP
-"SaveUnpack in.sav | grep SDU"
-
-.NH 3
-Getting quest info
-.PP
-"SaveUnpack in.sav | grep MSN". The listing will include the quest class path, completion status, current
-objective, and completion status for each objective. The editor (at the moment of writing this sentence)
-does not permit the user to directly manipulate quest states, as the software author needs to acquire data
-to identify each quest state for easy usability.
 
 .NH 2
 Editing saves
+
+.NH 2
+Comprehensive List of ProfileGenerate commands
+
+.NH 3
+set goldenkeys
+.PP
+This command sets how many Golden Keys you have. It will ask for how many you want.
+
+.NH 3
+unlock all
+.PP
+Unlocks
+.I
+everything.
+.R
+Please note that this could cause some problems. Also,
+.B
+ABSOLUTELY UNDER NO CIRCUMSTANCES USE THIS COMMAND UNLESS YOU HAVE MET THE LICENSE REQUIREMENTS. 
+IT IS ILLEGAL TO USE THIS COMMAND TO OBTAIN CONTENT WHICH YOU DID NOT PAY FOR. I ASSUME NO LIABILITY
+IF YOU USE THIS.
+.R
 
 .NH 2
 Comprehensive List of SaveGenerate commands
@@ -180,6 +188,15 @@ Enable the selection of all skills on the tree. Does not coorespond to how many 
 set skillpoints
 .PP
 Sets how many skill points you have. Takes an integer - there does not appear to be a cap on this value.
+
+.NH 3
+set challenge
+.PP
+Modifies a challenge. "Challenges" includes crew challenges, and those challenges that pop up on the
+left side of your screen every now and then (especially during a new playthrough). Challenges are shared
+between playthroughs, so it will not prompt if you want to search NVHM or TVHM. It will first prompt you
+for what challenge you want. Enter the class path of the challenge (remember to use SaveUnpack to find them).
+Then, enter a completion state (1 for completed and 0 for uncompleted).
 
 .NH 2
 Comprehensive list of SaveUnpack message prefixes

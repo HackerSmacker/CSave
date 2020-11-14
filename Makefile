@@ -18,7 +18,7 @@ all: $(PROGS)
 
 %.txt: %.ms
 	@echo " TROFF   " $< " TEXT"
-	@groff -Tascii -ms $< > $@
+	@groff -Tascii -ms -Z $< | grotty -c > $@
 
 
 %.ps: %.ms
@@ -96,4 +96,4 @@ uninstall:
 .PHONY: clean
 
 clean:
-	rm -f *.o Oak*.pb-c.* *.a *.ps *.pdf $(PROGS)
+	rm -f *.o Oak*.pb-c.* *.a $(MANUALS_PS) $(MANUALS_PDF) $(MANUALS_TEXT) $(PROGS)
