@@ -95,6 +95,12 @@ If you want to convert to and from console saves, simply put the "profile code" 
 For SaveToProto, enter something like this: "SaveToProto 2.sav 3" (3 is the platform code for PS4 saves). 
 For ProtoToSave, enter something like this: "ProtoToSave 2.sav.proto 2.sav 3"
 
+.NH 2
+Converting saves across different platforms
+.PP
+The "SaveConvert" program can convert, for instance, a PS4 save to a PC save. It manipulates the header and re-encodes
+the save data. Use this program with care, as it is basically a shortcut to running SaveToProto and ProtoToSave, except
+this program manipulates the headers to make the game not clobber over your save. 
 
 .NH 2
 Editing saves

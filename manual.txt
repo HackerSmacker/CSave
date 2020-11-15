@@ -155,38 +155,38 @@ saves).  For ProtoToSave, enter something like this: "Proto-
 ToSave 2.sav.proto 2.sav 3"
 
 
+77..33..  CCoonnvveerrttiinngg ssaavveess aaccrroossss ddiiffffeerreenntt ppllaattffoorrmmss
 
-77..33..  EEddiittiinngg ssaavveess
+     The  "SaveConvert" program can convert, for instance, a
+PS4 save to a PC save. It manipulates the header and  re-en-
+codes  the  save  data. Use this program with care, as it is
+basically a shortcut to running SaveToProto and ProtoToSave,
+except this program manipulates the headers to make the game
+not clobber over your save.
 
 
-77..44..  CCoommpprreehheennssiivvee LLiisstt ooff PPrrooffiilleeGGeenneerraattee ccoommmmaannddss
+77..44..  EEddiittiinngg ssaavveess
 
 
-77..44..11..  sseett ggoollddeennkkeeyyss
+77..55..  CCoommpprreehheennssiivvee LLiisstt ooff PPrrooffiilleeGGeenneerraattee ccoommmmaannddss
 
-     This  command  sets  how  many Golden Keys you have. It
+
+77..55..11..  sseett ggoollddeennkkeeyyss
+
+     This command sets how many Golden  Keys  you  have.  It
 will ask for how many you want.
 
 
-77..44..22..  uunnlloocckk aallll
+77..55..22..  uunnlloocckk aallll
 
-     Unlocks _e_v_e_r_y_t_h_i_n_g_.  Please note that this could  cause
-some  problems.  Also, AABBSSOOLLUUTTEELLYY UUNNDDEERR NNOO CCIIRRCCUUMMSSTTAANNCCEESS UUSSEE
-TTHHIISS CCOOMMMMAANNDD UUNNLLEESSSS YYOOUU HHAAVVEE MMEETT TTHHEE  LLIICCEENNSSEE  RREEQQUUIIRREEMMEENNTTSS..
-IITT  IISS  IILLLLEEGGAALL  TTOO UUSSEE TTHHIISS CCOOMMMMAANNDD TTOO OOBBTTAAIINN CCOONNTTEENNTT WWHHIICCHH
+     Unlocks  _e_v_e_r_y_t_h_i_n_g_.  Please note that this could cause
+some problems. Also, AABBSSOOLLUUTTEELLYY UUNNDDEERR NNOO  CCIIRRCCUUMMSSTTAANNCCEESS  UUSSEE
+TTHHIISS  CCOOMMMMAANNDD  UUNNLLEESSSS YYOOUU HHAAVVEE MMEETT TTHHEE LLIICCEENNSSEE RREEQQUUIIRREEMMEENNTTSS..
+IITT IISS IILLLLEEGGAALL TTOO UUSSEE TTHHIISS CCOOMMMMAANNDD TTOO  OOBBTTAAIINN  CCOONNTTEENNTT  WWHHIICCHH
 YYOOUU DDIIDD NNOOTT PPAAYY FFOORR.. II AASSSSUUMMEE NNOO LLIIAABBIILLIITTYY IIFF YYOOUU UUSSEE TTHHIISS..
 
 
-77..55..  CCoommpprreehheennssiivvee LLiisstt ooff SSaavveeGGeenneerraattee ccoommmmaannddss
-
-
-77..55..11..  qquuiitt,, eexxiitt
-
-     Exit from SaveGenerate. The output file will be  gener-
-ated  and saved. Please now run ProtoToSave to pack the save
-file into a BL3 binary format save.
-
-
+77..66..  CCoommpprreehheennssiivvee LLiisstt ooff SSaavveeGGeenneerraattee ccoommmmaannddss
 
 
 
@@ -202,60 +202,60 @@ file into a BL3 binary format save.
                              -4-
 
 
-77..55..22..  sseett nnaammee
+77..66..11..  qquuiitt,, eexxiitt
 
-     Set the player's preferred name. It will prompt  for  a
+     Exit  from SaveGenerate. The output file will be gener-
+ated and saved. Please now run ProtoToSave to pack the  save
+file into a BL3 binary format save.
+
+
+77..66..22..  sseett nnaammee
+
+     Set  the  player's preferred name. It will prompt for a
 string.
 
 
-77..55..33..  sseett ccllaassss
+77..66..33..  sseett ccllaassss
 
-     Sets  the player's class. Takes an integer. 0 is Amara,
+     Sets the player's class. Takes an integer. 0 is  Amara,
 1 is FL4K, 2 is Moze, and 3 is Zane.
 
 
-77..55..44..  sseett ssdduu
+77..66..44..  sseett ssdduu
 
-     Sets SDU values. Iterates through each SDU and  prompts
-for  a  new level. Press Enter to use the previous value, or
-specify a blank line if using a script file. If you are  us-
+     Sets  SDU values. Iterates through each SDU and prompts
+for a new level. Press Enter to use the previous  value,  or
+specify  a blank line if using a script file. If you are us-
 ing a script file and you have too many blank lines, the ed-
 itor will ignore them. If you don't have enough blank lines,
 the editor will set that SDU to zero.
 
 
-77..55..55..  sseett mmaayyhheemmlleevveell
+77..66..55..  sseett mmaayyhheemmlleevveell
 
      Set the Mayhem Mode level for any playthrough you want.
-It will first prompt for the Mayhem level you want, then  it
+It  will first prompt for the Mayhem level you want, then it
 will  prompt  for  what  playthrough  you  want  to  update.
 Playthrough 0 is NVMH, and 1 is TVHM.
 
 
-77..55..66..  sseett eexxppooiinnttss
+77..66..66..  sseett eexxppooiinnttss
 
-     Set the total amount of experience  points.  This  does
-not  mean  set the level - setting the EXP level affects the
+     Set  the  total  amount of experience points. This does
+not mean set the level - setting the EXP level  affects  the
 level because you need a certain amount of EXP to clear that
 level. Prompts for an integer value.
 
 
-77..55..77..  sseett lleevveell
+77..66..77..  sseett lleevveell
 
      Sets the player level by getting the level, and setting
-the EXP  to  the  minimum  required  to  clear  that  level.
-Prompts  for  an  integer. The max accepted value is 80, al-
-though this will not be accepted by the game, and  will  in-
+the  EXP  to  the  minimum  required  to  clear  that level.
+Prompts for an integer. The max accepted value  is  80,  al-
+though  this  will not be accepted by the game, and will in-
 stead drop you down to the current level cap.
 
 
-77..55..88..  sseett qquueesstt
-
-     This  command  will  prompt  the user for three things:
-first, the quest path. Use  "SaveUnpack  name.proto  |  grep
-CSAV001MSN" to find the quest. Copy and paste the class path
-for the mission into  the  editor.  When  prompted  for  the
-playthrough, enter 0 for NVHM or 1 for TVHM. Next, enter the
 
 
 
@@ -268,60 +268,60 @@ playthrough, enter 0 for NVHM or 1 for TVHM. Next, enter the
                              -5-
 
 
-quest state like this: 0 is Not Started, 1 is Active,  2  is
-Completed,  3  is  Failed, and 4 is Unknown. Do not enter 4,
+77..66..88..  sseett qquueesstt
+
+     This command will prompt the  user  for  three  things:
+first,  the  quest  path.  Use "SaveUnpack name.proto | grep
+CSAV001MSN" to find the quest. Copy and paste the class path
+for  the  mission  into  the  editor.  When prompted for the
+playthrough, enter 0 for NVHM or 1 for TVHM. Next, enter the
+quest  state  like this: 0 is Not Started, 1 is Active, 2 is
+Completed, 3 is Failed, and 4 is Unknown. Do  not  enter  4,
 your game will most likely crash.
 
 
-77..55..99..  sseett gguuaarrddiiaannrraannkk
+77..66..99..  sseett gguuaarrddiiaannrraannkk
 
-     This feature is currently not implemented.  Check  back
+     This  feature  is currently not implemented. Check back
 later for an update.
 
 
-77..55..1100..  sseett mmoonneeyy
+77..66..1100..  sseett mmoonneeyy
 
      Set how much money you have. Takes an integer.
 
 
-77..55..1111..  sseett eerriiddiiuumm
+77..66..1111..  sseett eerriiddiiuumm
 
      Sets how much Eridium you have. Takes an integer.
 
 
-77..55..1122..  uunnlloocckk sskkiillllttrreeee
+77..66..1122..  uunnlloocckk sskkiillllttrreeee
 
-     Enable  the  selection  of all skills on the tree. Does
+     Enable the selection of all skills on  the  tree.  Does
 not coorespond to how many skill points you have.
 
 
-77..55..1133..  sseett sskkiillllppooiinnttss
+77..66..1133..  sseett sskkiillllppooiinnttss
 
      Sets how many skill points you have. Takes an integer -
 there does not appear to be a cap on this value.
 
 
-77..55..1144..  sseett cchhaalllleennggee
+77..66..1144..  sseett cchhaalllleennggee
 
-     Modifies  a challenge. "Challenges" includes crew chal-
+     Modifies a challenge. "Challenges" includes crew  chal-
 lenges, and those challenges that pop up on the left side of
-your  screen  every  now  and  then (especially during a new
+your screen every now and  then  (especially  during  a  new
 playthrough). Challenges are shared between playthroughs, so
-it  will  not  prompt if you want to search NVHM or TVHM. It
+it will not prompt if you want to search NVHM  or  TVHM.  It
 will first prompt you for what challenge you want. Enter the
-class  path  of the challenge (remember to use SaveUnpack to
+class path of the challenge (remember to use  SaveUnpack  to
 find them).  Then, enter a completion state (1 for completed
 and 0 for uncompleted).
 
 
-77..66..  CCoommpprreehheennssiivvee lliisstt ooff CCSSaavvee mmeessssaaggee pprreeffiixxeess
-CSAV001GEN - General information
-CSAV001CLS - Player class information
-CSAV001SKL - Skill points, XP, skills, and tree information
-CSAV001SDU - SDU information
-CSAV001VEH - Vehicle parts, loadouts, and configurations
-CSAV001MSN - Missions/quests
-CSAV001AMO - Ammo and grenades
+
 
 
 
@@ -334,11 +334,19 @@ CSAV001AMO - Ammo and grenades
                              -6-
 
 
+77..77..  CCoommpprreehheennssiivvee lliisstt ooff CCSSaavvee mmeessssaaggee pprreeffiixxeess
+CSAV001GEN - General information
+CSAV001CLS - Player class information
+CSAV001SKL - Skill points, XP, skills, and tree information
+CSAV001SDU - SDU information
+CSAV001VEH - Vehicle parts, loadouts, and configurations
+CSAV001MSN - Missions/quests
+CSAV001AMO - Ammo and grenades
 CSAV001GRD - Guardian rank, level, perks, and rewards
-CSAV001ROM  -  Crew  quarters/bedroom information (including
+CSAV001ROM - Crew  quarters/bedroom  information  (including
 guns on the rack)
 CSAV001ECH - ECHO logs
-CSAV001FTM - Fast Travel machines: blacklisted, active,  and
+CSAV001FTM  - Fast Travel machines: blacklisted, active, and
 reachable
 CSAV001INV - Inventory: backpack and equipped
 CSAV001CUS - Customizations: color, skin, emotes
@@ -348,28 +356,20 @@ CSAV001MHM - Mayhem Mode information
 CSAVOO1ILT - Item Lookup Test program
 CSAV001FIL - CSave file processing messages
 CSAV001ABD - Abnormal End (crash)
-CSAV001RWS  - Read Write Save operations: loading and saving
+CSAV001RWS - Read Write Save operations: loading and  saving
 files
 CSAV001CNV - Conversion functions
 
 
-77..66..11..  PPllaattffoorrmm CCooddeess
+77..77..11..  PPllaattffoorrmm CCooddeess
 
-     These numbers are supposed to be entered  as  the  last
-command  line argument on SaveToProto, ProtoToSave, Profile-
+     These  numbers  are  supposed to be entered as the last
+command line argument on SaveToProto, ProtoToSave,  Profile-
 ToProto, or ProtoToProfile.
 1 - PC save file
 2 - PC profile file
 3 - PS4 save file
 4 - PS4 profile file
-
-
-
-
-
-
-
-
 
 
 
