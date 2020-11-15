@@ -46,6 +46,28 @@ char ProfileXorMagic[] = {
 	0x7D, 0x51, 0xB0, 0x1E, 0xBE, 0xD0, 0x77, 0x43
 };
 
+char ProfilePrefixMagic_PS4[] = {
+	0xad, 0x1e, 0x60, 0x4e, 0x42, 0x9e, 0xa9, 0x33, 0xb2, 0xf5, 0x01, 0xe1, 0x02, 0x4d, 0x08, 0x75,
+	0xb1, 0xad, 0x1a, 0x3d, 0xa1, 0x03, 0x6b, 0x1a, 0x17, 0xe6, 0xec, 0x0f, 0x60, 0x8d, 0xb4, 0xf9
+};
+
+char ProfileXorMagic_PS4[] = {
+	0xba, 0x0e, 0x86, 0x1d, 0x58, 0xe1, 0x92, 0x21, 0x30, 0xd6, 0xcb, 0xf0, 0xd0, 0x82, 0xd5, 0x58,
+	0x36, 0x12, 0xe1, 0xf6, 0x39, 0x44, 0x88, 0xea, 0x4e, 0xfb, 0x04, 0x74, 0x07, 0x95, 0x3a, 0xa2
+};
+
+char PrefixMagic_PS4[] = {
+	0xd1, 0x7b, 0xbf, 0x75, 0x4c, 0xc1, 0x80, 0x30, 0x37, 0x92, 0xbd, 0xd0, 0x18, 0x3e, 0x4a, 0x5f, 0x43,
+	0xa2, 0x46, 0xa0, 0xed, 0xdb, 0x2d, 0x9f, 0x56, 0x5f, 0x8b, 0x3d, 0x6e, 0x73, 0xe6, 0xb8
+};
+
+
+char XorMagic_PS4[] = {
+	0xfb, 0xfd, 0xfd, 0x51, 0x3a, 0x5c, 0xdb, 0x20, 0xbb, 0x5e, 0xc7, 0xaf, 0x66, 0x6f, 0xb6, 0x9a, 0x9a,
+	0x52, 0x67, 0x0f, 0x19, 0x5d, 0xd3, 0x84, 0x15, 0x19, 0xc9, 0x4a, 0x79, 0x67, 0xda, 0x6d
+};
+
+
 size_t decryptSave(uint8_t* buffer, int offset, int length) {
 	int i;
 	char b;
@@ -105,6 +127,71 @@ size_t encryptProfile(uint8_t* buffer, int offset, int length) {
 			b = buffer[i - 32];
 		}
 		b ^= ProfileXorMagic[i % 32];
+		buffer[i] ^= b;
+	}
+	return length;
+}
+
+
+size_t decryptSave_PS4(uint8_t* buffer, int offset, int length) {
+	int i;
+	char b;
+	for(i = length - 1; i >= 0; i--) {
+		if(i < 32) {
+			b = PrefixMagic_PS4[i];
+		}
+		else {
+			b = buffer[i - 32];
+		}
+		b ^= XorMagic_PS4[i % 32];
+		buffer[i] ^= b;
+	}
+	return length;
+}
+
+size_t encryptSave_PS4(uint8_t* buffer, int offset, int length) {
+	int i;
+	char b;
+	for(i = 0; i < length; i++) {
+		if(i < 32) {
+			b = PrefixMagic_PS4[i];
+		}
+		else {
+			b = buffer[i - 32];
+		}
+		b ^= XorMagic_PS4[i % 32];
+		buffer[i] ^= b;
+	}
+	return length;
+}
+
+size_t decryptProfile_PS4(uint8_t* buffer, int offset, int length) {
+	int i;
+	char b;
+	for(i = length - 1; i >= 0; i--) {
+		if(i < 32) {
+			b = ProfilePrefixMagic_PS4[i];
+		}
+		else {
+			b = buffer[i - 32];
+		}
+		b ^= ProfileXorMagic_PS4[i % 32];
+		buffer[i] ^= b;
+	}
+	return length;
+}
+
+size_t encryptProfile_PS4(uint8_t* buffer, int offset, int length) {
+	int i;
+	char b;
+	for(i = 0; i < length; i++) {
+		if(i < 32) {
+			b = ProfilePrefixMagic_PS4[i];
+		}
+		else {
+			b = buffer[i - 32];
+		}
+		b ^= ProfileXorMagic_PS4[i % 32];
 		buffer[i] ^= b;
 	}
 	return length;
@@ -184,6 +271,12 @@ void readSave(FILE* file, int fileType) {
 	else if(fileType == 2) {
 		int processedLen = decryptProfile(save_t.remaining_data, 0, save_t.remaining_data_len);
 	}
+	else if(fileType == 3) {
+		int processedLen = decryptSave_PS4(save_t.remaining_data, 0, save_t.remaining_data_len);
+	}
+	else if(fileType == 4) {
+		int processedLen = decryptProfile_PS4(save_t.remaining_data, 0, save_t.remaining_data_len);
+	}
 }
 
 void writeSave(FILE* file, FILE* outFile, char* data, int32_t dataLen, int fileType) {
@@ -224,6 +317,12 @@ void writeSave(FILE* file, FILE* outFile, char* data, int32_t dataLen, int fileT
 	}
 	else if(fileType == 2) {
 		int processedLen = encryptProfile(data, 0, dataLen);
+	}
+	else if(fileType == 3) {
+		int processedLen = encryptSave_PS4(data, 0, dataLen);
+	}
+	else if(fileType == 4) {
+		int processedLen = encryptProfile_PS4(data, 0, dataLen);
 	}
 
 	//printf("CSAV001RWS Encrypted payload length: %d\n", processedLen);

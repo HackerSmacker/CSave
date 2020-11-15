@@ -11,11 +11,17 @@
 extern struct Save save_t;
 
 int main(int argc, char** argv) {
+	int saveMode = 2;
 	printf("CSAV001CNV Save to Protocol Buffer Data Translation Program (for profile saves)\n");
 	if(argc < 2) {
-		printf("CSAV001ABN Incorrect number of arguments (specify an input file)\n");
+		printf("CSAV001ABN Incorrect number of arguments (specify an input file and optionally a platform code)\n");
 		exit(1);
 	}
+	if(argc > 2) {
+		printf("CSAV001CNV using user-specified platform...\n");
+		saveMode = atoi(argv[2]);
+	}
+		
 	FILE* inFile = fopen(argv[1], "r");
 	if(inFile == NULL) {
 		printf("CSAV001ABN File not found\n");
@@ -33,7 +39,7 @@ int main(int argc, char** argv) {
 	//int fileLen = read_buffer(FILESIZE_LIMIT, inputBuffer, inFile);
 	//rewind(inFile); // Rewind the tape drive like it's 1981
 	//printf("CSAV00200I File size = %d\n", fileLen);
-	readSave(inFile, 2);
+	readSave(inFile, saveMode);
 	fwrite(save_t.remaining_data, sizeof(char), save_t.remaining_data_len, outFile);
 	printf("CSAV001CNV Execution complete\n");
 	return 0;

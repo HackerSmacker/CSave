@@ -83,7 +83,17 @@ To edit the file: "SaveGenerate original.sav.proto edited.proto"
 To convert from protobuf format to binary format: "ProtoToSave edited.proto original.sav"
 .br
 .PP
-Likewise, you must also convert your profile saves. To acomplish this, use the same programs as listed above. 
+Likewise, you must also convert your profile saves. To acomplish this, use these programs:
+.br
+To convert a profile to protobuf format: "ProfileToProto profile.sav"
+.br
+To edit the file: "ProfileGenereate profile.sav.proto profedited.sav.proto"
+.br
+To convert from protobuf format to binary format: "ProtoToProfile profedited.sav.proto profile.sav"
+.PP
+If you want to convert to and from console saves, simply put the "profile code" number as the last command line argument.
+For SaveToProto, enter something like this: "SaveToProto 2.sav 3" (3 is the platform code for PS4 saves). 
+For ProtoToSave, enter something like this: "ProtoToSave 2.sav.proto 2.sav 3"
 
 
 .NH 2
@@ -199,8 +209,7 @@ for what challenge you want. Enter the class path of the challenge (remember to 
 Then, enter a completion state (1 for completed and 0 for uncompleted).
 
 .NH 2
-Comprehensive list of SaveUnpack message prefixes
-
+Comprehensive list of CSave message prefixes
 .R
 .br
 CSAV001GEN - General information
@@ -244,3 +253,18 @@ CSAV001ABD - Abnormal End (crash)
 CSAV001RWS - Read Write Save operations: loading and saving files
 .br
 CSAV001CNV - Conversion functions
+
+.NH 3
+Platform Codes
+.PP
+These numbers are supposed to be entered as the last command line argument on
+SaveToProto, ProtoToSave, ProfileToProto, or ProtoToProfile.
+.br
+1 - PC save file
+.br
+2 - PC profile file
+.br
+3 - PS4 save file
+.br
+4 - PS4 profile file
+.br 

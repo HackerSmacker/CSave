@@ -12,12 +12,16 @@
 extern struct Save save_t;
 
 int main(int argc, char** argv) {
+	int saveMode = 1;
 	printf("CSAV001CNV Save to Protocol Buffer Data Translation Program\n");
 	if(argc < 3) {
-		fprintf(stderr, "CSAV001ABN Incorrect number of arguments: input.proto, original.sav\n");
+		fprintf(stderr, "CSAV001ABN Incorrect number of arguments: input.proto, original.sav, (optional) platform code\n");
 		exit(1);
 	}
-
+	if(argc > 3) {
+		printf("CSAV001CNV using user-specified platform...\n");
+		saveMode = atoi(argv[3]);
+	}
 	FILE* inFile = fopen(argv[1], "r");
 	if(inFile == NULL) {
 		fprintf(stderr, "CSAV001ABN Failed to open input file.\n");
@@ -52,7 +56,7 @@ int main(int argc, char** argv) {
 	fread(protoData, inFileLen, sizeof(uint8_t), inFile);
 	fclose(inFile);
 	printf("CSAV001CNV Input protobuf file length: %d\n", inFileLen);
-	writeSave(origFile, outFile, protoData, inFileLen, 1);
+	writeSave(origFile, outFile, protoData, inFileLen, saveMode);
 	printf("CSAV001CNV Execution complete\n");
 	return 0;
 }
