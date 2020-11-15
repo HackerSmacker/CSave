@@ -11,7 +11,7 @@
 extern struct Save save_t;
 
 int main(int argc, char** argv) {
-	printf("CSAV001CNV Save to Protocol Buffer Data Translation Program\n");
+	printf("CSAV001CNV Save to Protocol Buffer Data Translation Program (for profile saves)\n");
 	if(argc < 2) {
 		printf("CSAV001ABN Incorrect number of arguments (specify an input file)\n");
 		exit(1);
@@ -33,7 +33,7 @@ int main(int argc, char** argv) {
 	//int fileLen = read_buffer(FILESIZE_LIMIT, inputBuffer, inFile);
 	//rewind(inFile); // Rewind the tape drive like it's 1981
 	//printf("CSAV00200I File size = %d\n", fileLen);
-	readSave(inFile, 1);
+	readSave(inFile, 2);
 	fwrite(save_t.remaining_data, sizeof(char), save_t.remaining_data_len, outFile);
 	printf("CSAV001CNV Execution complete\n");
 	return 0;

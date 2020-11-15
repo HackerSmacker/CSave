@@ -32,6 +32,20 @@ char XorMagic[] = {
 	0xCD, 0xD8, 0xB1, 0xCC, 0xA1, 0x33, 0xF9, 0xB6
 };
 
+char ProfilePrefixMagic[] = {
+	0xD8, 0x04, 0xB9, 0x08, 0x5C, 0x4E, 0x2B, 0xC0,
+	0x61, 0x9F, 0x7C, 0x8D, 0x5D, 0x34, 0x00, 0x56,
+	0xE7, 0x7B, 0x4E, 0xC0, 0xA4, 0xD6, 0xA7, 0x01,
+	0x14, 0x15, 0xA9, 0x93, 0x1F, 0x27, 0x2C, 0x8F
+};
+
+char ProfileXorMagic[] = {
+	0xE8, 0xDC, 0x3A, 0x66, 0xF7, 0xEF, 0x85, 0xE0,
+	0xBD, 0x4A, 0xA9, 0x73, 0x57, 0x99, 0x30, 0x8C,
+	0x94, 0x63, 0x59, 0xA8, 0xC9, 0xAE, 0xD9, 0x58,
+	0x7D, 0x51, 0xB0, 0x1E, 0xBE, 0xD0, 0x77, 0x43
+};
+
 size_t decryptSave(uint8_t* buffer, int offset, int length) {
 	int i;
 	char b;
@@ -64,9 +78,42 @@ size_t encryptSave(uint8_t* buffer, int offset, int length) {
 	return length;
 }
 
+size_t decryptProfile(uint8_t* buffer, int offset, int length) {
+	int i;
+	char b;
+	for(i = length - 1; i >= 0; i--) {
+		if(i < 32) {
+			b = ProfilePrefixMagic[i];
+		}
+		else {
+			b = buffer[i - 32];
+		}
+		b ^= ProfileXorMagic[i % 32];
+		buffer[i] ^= b;
+	}
+	return length;
+}
+
+size_t encryptProfile(uint8_t* buffer, int offset, int length) {
+	int i;
+	char b;
+	for(i = 0; i < length; i++) {
+		if(i < 32) {
+			b = ProfilePrefixMagic[i];
+		}
+		else {
+			b = buffer[i - 32];
+		}
+		b ^= ProfileXorMagic[i % 32];
+		buffer[i] ^= b;
+	}
+	return length;
+}
+
+
 struct Save save_t;
 
-void readSave(FILE* file) {
+void readSave(FILE* file, int fileType) {
 	printf("CSAV001RWS Reading file...\n");
 	// The actual save.
 	// Read it byte by byte.
@@ -131,10 +178,15 @@ void readSave(FILE* file) {
 	printf("Payload start position: %d\n", payloadStart);
 	printf("Payload length: %d\n", save_t.remaining_data_len);
 
-	int processedLen = decryptSave(save_t.remaining_data, 0, save_t.remaining_data_len);
+	if(fileType == 1) {
+		int processedLen = decryptSave(save_t.remaining_data, 0, save_t.remaining_data_len);
+	}
+	else if(fileType == 2) {
+		int processedLen = decryptProfile(save_t.remaining_data, 0, save_t.remaining_data_len);
+	}
 }
 
-void writeSave(FILE* file, FILE* outFile, char* data, int32_t dataLen) {
+void writeSave(FILE* file, FILE* outFile, char* data, int32_t dataLen, int fileType) {
 	// 1. Load in an existing file as a template
 	printf("CSAV001RWS Loading existing file...\n");
 	save_t.header = malloc(4);
@@ -167,7 +219,12 @@ void writeSave(FILE* file, FILE* outFile, char* data, int32_t dataLen) {
 	fread(save_t.remaining_data, sizeof(char), save_t.remaining_data_len, file);
 
 	// 3. Encrypt it
-	int processedLen = encryptSave(data, 0, dataLen);
+	if(fileType == 1) {
+		int processedLen = encryptSave(data, 0, dataLen);
+	}
+	else if(fileType == 2) {
+		int processedLen = encryptProfile(data, 0, dataLen);
+	}
 
 	//printf("CSAV001RWS Encrypted payload length: %d\n", processedLen);
 	printf("CSAV001RWS Original save information:\n");
@@ -211,3 +268,4 @@ void writeSave(FILE* file, FILE* outFile, char* data, int32_t dataLen) {
 	fwrite(&dataLen, sizeof(int32_t), 1, outFile);
 	fwrite(data, sizeof(char), dataLen, outFile);
 }
+

@@ -12,7 +12,7 @@
 extern struct Save save_t;
 
 int main(int argc, char** argv) {
-	printf("CSAV001CNV Save to Protocol Buffer Data Translation Program\n");
+	printf("CSAV001CNV Save to Protocol Buffer Data Translation Program (for profile saves)\n");
 	if(argc < 3) {
 		fprintf(stderr, "CSAV001ABN Incorrect number of arguments: input.proto, original.sav\n");
 		exit(1);
@@ -52,7 +52,7 @@ int main(int argc, char** argv) {
 	fread(protoData, inFileLen, sizeof(uint8_t), inFile);
 	fclose(inFile);
 	printf("CSAV001CNV Input protobuf file length: %d\n", inFileLen);
-	writeSave(origFile, outFile, protoData, inFileLen, 1);
+	writeSave(origFile, outFile, protoData, inFileLen, 2);
 	printf("CSAV001CNV Execution complete\n");
 	return 0;
 }
