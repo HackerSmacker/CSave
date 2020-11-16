@@ -1,26 +1,9 @@
-// FOR WIN32:
-// Compile and link against PDCurses. 
-// FOR UNIX:
-// Compile and link against libncurses.
-// FOR VMS:
-// Only compiles on Alpha VMS and not VAX VMS. Good luck. The VMSCURSES image should be loaded by default.
-
-#ifndef _WIN32
 #include <ncurses.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
 #include <dirent.h>
-#else
-#include <curses.h>
-#include <stdlib.h>
-#include <string.h>
-#include <windows.h>
-#include <winuser.h>
-#include <winreg.h>
-#endif
 
-// Visual C++ is so incompentent I have to define these variables here.
 char* menuHeaderText = "CSave Functions Menu";
 int row;
 int col;
@@ -48,11 +31,13 @@ void drawMainMenu() {
 	mvprintw(3, 2, "1    Find Protobuf Files");
 	mvprintw(4, 2, "2    Convert Save to Protobuf Format");
 	mvprintw(5, 2, "3    Convert Protobuf Format to Save");
-	mvprintw(6, 2, "4    Get Save Information");
-	mvprintw(7, 2, "5    Get Profile Information");
-	mvprintw(8, 2, "6    Start Save Editor");
-	mvprintw(9, 2, "7    Start Profile Editor");
-	mvprintw(10, 2, "Z    Exit");
+	mvprintw(6, 2, "4    Convert Profile to Protobuf Format");
+	mvprintw(7, 2, "5    Convert Protobuf Format to Profile");
+	mvprintw(8, 2, "6    Get Save Information");
+	mvprintw(9, 2, "7    Get Profile Information");
+	mvprintw(10, 2, "8    Start Save Editor");
+	mvprintw(11, 2, "9    Start Profile Editor");
+	mvprintw(12, 2, "Z    Exit");
 	attroff(COLOR_PAIR(2));
 	attron(COLOR_PAIR(3));
 	mvprintw((row - 2), 2, "Enter option --> ");
@@ -67,7 +52,6 @@ void defineColors() {
 	init_pair(4, COLOR_RED, COLOR_BLACK);
 }
 
-#ifndef _WIN32
 void listDirectory(char* path, char* grep) {
 	struct dirent* de;
 	DIR* dr = opendir(path);
@@ -99,11 +83,6 @@ void listDirectory(char* path, char* grep) {
 	refresh();
 	getch();
 }
-#else
-void listDirectory(char* path, char* grep) {
-	return;
-}
-#endif
 
 void saveToProto() {
 	clear();
@@ -157,6 +136,58 @@ void saveToProto() {
 	getch();
 }
 
+void saveToProtoProfile() {
+	clear();
+	attron(COLOR_PAIR(1));
+	mvprintw(0, (col - strlen("Profile to Protobuf")) / 2, "Profile To Protobuf");
+	attroff(COLOR_PAIR(1));
+	attron(COLOR_PAIR(2));
+	mvprintw(1, 0, "Please specify a filename.");
+	attroff(COLOR_PAIR(2));
+	attron(COLOR_PAIR(3));
+	refresh();
+	mvprintw((row - 2), 2, "Enter file --> ");
+	attroff(COLOR_PAIR(3));
+	getstr(filename);
+	attron(COLOR_PAIR(2));
+	mvprintw(2, 0, "Will convert %s", filename);
+	refresh();
+	command = malloc(strlen("ProfileToProto ") + strlen(filename) + 1);
+	strcpy(command, "ProfileToProto ");
+	strcat(command, filename);
+	fp = popen(command, "r");
+	if(fp == NULL) {
+		attron(COLOR_PAIR(4));
+		mvprintw(row - 1, 0, "Failed to execute ProfileToProto!");
+		attroff(COLOR_PAIR(4));
+		refresh();
+		getch();
+		return;
+	}
+	outRow = 4;
+	outCol = 2;
+	attron(COLOR_PAIR(3));
+	move(outRow, outCol);
+	while(fgets(path, sizeof(path), fp) != NULL) {
+		myLine = malloc(col - 4);
+		memcpy(myLine, path, col - 4);
+		if(outRow > row - 4) {
+			getch();
+			clear();
+			outRow = 4;
+		}
+		mvprintw(outRow, outCol, "%s", myLine);
+		outRow++;
+	}
+	pclose(fp);
+	getch();
+	attroff(COLOR_PAIR(3));
+	attron(COLOR_PAIR(2));
+	mvprintw(row - 1, 0, "Execution complete");
+	attroff(COLOR_PAIR(2));
+	getch();
+}
+
 void protoToSave() {
 	clear();
 	attron(COLOR_PAIR(1));
@@ -180,6 +211,58 @@ void protoToSave() {
 	if(fp == NULL) {
 		attron(COLOR_PAIR(4));
 		mvprintw(row - 1, 0, "Failed to execute ProtoToSave");
+		attroff(COLOR_PAIR(4));
+		refresh();
+		getch();
+		return;
+	}
+	outRow = 4;
+	outCol = 2;
+	attron(COLOR_PAIR(3));
+	move(outRow, outCol);
+	while(fgets(path, sizeof(path), fp) != NULL) {
+		myLine = malloc(col - 4);
+		memcpy(myLine, path, col - 4);
+		if(outRow > row - 4) {
+			getch();
+			clear();
+			outRow = 4;
+		}
+		mvprintw(outRow, outCol, "%s", myLine);
+		outRow++;
+	}
+	pclose(fp);
+	getch();
+	attroff(COLOR_PAIR(3));
+	attron(COLOR_PAIR(2));
+	mvprintw(row - 1, 0, "Execution complete");
+	attroff(COLOR_PAIR(2));
+	getch();
+}
+
+void protoToSaveProfile() {
+	clear();
+	attron(COLOR_PAIR(1));
+	mvprintw(0, (col - strlen("Protobuf To Profile")) / 2, "Protobuf To Profile");
+	attroff(COLOR_PAIR(1));
+	attron(COLOR_PAIR(2));
+	mvprintw(1, 0, "Please specify a filename.");
+	attroff(COLOR_PAIR(2));
+	attron(COLOR_PAIR(3));
+	refresh();
+	mvprintw((row - 2), 2, "Enter file --> ");
+	attroff(COLOR_PAIR(3));
+	getstr(filename);
+	attron(COLOR_PAIR(2));
+	mvprintw(2, 0, "Will convert %s", filename);
+	refresh();
+	command = malloc(strlen("ProtoToProfile ") + strlen(filename) + 1);
+	strcpy(command, "ProtoToProfile ");
+	strcat(command, filename);
+	fp = popen(command, "r");
+	if(fp == NULL) {
+		attron(COLOR_PAIR(4));
+		mvprintw(row - 1, 0, "Failed to execute ProtoToProfile");
 		attroff(COLOR_PAIR(4));
 		refresh();
 		getch();
@@ -338,9 +421,15 @@ int main(int argc, char** argv) {
 			protoToSave();
 		}
 		else if(choice == '4') {
-			saveUnpack();
+			saveToProtoProfile();
 		}
 		else if(choice == '5') {
+			protoToSaveProfile();
+		}
+		else if(choice == '6') {
+			saveUnpack();
+		}
+		else if(choice == '7') {
 			profUnpack();
 		}
 		else {
