@@ -16,6 +16,41 @@ int loopContinue = 1;
 uint8_t fileBuffer[FILESIZE_LIMIT];
 uint8_t* outBuffer;
 OakSave__Character* charData;
+FILE* inFile;
+FILE* outFile;
+int fileLen;
+char* command;
+
+size_t writeLen;
+int i;
+int found = 0;
+char* cutText;
+OakSave__ChallengeSaveGameData** challenge_data;
+size_t n_challenge_data;
+int newState;
+int k;
+int choice;
+int missionDFPLen;
+OakSave__MissionStatusPlayerSaveGameData** missionDataForPlaythrough;
+int missionDataLen;
+OakSave__MissionPlaythroughSaveGameData** missionData;
+int newSDUValue;
+int sduDataSize;
+OakSave__OakSDUSaveGameData** sduData;
+size_t writeLenCmd;
+int32_t newPoints;
+OakSave__OakPlayerAbilitySaveGameData* tree;
+int32_t newEridium;
+int numICL;
+OakSave__InventoryCategorySaveData** icl;
+int xpLevel;
+int32_t newEXPointsCount;
+int playthrough;
+int sgDataLen;
+OakSave__GameStateSaveData** sgData;
+uint32_t newMHLevel;
+int32_t newMoney;
+
 
 int main(int argc, char** argv) {
 	if(argc < 3) {
@@ -28,8 +63,7 @@ int main(int argc, char** argv) {
 	}
 
 // Open input and output files
-	FILE* inFile;
-	FILE* outFile;
+	
 	inFile = fopen(argv[1], "r");
 	outFile = fopen(argv[2], "w");
 	if(inFile == NULL) {
@@ -40,7 +74,7 @@ int main(int argc, char** argv) {
 		printf("CSAV001ABD Failed to open output file\n");
 		exit(1);
 	}
-	int fileLen = read_buffer(FILESIZE_LIMIT, fileBuffer, inFile);
+	fileLen = read_buffer(FILESIZE_LIMIT, fileBuffer, inFile);
 
 // Print the welcome message
 	printf("CSAV00100I Borderlands 3 CSave\n");
@@ -59,7 +93,6 @@ int main(int argc, char** argv) {
 	printf("CSAV001GEN Save GUID: %s\n", charData->save_game_guid);
 
 // -------------------- Immediate mode main loop ---------------------
-	char* command;
 	command = malloc(1024);
 	printf("CSAV001IMM Execution begins...\n");
 	while (loopContinue == 1) {
@@ -76,28 +109,26 @@ int main(int argc, char** argv) {
 			printf("CSAV001IMM Specify new name now...\n");
 			printf("*Input\n");
 			fgets(command, 1024, stdin);
-			char* cutText = malloc(strlen(command) - 1);
+			cutText = malloc(strlen(command) - 1);
 			strncpy(cutText, command, (strlen(command) - 1));
 			cutText[strlen(command) - 1] = '\0';
 			charData->preferred_character_name = cutText;
 			printf("CSAV001IMM Name set complete\n");
 		}
 		else if(strcmp("set mayhemlevel\n", command) == 0) {
-			uint32_t newMHLevel;
 			printf("CSAV001IMM Specify new Mayhem level now (0-10)...\n");
 			printf("*Input\n");
 			fgets(command, 1024, stdin);
 			newMHLevel = atoi(command);
-			OakSave__GameStateSaveData** sgData = charData->game_state_save_data_for_playthrough;
-			int sgDataLen = charData->n_game_state_save_data_for_playthrough;
+			sgData = charData->game_state_save_data_for_playthrough;
+			sgDataLen = charData->n_game_state_save_data_for_playthrough;
 			printf("CSAV001IMM Enter playthrough to modify\n*Input\n");
 			fgets(command, 1024, stdin);
-			int playthrough = atoi(command);
+			playthrough = atoi(command);
 			sgData[playthrough]->mayhem_level = newMHLevel;
 			printf("CSAV001IMM Mayhem level updated\n");
 		}
 		else if(strcmp("set expoints\n", command) == 0) {
-			int32_t newEXPointsCount;
 			printf("CSAV001IMM Specify number of experience points...\n");
 			printf("*Input\n");
 			fgets(command, 1024, stdin);
@@ -106,7 +137,6 @@ int main(int argc, char** argv) {
 			printf("CSAV001IMM Experience point counter updated\n");
 		}
 		else if(strcmp("set level\n", command) == 0) {
-			int xpLevel;
 			printf("CSAV001IMM Enter new level\n");
 			printf("*Input\n");
 			fgets(command, 1024, stdin);
@@ -118,12 +148,12 @@ int main(int argc, char** argv) {
 			printf("CSAV001FNI Feature not implemented. Please contact the support center for a PTF.\n");
 		}
 		else if(strcmp("set money\n", command) == 0) {
-			OakSave__InventoryCategorySaveData** icl = charData->inventory_category_list;
-			int numICL = charData->n_inventory_category_list;
+			icl = charData->inventory_category_list;
+			numICL = charData->n_inventory_category_list;
 			printf("CSAV001IMM Enter how much money you want\n");
 			printf("*Input\n");
 			fgets(command, 1024, stdin);
-			int32_t newMoney = atoi(command);
+			newMoney = atoi(command);
 			for(i = 0; i < numICL; i++) {
 				if(icl[i]->base_category_definition_hash == currencyHashes[0]) {
 					icl[i]->quantity = newMoney;
@@ -132,12 +162,12 @@ int main(int argc, char** argv) {
 			printf("CSAV001IMM Money updated\n");
 		}
 		else if(strcmp("set eridium\n", command) == 0) {
-			OakSave__InventoryCategorySaveData** icl = charData->inventory_category_list;
-			int numICL = charData->n_inventory_category_list;
+			icl = charData->inventory_category_list;
+			numICL = charData->n_inventory_category_list;
 			printf("CSAV001IMM Enter how much Eridium you want\n");
 			printf("*Input\n");
 			fgets(command, 1024, stdin);
-			int32_t newEridium = atoi(command);
+			newEridium = atoi(command);
 			for(i = 0; i < numICL; i++) {
 				if(icl[i]->base_category_definition_hash == currencyHashes[1]) {
 					icl[i]->quantity = newEridium;
@@ -147,16 +177,16 @@ int main(int argc, char** argv) {
 
 		}
 		else if(strcmp("unlock skilltree\n", command) == 0) {
-			OakSave__OakPlayerAbilitySaveGameData* tree = charData->ability_data;
+			tree = charData->ability_data;
 			printf("CSAV001IMM Unlocking skill tree...\n");
 			tree->tree_grade = 2;
 			printf("CSAV001IMM Tree unlocked\n");	
 		}
 		else if(strcmp("set skillpoints\n", command) == 0) {
-			OakSave__OakPlayerAbilitySaveGameData* tree = charData->ability_data;
+			tree = charData->ability_data;
 			printf("CSAV001IMM Enter how many skill points you want\n*Input\n");
 			fgets(command, 1024, stdin);
-			int32_t newPoints = atoi(command);
+			newPoints = atoi(command);
 			tree->ability_points = newPoints;
 			printf("CSAV001IMM Skill points set\n");
 		}
@@ -164,7 +194,7 @@ int main(int argc, char** argv) {
 			printf("CSAV001IMM Nothing happens\n");
 		}
 		else if((strcmp("save\n", command) == 0) | (strcmp("write\n", command) == 0)) {
-			size_t writeLenCmd = oak_save__character__get_packed_size(charData);
+			writeLenCmd = oak_save__character__get_packed_size(charData);
 			outBuffer = malloc(writeLenCmd);
 			oak_save__character__pack(charData, outBuffer);
 			printf("CSAV001END Writing output file...\n");
@@ -174,18 +204,17 @@ int main(int argc, char** argv) {
 		else if(strcmp("set class\n", command) == 0) {
 			printf("CSAV001IMM Specify class now, read manual for input format\n*Input\n");
 			fgets(command, 1024, stdin);
-			int choice = atoi(command);
+			choice = atoi(command);
 			charData->player_class_data->player_class_path = playerClassToObject[choice];
 			printf("CSAV001IMM Player class updated\n");
 		}
 		else if(strcmp("set sdu\n", command) == 0) {
-			OakSave__OakSDUSaveGameData** sduData = charData->sdu_list;
-        		int sduDataSize = charData->n_sdu_list;
+			sduData = charData->sdu_list;
+        	sduDataSize = charData->n_sdu_list;
 			printf("CSAV001IMM Starting SDU list\n");
 			for(i = 0; i < sduDataSize; i++) {
 				printf("CSAV001IMM Enter new value for SDU %s\n*Input (RETURN for default)\n", sduData[i]->sdu_data_path);
 				fgets(command, 1024, stdin);
-				int newSDUValue;
 				if(strcmp(command, "\n") == 0) {
 					newSDUValue = sduData[i]->sdu_level;
 				}
@@ -199,31 +228,29 @@ int main(int argc, char** argv) {
 		else if(strcmp("set quest\n", command) == 0) {
 			printf("CSAV001IMM Enter quest path name\n*Input\n");
 			fgets(command, 1024, stdin);
-			char* cutText = malloc(strlen(command) - 1);
+			cutText = malloc(strlen(command) - 1);
 			strncpy(cutText, command, (strlen(command) - 1));
 			//cutText[strlen(command) - 1] = '\0';
-			OakSave__MissionPlaythroughSaveGameData** missionData = charData->mission_playthroughs_data;
-			int missionDataLen = charData->n_mission_playthroughs_data;
-			int found = 0;
+			missionData = charData->mission_playthroughs_data;
+			missionDataLen = charData->n_mission_playthroughs_data;
 			printf("CSAV001IMM Which playthrough to search on?\n*Input\n");
 			fgets(command, 1024, stdin);
 			i = atoi(command);
-			OakSave__MissionStatusPlayerSaveGameData** missionDataForPlaythrough = missionData[i]->mission_list;
-			int missionDFPLen = missionData[i]->n_mission_list;
+			missionDataForPlaythrough = missionData[i]->mission_list;
+			missionDFPLen = missionData[i]->n_mission_list;
 			printf("CSAV001IMM Searching for %s\n", cutText);
 			for(j = 0; j < missionDFPLen; j++) {
 				if((strcmp(missionDataForPlaythrough[j]->mission_class_path, cutText) == 0) && (found == 0)) {
 					found = 1;
 					printf("CSAV001IMM Found quest. Enter state (consult manual for input type):\n*Input\n");
 					fgets(command, 1024, stdin);
-					int newState = atoi(command);
+					newState = atoi(command);
 					missionDataForPlaythrough[i]->status = newState;
 					printf("CSAV001IMM Do you want to change individual mission states too? (1 for yes and 2 for no)\n*Input\n");
 					fgets(command, 1024, stdin);
-					int choice = atoi(command);
+					choice = atoi(command);
 					if(choice == 1) {
 						printf("CSAV001IMM There are %d objectives/mission states.\n", missionDataForPlaythrough[j]->n_objectives_progress);
-						int k;
 						for(k = 0; k < missionDataForPlaythrough[j]->n_objectives_progress; k++) {
 							printf("CSAV001IMM Enter state for objective %d\n*Input\n", k);
 							fgets(command, 1024, stdin);
@@ -237,22 +264,20 @@ int main(int argc, char** argv) {
 			}
 		}
 		else if(strcmp("set challenge\n", command) == 0) {
-			OakSave__ChallengeSaveGameData** challenge_data = charData->challenge_data;
-			size_t n_challenge_data = charData->n_challenge_data;
+			challenge_data = charData->challenge_data;
+			n_challenge_data = charData->n_challenge_data;
 			printf("CSAV001IMM Enter challenge name/class path\n*Input\n");
 			fgets(command, 1024, stdin);
-			char* cutText = malloc(strlen(command) - 1);
+			cutText = malloc(strlen(command) - 1);
 			strncpy(cutText, command, (strlen(command) - 1));
 			//cutText[strlen(command) - 1] = '\0';
-			int i;
-			int found = 0;
 			for(i = 0; i < n_challenge_data; i++) {
 				//printf("%s\n", challenge_data[i]->challenge_class_path);
 				if((strstr(cutText, challenge_data[i]->challenge_class_path) != NULL) & (found == 0)) {
 					found = 1;
 					printf("CSAV001IMM Found challenge. Enter completion state (0 for no and 1 for yes)\n*Input\n");
 					fgets(command, 1024, stdin);
-					int newState = atoi(command);
+					newState = atoi(command);
 					challenge_data[i]->currently_completed = newState;
 					printf("CSAV001IMM Updated to %d\n", challenge_data[i]->currently_completed);
 				}
@@ -270,7 +295,7 @@ int main(int argc, char** argv) {
 
 
 // Get packed size, allocate output buffer, pack the protobuf, and write it to a file
-	size_t writeLen = oak_save__character__get_packed_size(charData);
+	writeLen = oak_save__character__get_packed_size(charData);
 	outBuffer = malloc(writeLen);
 	oak_save__character__pack(charData, outBuffer);
 	printf("CSAV001END Writing output file...\n");

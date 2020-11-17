@@ -138,17 +138,18 @@ const char lookupTableIndex[50][256] = {
 	"ManufacturerData.txt",
 	"OakDownloadableContentLicenseData.txt"
 };
+uint8_t currentByte = 0;
+int dataLen;
+uint8_t* out;
 
 // de-XOR the save file.
 uint8_t* xorSaveData(uint8_t* data, uint8_t seed) {
-	int dataLen = strlen(data);
-	uint8_t* out;
+	int i;
+	dataLen = strlen(data);
 	out = malloc(dataLen);
 	if(seed == 0) {
 		strcpy(out, data);
 	}
-	int i;
-	uint8_t currentByte = 0;
 	for(i = 0; i < dataLen; i++) {
 		currentByte = (seed >> 5) & 0xFFFFFFFF;
 		currentByte = ((currentByte * 0x10A860C1) % 0xFFFFFFFB);
@@ -158,14 +159,17 @@ uint8_t* xorSaveData(uint8_t* data, uint8_t seed) {
 }
 
 
+uint32_t xorMaskItself;
+uint8_t* temp;
+
 // de-XOR an item serial.
 uint8_t* xorItemSerialData(uint8_t* data, uint32_t seed, int len) {
-	uint32_t xorMaskItself = (seed >> 5) & 0xFFFFFFFF;
-	uint8_t* temp = malloc(len);
+	int i;
+	xorMaskItself = (seed >> 5) & 0xFFFFFFFF;
+	temp = malloc(len);
 	if(seed == 0) {
 		return data;
 	}
-	int i;
 	for(i = 0; i < len; i++) {
 		xorMaskItself = (xorMaskItself * 0x10A860C1) % 0xFFFFFFFB;
 		temp[i] = ((data[i] ^ xorMaskItself) & 0xFF);
@@ -173,13 +177,20 @@ uint8_t* xorItemSerialData(uint8_t* data, uint32_t seed, int len) {
 	return temp;
 }
 
+uint8_t* data;
+int len;
+uint8_t magicNumber;
+uint32_t xorSeed;
+int xorDataLen;
+uint8_t* xorData;
+uint8_t* decryptedData;
 
 // Print out info about a serial to the console.
 void dumpSerial(ProtobufCBinaryData item_serial_number) {
-	// The actual data and the length.
-	uint8_t* data = item_serial_number.data;
-	int len = item_serial_number.len;
 	int i;
+	// The actual data and the length.
+	data = item_serial_number.data;
+	len = item_serial_number.len;
 	// Print out the data, char by char.
 	printf("CSAV001INV Parsing serial ");
 	for(i = 0; i < len; i++) {
@@ -187,17 +198,17 @@ void dumpSerial(ProtobufCBinaryData item_serial_number) {
 	}
 	printf("\n");
 	// Done printing; get the magic number and make sure it's 1 - removed because this is dumb
-	uint8_t magicNumber = data[0];
+	magicNumber = data[0];
 	// Do some shifts to obtain the XOR seed. Keep in mind this code won't work on big-endian machines (so no SGI machines).
-	uint32_t xorSeed = data[1] | (data[2] << 8) | (data[3] << 8) | (data[4] << 8);
+	xorSeed = data[1] | (data[2] << 8) | (data[3] << 8) | (data[4] << 8);
 	printf("CSAV001INV XOR seed for this item: %x\n", xorSeed);
 	// Take off 5 bytes for the magic number and seed, the rest is the XOR'd data.
-	int xorDataLen = len - 5;
-	uint8_t* xorData = malloc(len - 5);
+	xorDataLen = len - 5;
+	xorData = malloc(len - 5);
 	// Copy the rest of the serial to the buffer so it can be de-XOR'd.
 	memcpy(xorData, data + 5, xorDataLen);
 	// Call the un-XOR function.
-	uint8_t* decryptedData = xorItemSerialData(xorData, xorSeed, xorDataLen);
+	decryptedData = xorItemSerialData(xorData, xorSeed, xorDataLen);
 	// Print out the encrypted and decrypted data
 	printf("CSAV001INV Payload length: %d\n", xorDataLen);
 	printf("CSAV001INV Data encrypted: ");
@@ -213,10 +224,14 @@ void dumpSerial(ProtobufCBinaryData item_serial_number) {
 
 }
 
+
+char line[2048];
+
 // Load the lookup tables into memory.
 void loadLookupTables() {
+	int i;
+	int j, k;
 	// Define variables
-	int i, j, k;
 	// Allocate space for some FILEs
 	lookupTableFiles = malloc(sizeof(FILE*) * lookupTableCount);
 	// Print messages
@@ -232,7 +247,6 @@ void loadLookupTables() {
 			fprintf(stderr, "CSAV001FIL FATAL PROCESSING ERROR WHEN OPENING FILE %s\n. EXECUTION MAY NOT CONTINUE.\n", lookupTableFilenames[i]);
 		}
 		// Now, read the file:
-		char line[2048];
 		// j is the line indicator, i is the file number
 		j = 0;
 		while (fgets(line, sizeof(line), lookupTableFiles[i])) {

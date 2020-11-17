@@ -6,9 +6,15 @@
 #include "OakShared.pb-c.h"
 #include "OakSave.pb-c.h"
 
+int loopContinue;
+char command[1024];
+int table;
+int item;
+
+
 int main() {
-	int loopContinue = 1;
-	char command[1024];
+	loopContinue = 1;
+	
 	printf("CSAV001ILT Item Lookup Test Program\n");
 	loadLookupTables();
 	printf("CSAV001ILT ^^^ If any errors occurred in the above process, stop the process or cancel the job now please.\n");
@@ -26,18 +32,18 @@ int main() {
 			printf("CSAV001ILT Enter the table index you want to pull from:\n*Input\n");
 			fgets(command, 1024, stdin);
 			strtok(command, "\n");
-			int table = atoi(command);
+			table = atoi(command);
 			printf("CSAV001ILT Enter item index/number:\n*Input\n");
 			fgets(command, 1024, stdin);
 			strtok(command, "\n");
-			int item = atoi(command);
+			item = atoi(command);
 			printf("CSAV001ILT Result: %s\n", lookupInTable(table, item));
 		}
 		else if(strcmp(command, "findindex\n") == 0) {
 			printf("CSAV001ILT Enter the table index you want to search:\n*Input\n");
 			fgets(command, 1024, stdin);
 			strtok(command, "\n");
-			int table = atoi(command);
+			table = atoi(command);
 			printf("CSAV001ILT Enter the search query:\n*Input\n");
 			fgets(command, 1024, stdin);
 			strtok(command, "\n");

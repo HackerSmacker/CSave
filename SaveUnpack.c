@@ -9,9 +9,69 @@
 
 int i;
 int j;
+FILE* pbF;
+int fileLen;
 
 uint8_t fileBuffer[FILESIZE_LIMIT];
 OakSave__Character* charData;
+
+// And the symbol table expands to the size of the universe!
+OakSave__OakSDUSaveGameData** sduData;
+int sduDataSize;
+char** unlockedCarParts;
+int unlockedCarPartsSize;
+OakSave__VehicleUnlockedSaveGameData** carsUnlocked;
+int numCarsUnlocked;
+OakSave__MissionPlaythroughSaveGameData** missionData;
+int missionDataLen;
+int k;
+OakSave__MissionStatusPlayerSaveGameData** missionDataForPlaythrough;
+int missionDFPLen;
+OakSave__ResourcePoolSavegameData** resData;
+int numResData;
+OakSave__GuardianRankCharacterSaveGameData* grData;
+int grRewardsNum;
+OakSave__GuardianRankRewardCharacterSaveGameData** grRewards;
+OakSave__GuardianRankPerkCharacterSaveGameData** grPerks;
+int grPerksNum;
+OakSave__CrewQuartersSaveData* roomData;
+int numDecor;
+OakSave__CrewQuartersDecorationSaveData** roomDecor;
+OakSave__CrewQuartersGunRackSaveData* rackData;
+int numGunsOnRack;
+OakSave__CrewQuartersGunRackItemSaveData** rackGuns;
+OakSave__EchoLogSaveGameData** echoLogs;
+int numEchoLogs;
+OakSave__GameStatSaveGameData** statData;
+int numStatData;
+int numActiveFTStations;
+char** activeFTStations;
+OakSave__ActiveFastTravelSaveData** blFtData;
+int numBlFtData;
+OakSave__PlaythroughActiveFastTravelSaveData** ftData;
+int numFtData;
+OakSave__ActiveFastTravelSaveData** ftForPT;
+int numFtForPT;
+char** lastStation;
+int numLastStation;
+OakSave__OakInventoryItemSaveGameData** invItems;
+int numInvItems;
+int numCustomizations;
+char** customizations;
+int numEmotes;
+char** emotes;
+int numColors;
+OakSave__CustomPlayerColorSaveGameData** colorData;
+OakSave__ChallengeSaveGameData** chalData;
+int numChallenges;
+OakSave__OakChallengeRewardSaveGameData** rewards;
+int numRewards;
+OakSave__InventoryCategorySaveData** icl;
+int numICL;
+OakSave__GameStateSaveData** sgData;
+int sgDataLen;
+OakSave__OakPlayerCharacterSlotSaveGameData* slotData;
+OakSave__OakPlayerAbilitySaveGameData* skillData;
 
 int main(int argc, char** argv) {
 	if(argc < 2) {
@@ -19,13 +79,12 @@ int main(int argc, char** argv) {
 		exit(1);
 	}
 // Read the file
-	FILE* pbF;
 	pbF = fopen(argv[1], "r");
 	if(pbF == NULL) {
 		printf("CSAV001ABD Failed to open file\n");
 		exit(1);
 	}
-	int fileLen = read_buffer(FILESIZE_LIMIT, fileBuffer, pbF);
+	fileLen = read_buffer(FILESIZE_LIMIT, fileBuffer, pbF);
 
 // Print the welcome message
 	printf("CSAV00100I Borderlands 3 CSave\n");
@@ -51,10 +110,9 @@ int main(int argc, char** argv) {
 	printf("CSAV001CLS Player class path: %s\n", charData->player_class_data->player_class_path);
 
 // Get info on the save slot
-	OakSave__OakPlayerCharacterSlotSaveGameData* slotData = charData->character_slot_save_game_data;
+	slotData = charData->character_slot_save_game_data;
 
 // Get some skill data - iterate through it and print out each skill
-	OakSave__OakPlayerAbilitySaveGameData* skillData;
 	skillData = charData->ability_data;
 	printf("CSAV001SKL Skill points: %d\n", skillData->ability_points);
 	printf("CSAV001SKL XP points: %d\n", charData->experience_points);
@@ -69,20 +127,20 @@ int main(int argc, char** argv) {
 	}
 
 // Get info on SDUs
-	OakSave__OakSDUSaveGameData** sduData = charData->sdu_list;
-	int sduDataSize = charData->n_sdu_list;
+	sduData = charData->sdu_list;
+	sduDataSize = charData->n_sdu_list;
 	for(i = 0; i < sduDataSize; i++) {
 		printf("CSAV001SDU %d SDUs, of type %s\n", sduData[i]->sdu_level, sduData[i]->sdu_data_path);
 	}
 
 // Get info on vehicle parts
-	char** unlockedCarParts = charData->vehicle_parts_unlocked;
-	int unlockedCarPartsSize = charData->n_vehicle_parts_unlocked;
+	unlockedCarParts = charData->vehicle_parts_unlocked;
+	unlockedCarPartsSize = charData->n_vehicle_parts_unlocked;
 	for(i = 0; i < unlockedCarPartsSize; i++) {
 		printf("CSAV001VEH Car part %d: %s\n", i, unlockedCarParts[i]);
 	}
-	OakSave__VehicleUnlockedSaveGameData** carsUnlocked = charData->vehicles_unlocked_data;
-	int numCarsUnlocked = charData->n_vehicles_unlocked_data;
+	carsUnlocked = charData->vehicles_unlocked_data;
+	numCarsUnlocked = charData->n_vehicles_unlocked_data;
 	for(i = 0; i < numCarsUnlocked; i++) {
 		printf("CSAV001VEH Car %d, type %s | unlocked: %d\n", i, carsUnlocked[i]->asset_path, carsUnlocked[i]->just_unlocked);
 	}
@@ -98,12 +156,11 @@ int main(int argc, char** argv) {
 		}
 	}
 	*/
-	OakSave__MissionPlaythroughSaveGameData** missionData = charData->mission_playthroughs_data;
-	int missionDataLen = charData->n_mission_playthroughs_data;
-	int k;
+	missionData = charData->mission_playthroughs_data;
+	missionDataLen = charData->n_mission_playthroughs_data;
 	for(i = 0; i < missionDataLen; i++) {
-		OakSave__MissionStatusPlayerSaveGameData** missionDataForPlaythrough = missionData[i]->mission_list;
-		int missionDFPLen = missionData[i]->n_mission_list;
+		missionDataForPlaythrough = missionData[i]->mission_list;
+		missionDFPLen = missionData[i]->n_mission_list;
 		for(j = 0; j < missionDFPLen; j++) {
 			printf("CSAV001MSN Mission %d on playthrough %d: %s\n", j, i, missionDataForPlaythrough[j]->mission_class_path);
 			printf("CSAV001MSN Current objective for mission %d: %s\n", j, missionDataForPlaythrough[j]->active_objective_set_path);
@@ -133,92 +190,91 @@ int main(int argc, char** argv) {
 	}
 
 // Dump out ammo stats
-	OakSave__ResourcePoolSavegameData** resData = charData->resource_pools;
-	int numResData = charData->n_resource_pools;
+	resData = charData->resource_pools;
+	numResData = charData->n_resource_pools;
 	for(i = 0; i < numResData; i++) {
 		printf("CSAV001AMO Has %f of %s\n", resData[i]->amount, resData[i]->resource_path);
 	}
 
 // Guardian rank
-	OakSave__GuardianRankCharacterSaveGameData* grData = charData->guardian_rank_character_data;
+	grData = charData->guardian_rank_character_data;
 	printf("CSAV001GRD Guardian tokens: %lu\n", grData->guardian_available_tokens);
 	printf("CSAV001GRD Guardian rank: %lu\n", grData->guardian_rank);
 	printf("CSAV001GRD Guardian experience: %lu\n", grData->guardian_experience);
 	printf("CSAV001GRD Are guardian ranks enabled? %d\n", grData->is_rank_system_enabled);
 	printf("CSAV001GRD Guardian rank seed: %lu\n", grData->guardian_reward_random_seed);
-	int grRewardsNum = grData->n_rank_rewards;
-	OakSave__GuardianRankRewardCharacterSaveGameData** grRewards = grData->rank_rewards;
+	grRewardsNum = grData->n_rank_rewards;
+	grRewards = grData->rank_rewards;
 	for(i = 0; i < grRewardsNum; i++) {
 		printf("CSAV001GRD Guardian reward %d has %d tokens in it and is %s\n", i, grRewards[i]->num_tokens, grRewards[i]->reward_data_path);
 	}
-	OakSave__GuardianRankPerkCharacterSaveGameData** grPerks = grData->rank_perks;
-	int grPerksNum = grData->n_rank_perks;
+	grPerks = grData->rank_perks;
+	grPerksNum = grData->n_rank_perks;
 	for(i = 0; i < grPerksNum; i++) {
 		printf("CSAV001GRD Guardian perk %d: %s\n", i, grPerks[i]->perk_data_path);
 	}
 
 // Room stuff - Decorations and the gun rack
-	OakSave__CrewQuartersSaveData* roomData = charData->crew_quarters_room;
+	roomData = charData->crew_quarters_room;
 	printf("CSAV001ROM Room number: %d\n", roomData->preferred_room_assignment);
-	int numDecor = roomData->n_decorations;
-	OakSave__CrewQuartersDecorationSaveData** roomDecor = roomData->decorations;
+	numDecor = roomData->n_decorations;
+	roomDecor = roomData->decorations;
 	printf("CSAV001ROM Room data object: %s\n", roomData->room_data_path);
 	for(i = 0; i < numDecor; i++) {
 		printf("CSAV001ROM Decoration %d, index %d: %s\n", i, roomDecor[i]->decoration_index, roomDecor[i]->decoration_data_path);
 	}
-	OakSave__CrewQuartersGunRackSaveData* rackData = charData->crew_quarters_gun_rack;
-	int numGunsOnRack = rackData->n_rack_save_data;
-	OakSave__CrewQuartersGunRackItemSaveData** rackGuns = rackData->rack_save_data;
+	rackData = charData->crew_quarters_gun_rack;
+	numGunsOnRack = rackData->n_rack_save_data;
+	rackGuns = rackData->rack_save_data;
 	for(i = 0; i < numGunsOnRack; i++) {
 		printf("CSAV001ROM Gun %d on rack: %s, item code %s\n", i, rackGuns[i]->slot_asset_path, "TODO - PUT ITEM CODE HERE!");
 	}
 
 // ECHO Log Listing Facility/400
-	OakSave__EchoLogSaveGameData** echoLogs = charData->unlocked_echo_logs;
-	int numEchoLogs = charData->n_unlocked_echo_logs;
+	echoLogs = charData->unlocked_echo_logs;
+	numEchoLogs = charData->n_unlocked_echo_logs;
 	for(i = 0; i < numEchoLogs; i++) {
 		printf("CSAV001ECH ECHO Log %d: %s | played: %d\n", i, echoLogs[i]->echo_log_path, echoLogs[i]->has_been_seen_in_log);
 	}
 
 // "Game Stats Data"
-	OakSave__GameStatSaveGameData** statData = charData->game_stats_data;
-	int numStatData = charData->n_game_stats_data;
+	statData = charData->game_stats_data;
+	numStatData = charData->n_game_stats_data;
 	for(i = 0; i < numStatData; i++) {
 		printf("CSAV001STA Stat %d: %s | value %lu\n", i, statData[i]->stat_path, statData[i]->stat_path);
 	}
 
 // Active fast travel stations (the first one is for blacklisted stations, the other is the real deal), the last is the last active one
-	int numActiveFTStations = charData->n_active_travel_stations;
-	char** activeFTStations = charData->active_travel_stations;
+	numActiveFTStations = charData->n_active_travel_stations;
+	activeFTStations = charData->active_travel_stations;
 	for(i = 0; i < numActiveFTStations; i++) {
 		printf("CSAV001FTM Active fast travel station %d: %s\n", i, activeFTStations[i]);
 	}
-	OakSave__ActiveFastTravelSaveData** blFtData = charData->active_or_blacklisted_travel_stations;
-	int numBlFtData = charData->n_active_or_blacklisted_travel_stations;
+	blFtData = charData->active_or_blacklisted_travel_stations;
+	numBlFtData = charData->n_active_or_blacklisted_travel_stations;
 	for(i = 0; i < numBlFtData; i++) {
 		printf("CSAV001FTM Blacklisted fast travel machine %d: %s | blacklisted: %d\n", i, blFtData[i]->active_travel_station_name, blFtData[i]->blacklisted);
 	}
-	OakSave__PlaythroughActiveFastTravelSaveData** ftData = charData->active_travel_stations_for_playthrough;
-	
-	int numFtData = charData->n_active_travel_stations_for_playthrough;
+	ftData = charData->active_travel_stations_for_playthrough;
+	numFtData = charData->n_active_travel_stations_for_playthrough;
 	for(i = 0; i < numFtData; i++) {
-		OakSave__ActiveFastTravelSaveData** ftForPT = ftData[i]->active_travel_stations;
-		int numFtForPT = ftData[i]->n_active_travel_stations;
+		ftForPT = ftData[i]->active_travel_stations;
+		numFtForPT = ftData[i]->n_active_travel_stations;
 		for(j = 0; j < numFtForPT; j++) {
 			printf("CSAV001FTM FT station on playthrough %d, index %d: %s | blacklisted: %d\n", i, j, ftForPT[j]->active_travel_station_name, ftForPT[j]->blacklisted);
 		}
 	}
 	
-	char** lastStation = charData->last_active_travel_station_for_playthrough;
-	int numLastStation = charData->n_last_active_travel_station_for_playthrough;
+	lastStation = charData->last_active_travel_station_for_playthrough;
+	numLastStation = charData->n_last_active_travel_station_for_playthrough;
 	for(i = 0; i < numLastStation; i++) {
 		printf("CSAV001FTM Last active FT station for playthrough %d: %s\n", i, lastStation[i]);
 	}
 	
 
 // Inventory (I know good and well you searched for that just now, if not, thanks for RTFS'ing)
-	OakSave__OakInventoryItemSaveGameData** invItems = charData->inventory_items;
-	int numInvItems = charData->n_inventory_items;
+	invItems = charData->inventory_items;
+	numInvItems = charData->n_inventory_items;
 	for(i = 0; i < numInvItems; i++) {
 		OakSave__InventoryBalanceStateInitializationData* dsd = invItems[i]->development_save_data;
 		printf("CSAV001INV Backpack item %d, ", i);
@@ -233,31 +289,31 @@ int main(int argc, char** argv) {
 	}
 
 // Customizations
-	int numCustomizations = charData->n_selected_customizations;
-	char** customizations = charData->selected_customizations;
+	numCustomizations = charData->n_selected_customizations;
+	customizations = charData->selected_customizations;
 	for(i = 0; i < numCustomizations; i++) {
 		printf("CSAV001CUS Customization %d: %s\n", i, customizations[i]);
 	}
-	int numEmotes = charData->n_equipped_emote_customizations;
-	char** emotes = charData->selected_customizations;
+	numEmotes = charData->n_equipped_emote_customizations;
+	emotes = charData->selected_customizations;
 	for(i = 0; i < numEmotes; i++) {
 		printf("CSAV001CUS Emote %d: %s\n", i, emotes[i]);
 	}
-	int numColors = charData->n_selected_color_customizations;
-	OakSave__CustomPlayerColorSaveGameData** colorData = charData->selected_color_customizations;
+	numColors = charData->n_selected_color_customizations;
+	colorData = charData->selected_color_customizations;
 	for(i = 0; i < numColors; i++) {
 		printf("CSAV001CUS Color %d: Primary = (%f, %f, %f), Secondary = (%f, %f, %f), using default color: %d, using split color: %d\n", i, colorData[i]->applied_color->x, colorData[i]->applied_color->y, colorData[i]->applied_color->z, colorData[i]->split_color->x, colorData[i]->split_color->y, colorData[i]->split_color->z, colorData[i]->use_default_color, colorData[i]->use_default_split_color);
 	}
 
 	
 // Challenges
-	OakSave__ChallengeSaveGameData** chalData = charData->challenge_data;
-	int numChallenges = charData->n_challenge_data;
+	chalData = charData->challenge_data;
+	numChallenges = charData->n_challenge_data;
 	for(i = 0; i < numChallenges; i++) {
 		printf("CSAV001CHL Challenge %d is %s: | completed: %d, active: %d, completed progress level: %d, progress: %d\n", i, chalData[i]->challenge_class_path, chalData[i]->currently_completed, chalData[i]->is_active, chalData[i]->completed_progress_level, chalData[i]->progress_counter);
 		printf("CSAV001CHL Rewards for challenge %d:\n", i);
-		OakSave__OakChallengeRewardSaveGameData** rewards = chalData[i]->challenge_reward_info;
-		int numRewards = chalData[i]->n_challenge_reward_info;
+		rewards = chalData[i]->challenge_reward_info;
+		numRewards = chalData[i]->n_challenge_reward_info;
 		for(j = 0; j < numRewards; j++) {
 			printf("CSAV001CHL Reward %d for challenge %d - claimed: %d\n", j, i, rewards[j]->challenge_reward_claimed);
 		}
@@ -265,15 +321,15 @@ int main(int argc, char** argv) {
 
 
 // Money (ICL)
-	OakSave__InventoryCategorySaveData** icl = charData->inventory_category_list;
-	int numICL = charData->n_inventory_category_list;
+	icl = charData->inventory_category_list;
+	numICL = charData->n_inventory_category_list;
 	for(i = 0; i < numICL; i++) {
 		printf("CSAV001ICL InvCatList %d: %x | quantity: %lu\n", i, icl[i]->base_category_definition_hash, icl[i]->quantity);
 	}
 
 // Mayhem Mode
-	OakSave__GameStateSaveData** sgData = charData->game_state_save_data_for_playthrough;
-	int sgDataLen = charData->n_game_state_save_data_for_playthrough;
+	sgData = charData->game_state_save_data_for_playthrough;
+	sgDataLen = charData->n_game_state_save_data_for_playthrough;
 	for(i = 0; i < sgDataLen; i++) {
 		printf("CSAV001MHM Mayhem level on playthrough %d: %d\n", i, sgData[i]->mayhem_level);
 		printf("CSAV001MHM Mayhem seed for playthrough %d: %x\n", i, sgData[i]->mayhem_random_seed);

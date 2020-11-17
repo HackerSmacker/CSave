@@ -10,9 +10,17 @@
 #define OUTPUT_EXTENSION ".edited.sav"
 
 extern struct Save save_t;
+int saveMode;
+FILE* inFile;
+char* outFileName;
+FILE* outFile;
+FILE* origFile;
+uint8_t* protoData;
+int inFileLen;
+uint8_t* protoData;
 
 int main(int argc, char** argv) {
-	int saveMode = 2;
+	saveMode = 2;
 	printf("CSAV001CNV Save to Protocol Buffer Data Translation Program (for profile saves)\n");
 	if(argc < 3) {
 		fprintf(stderr, "CSAV001ABN Incorrect number of arguments: input.proto, original.sav, (optional) platform code\n");
@@ -23,31 +31,31 @@ int main(int argc, char** argv) {
 		saveMode = atoi(argv[3]);
 	}
 
-	FILE* inFile = fopen(argv[1], "r");
+	inFile = fopen(argv[1], "r");
 	if(inFile == NULL) {
 		fprintf(stderr, "CSAV001ABN Failed to open input file.\n");
 		exit(1);
 	}
-	char* outFileName = malloc(strlen(argv[1]) + strlen(OUTPUT_EXTENSION));
+	outFileName = malloc(strlen(argv[1]) + strlen(OUTPUT_EXTENSION));
 	strcpy(outFileName, argv[1]);
 	strcat(outFileName, OUTPUT_EXTENSION);
 	printf("CSAV00100I Output file = %s\n", outFileName);
 
-	FILE* origFile = fopen(argv[2], "r");
+	origFile = fopen(argv[2], "r");
 	if(origFile == NULL) {
 		fprintf(stderr, "CSAV001ABN Failed to open original file.\n");
 		exit(1);
 	}
 
-	FILE* outFile = fopen(outFileName, "w");
+	outFile = fopen(outFileName, "w");
 	if(outFile == NULL) {
 		fprintf(stderr, "CSAV001ABN Failed to open output file (read-only file system or bad DDNAME?)\n"),
 		exit(1);
 	}
 
-	uint8_t* protoData;
+	
 	fseek(inFile, 0, SEEK_END);
-	int inFileLen = ftell(inFile);
+	inFileLen = ftell(inFile);
 	fseek(inFile, 0, SEEK_SET);
 	protoData = malloc(inFileLen);
 	if(!protoData) {

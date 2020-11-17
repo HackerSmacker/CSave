@@ -197,41 +197,32 @@ size_t encryptProfile_PS4(uint8_t* buffer, int offset, int length) {
 	return length;
 }
 
-
+// KLUDGE TO GET THIS TO COMPILE WITH THE WATCOM C COMPILER
 struct Save save_t;
+struct keyValuePair* kvp_t;
+int payloadStart;
+int processedLen;
 
 void readSave(FILE* file, int fileType) {
+	int i;
 	printf("CSAV001RWS Reading file...\n");
 	// The actual save.
 	// Read it byte by byte.
-	//printf("%d, ", ftell(file));
 	save_t.header = malloc(4);
 	fread(save_t.header, sizeof(char), 4, file);
-	//printf("%d, ", ftell(file));
 	fread(&save_t.sg_version, sizeof(int32_t), 1, file);
-	//printf("%d, ", ftell(file));
 	fread(&save_t.pkg_version, sizeof(int32_t), 1, file);
-	//printf("%d, ", ftell(file));
 	fread(&save_t.engine_major, sizeof(int16_t), 1, file);
-	//printf("%d, ", ftell(file));
 	fread(&save_t.engine_minor, sizeof(int16_t), 1, file);
-	//printf("%d, ", ftell(file));
 	fread(&save_t.engine_patch, sizeof(int16_t), 1, file);
-	//printf("%d, ", ftell(file));
 	fread(&save_t.engine_build, sizeof(uint32_t), 1, file);
-	//printf("%d, ", ftell(file));
 	fread(&save_t.build_id_length, sizeof(int32_t), 1, file);
-	//printf("%d, ", ftell(file));
 	save_t.build_id = malloc(save_t.build_id_length);
 	fread(save_t.build_id, sizeof(char), save_t.build_id_length, file);
-	//printf("%d, ", ftell(file));
 	fread(&save_t.fmt_version, sizeof(int32_t), 1, file);
-	//printf("%d, ", ftell(file));
 	fread(&save_t.fmt_count, sizeof(int32_t), 1, file);
-	//printf("%d, ", ftell(file));
-	struct keyValuePair* kvp_t;
 	kvp_t = malloc(save_t.fmt_count * sizeof(struct keyValuePair));
-	int i;
+	
 	for(i = 0; i < save_t.fmt_count; i++) {
 		kvp_t[i].guid = malloc(16);
 		fread(kvp_t[i].guid, sizeof(char), 16, file);
@@ -244,7 +235,7 @@ void readSave(FILE* file, int fileType) {
 	save_t.sg_type = malloc(save_t.sg_type_len);
 	fread(save_t.sg_type, sizeof(char), save_t.sg_type_len, file);
 	fread(&save_t.remaining_data_len, sizeof(int32_t), 1, file);
-	int payloadStart = ftell(file);
+	payloadStart = ftell(file);
 	save_t.remaining_data = malloc(save_t.remaining_data_len);
 	fread(save_t.remaining_data, sizeof(char), save_t.remaining_data_len, file);
 
@@ -266,20 +257,21 @@ void readSave(FILE* file, int fileType) {
 	printf("Payload length: %d\n", save_t.remaining_data_len);
 
 	if(fileType == 1) {
-		int processedLen = decryptSave(save_t.remaining_data, 0, save_t.remaining_data_len);
+		processedLen = decryptSave(save_t.remaining_data, 0, save_t.remaining_data_len);
 	}
 	else if(fileType == 2) {
-		int processedLen = decryptProfile(save_t.remaining_data, 0, save_t.remaining_data_len);
+		processedLen = decryptProfile(save_t.remaining_data, 0, save_t.remaining_data_len);
 	}
 	else if(fileType == 3) {
-		int processedLen = decryptSave_PS4(save_t.remaining_data, 0, save_t.remaining_data_len);
+		processedLen = decryptSave_PS4(save_t.remaining_data, 0, save_t.remaining_data_len);
 	}
 	else if(fileType == 4) {
-		int processedLen = decryptProfile_PS4(save_t.remaining_data, 0, save_t.remaining_data_len);
+		processedLen = decryptProfile_PS4(save_t.remaining_data, 0, save_t.remaining_data_len);
 	}
 }
 
 void writeSave(FILE* file, FILE* outFile, char* data, int32_t dataLen, int fileType) {
+	int i;
 	// 1. Load in an existing file as a template
 	printf("CSAV001RWS Loading existing file...\n");
 	save_t.header = malloc(4);
@@ -295,9 +287,7 @@ void writeSave(FILE* file, FILE* outFile, char* data, int32_t dataLen, int fileT
 	fread(save_t.build_id, sizeof(char), save_t.build_id_length, file);
 	fread(&save_t.fmt_version, sizeof(int32_t), 1, file);
 	fread(&save_t.fmt_count, sizeof(int32_t), 1, file);
-	struct keyValuePair* kvp_t;
 	kvp_t = malloc(save_t.fmt_count * sizeof(struct keyValuePair));
-	int i;
 	for(i = 0; i < save_t.fmt_count; i++) {
 		kvp_t[i].guid = malloc(16);
 		fread(kvp_t[i].guid, sizeof(char), 16, file);
@@ -307,22 +297,22 @@ void writeSave(FILE* file, FILE* outFile, char* data, int32_t dataLen, int fileT
 	save_t.sg_type = malloc(save_t.sg_type_len);
 	fread(save_t.sg_type, sizeof(char), save_t.sg_type_len, file);
 	fread(&save_t.remaining_data_len, sizeof(int32_t), 1, file);
-	int payloadStart = ftell(file);
+	payloadStart = ftell(file);
 	save_t.remaining_data = malloc(save_t.remaining_data_len);
 	fread(save_t.remaining_data, sizeof(char), save_t.remaining_data_len, file);
 
 	// 3. Encrypt it
 	if(fileType == 1) {
-		int processedLen = encryptSave(data, 0, dataLen);
+		processedLen = encryptSave(data, 0, dataLen);
 	}
 	else if(fileType == 2) {
-		int processedLen = encryptProfile(data, 0, dataLen);
+		processedLen = encryptProfile(data, 0, dataLen);
 	}
 	else if(fileType == 3) {
-		int processedLen = encryptSave_PS4(data, 0, dataLen);
+		processedLen = encryptSave_PS4(data, 0, dataLen);
 	}
 	else if(fileType == 4) {
-		int processedLen = encryptProfile_PS4(data, 0, dataLen);
+		processedLen = encryptProfile_PS4(data, 0, dataLen);
 	}
 
 	//printf("CSAV001RWS Encrypted payload length: %d\n", processedLen);
