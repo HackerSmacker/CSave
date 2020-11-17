@@ -1,6 +1,6 @@
 CC = wcc386
 LD = wlink
-CFLAGS = -bt=nt -bc
+CFLAGS = -bt=os2v2 -bc
 PROTOS = *.proto
 OBJS = OakProfile.pb-c.obj OakSave.pb-c.obj OakShared.pb-c.obj SaveUnpack.obj FileTranslator.obj SaveToProto.obj ItemCode.obj SaveGenerate.obj ItemLookupTest.obj ProtoToSave.obj ProfileUnpack.obj ProfileGenerate.obj ProtoToProfile.obj ProfileToProto.obj SaveConvert.obj
 CPROTOS = OakProfile.pb-c.c OakSave.pb-c.c OakShared.pb-c.c
@@ -9,6 +9,7 @@ LIBRARIES = csave.lib
 PREFIX = /usr/local
 PROTOCLIB = C:\\Users\\WEC\\Desktop\\Programs\\OWC\\lib386\\protobuf-c.lib
 LDFLAGS = file csave.lib file $(PROTOCLIB)
+LDPREFIX = system os2v2
 
 all: $(PROGS)
 
@@ -25,25 +26,25 @@ $(LIBRARIES): $(CPROTOS) $(OBJS)
 	
 $(PROGS): $(LIBRARIES)
 	@echo " LD    SaveUnpack"
-	@$(LD) file SaveUnpack.obj $(LDFLAGS)
+	@$(LD) $(LDPREFIX) file SaveUnpack.obj $(LDFLAGS)
 	@echo " LD    SaveToProto"
-	@$(LD) file SaveToProto.obj $(LDFLAGS)
+	@$(LD) $(LDPREFIX) file SaveToProto.obj $(LDFLAGS)
 	@echo " LD    ProtoToSave"
-	@$(LD) file ProtoToSave.obj $(LDFLAGS)
+	@$(LD) $(LDPREFIX) file ProtoToSave.obj $(LDFLAGS)
 	@echo " LD    SaveGenerate"
-	@$(LD) file SaveGenerate.obj $(LDFLAGS)
+	@$(LD) $(LDPREFIX) file SaveGenerate.obj $(LDFLAGS)
 	@echo " LD    ItemLookupTest"
-	@$(LD) file ItemLookupTest.obj $(LDFLAGS)
+	@$(LD) $(LDPREFIX) file ItemLookupTest.obj $(LDFLAGS)
 	@echo " LD    ProfileUnpack"
-	@$(LD) file ProfileUnpack.obj $(LDFLAGS)
+	@$(LD) $(LDPREFIX) file ProfileUnpack.obj $(LDFLAGS)
 	@echo " LD    ProfileGenerate"
-	@$(LD) file ProfileGenerate.obj $(LDFLAGS)
+	@$(LD) $(LDPREFIX) file ProfileGenerate.obj $(LDFLAGS)
 	@echo " LD    ProfileToProto"
-	@$(LD) file ProfileToProto.obj $(LDFLAGS)
+	@$(LD) $(LDPREFIX) file ProfileToProto.obj $(LDFLAGS)
 	@echo " LD    ProtoToProfile"
-	@$(LD) file ProtoToProfile.obj $(LDFLAGS)
+	@$(LD) $(LDPREFIX) file ProtoToProfile.obj $(LDFLAGS)
 	@echo " LD    SaveConvert"
-	@@$(LD) file SaveConvert.obj $(LDFLAGS)
+	@@$(LD) $(LDPREFIX) file SaveConvert.obj $(LDFLAGS)
 
 clean:
 	rm -f *.obj Oak*.pb-c.* *.exe *.lib
