@@ -82,6 +82,14 @@ install: $(PROGS) manual
 	@install ProfileGenerate $(PREFIX)/bin
 	@echo " INSTALL    CSaveGUI"
 	@install CSaveGUI $(PREFIX)/bin
+	@echo " INSTALL    ProtoToProfile"
+	@install ProtoToProfile $(PREFIX)/bin
+	@echo " INSTALL    ProfileToProto"
+	@install ProfileToProto $(PREFIX)/bin
+	@echo " INSTALL    SaveConvert"
+	@install SaveConvert $(PREFIX)/bin
+
+	
 
 uninstall:
 	@echo " RM    SaveUnpack"
@@ -98,6 +106,13 @@ uninstall:
 	@rm $(PREFIX)/bin/ProfileUnpack
 	@echo " RM    CSaveGUI"
 	@rm $(PREFIX)/bin/CSaveGUI
+	@echo " RM    ProtoToProfile"
+	@rm $(PREFIX)/bin/ProtoToProfile
+	@echo " RM    ProfileToProto"
+	@rm $(PREFIX)/bin/ProfileToProto
+	@echo " RM    SaveConvert"
+	@rm $(PREFIX)/bin/SaveConvert
+	
 
 .PHONY: clean
 
