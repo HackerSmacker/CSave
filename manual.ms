@@ -4,7 +4,7 @@ CSave: Installation, Configuration, and Operation
 HS Software
 
 .NH 1
-Installation (Prebuilt Builds) - Windows
+Installation (Prebuilt Builds) - Windows (Cygwin-compiled)
 .PP
 This is the recommended way to get CSave up and running. You need to do two things:
 First, download everything in the build_win64 folder and put all of those files into
@@ -22,6 +22,24 @@ CSave folder on Windows Explorer, click up top where the path is displayed, and 
 paste the path after the "cd" command on your command prompt. 
 
 .NH 1
+Installation (Prebuilt Binaries) - Windows (MSVC-compiled)
+.PP
+As an alternative to the Cygwin-built CSave binaries, you may also use the MSVC-compiled
+version of CSave (MSVC = Microsoft (R) Visual Studio (TM) C/C++). Follow the instructions
+above, and be sure to download the LookupTables as well. The MSVC version of the CSave
+binaries is functionally equalivent to the "standard" Cygwin binaries.
+
+.NH 1
+Installation (Prebuilt Binaries) - OS/2 version 2+
+.PP
+CSave supports OS/2 2.0 and newer as valid OSes to run itself on. First, go to the
+CSave GitHub page and either download the files in the "build_os2v2" folder and copy
+those over to your OS/2 system. Please note that there are minor issues running CSave
+on an SMP OS/2 system. Crashes have been reported on OS/2 2.11 SMP, OS/2 Warp 3.0 SMP,
+and OS/2 Warp 4.52 (W4 kernel). Remember to also download the LookupTables fileset as 
+well, or you will not be able to edit items at all.
+
+.NH 1
 Installation (Compiling) - Unix, Linux, BSD, and Windows (Cygwin)
 .PP
 The first thing you need to do is set up your build environment - install protobuf, gcc, 
@@ -35,19 +53,28 @@ Enter the CSave source code directory with "cd CSave" and compile it with "make"
 to the Operations section.
 
 .NH 1
-Installation (Compiling) - Windows (Native)
+Installation (Compiling) - Windows (Native/MSVC)
 .PP
-You need to compile libprotobuf-c with MINGW64
-and use the headers/libraries/executables from that and put them into the Lib, Include, and Bin
-folders, respectively, of your VSC installation.
+First, you need to compile protobuf-c and add it to your install's
+.U
+Lib
+.R
+and
+.U
+Include
+.R
+and make sure they are accessible by the compliler. From there, use a GNU make like this:
+"make -f Makefile.vc". This will compile CSave using the Visual C++ toolchain. You will need
+to edit Makefile.vc to tell the linker where the protobuf-c library is.
 
 .NH 1
 Installation (Compiling) - OS/2 (Watcom C/C++ 11)
 .PP
-Download the source code and transfer it to your OS/2 machine. Please note that you will have
-to cross-compile libprotobuf-c with GCC targeting OS/2. Transfer libprotobuf-c.lib and the
-header files over to OS/2. You may need to compile the C protobuf files with GCC, the rest will
-compile cleanly with Watcom. 
+First, compile protobuf-c and install the single header it comes with.
+Then, edit Makefile.watcom and make sure SYSTEM = os2v2. os2v2 is OS/2 version 2 and newer. 
+From there, type "make -f Makefile.watcom"
+to cross-compile. You will need to edit Makefile.watcom to tell the linker where to find the
+protobuf-c library. 
 
 .NH 1
 Installation (Compiling) - OS/2 (EMX/ArcaOS Packages)

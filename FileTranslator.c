@@ -241,7 +241,7 @@ void readSave(FILE* file, int fileType) {
 
 	printf("CSAV001RWS Save information:\n");
 	printf("Header: %s\n", save_t.header);
-	printf("SG version: %" SCNd32 "\n", save_t.sg_version);
+	printf("SG version: %d\n", save_t.sg_version);
 	printf("Package version: %d\n", save_t.pkg_version);
 	printf("Engine version: %d.%d.%d\n", save_t.engine_major, save_t.engine_minor, save_t.engine_patch);
 	printf("Build ID length: %d\n", save_t.build_id_length);
@@ -318,7 +318,7 @@ void writeSave(FILE* file, FILE* outFile, char* data, int32_t dataLen, int fileT
 	//printf("CSAV001RWS Encrypted payload length: %d\n", processedLen);
 	printf("CSAV001RWS Original save information:\n");
 	printf("Header: %s\n", save_t.header);
-	printf("SG version: %" SCNd32 "\n", save_t.sg_version);
+	printf("SG version: %d\n", save_t.sg_version);
 	printf("Package version: %d\n", save_t.pkg_version);
 	printf("Engine version: %d.%d.%d\n", save_t.engine_major, save_t.engine_minor, save_t.engine_patch);
 	printf("Build ID length: %d\n", save_t.build_id_length);

@@ -1,16 +1,15 @@
-SYSTEM = dos4g
-CC = wcc386
-LD = wlink
-CFLAGS = -bt=$(SYSTEM) -bc
+CC = cl
+LD = link
+CFLAGS = /c
 PROTOS = *.proto
 OBJS = OakProfile.pb-c.obj OakSave.pb-c.obj OakShared.pb-c.obj SaveUnpack.obj FileTranslator.obj SaveToProto.obj ItemCode.obj SaveGenerate.obj ItemLookupTest.obj ProtoToSave.obj ProfileUnpack.obj ProfileGenerate.obj ProtoToProfile.obj ProfileToProto.obj SaveConvert.obj
 CPROTOS = OakProfile.pb-c.c OakSave.pb-c.c OakShared.pb-c.c
 PROGS = SaveUnpack.exe SaveToProto.exe SaveGenerate.exe ItemLookupTest.exe ProtoToSave.exe ProfileUnpack.exe ProfileGenerate.exe ProtoToProfile.exe ProfileToProto.exe SaveConvert.exe
 LIBRARIES = csave.lib
 PREFIX = /usr/local
-PROTOCLIB = C:\\Users\\WEC\\Desktop\\Programs\\OWC\\lib386\\protobuf-c.lib
-LDFLAGS = file csave.lib file $(PROTOCLIB)
-LDPREFIX = system $(SYSTEM)
+PROTOCLIB = D:\\Programs\\vsc2010\\protobuf-c\\Lib\\protobuf-c.lib
+LDFLAGS = csave.lib $(PROTOCLIB)
+LDPREFIX = 
 
 all: $(PROGS)
 
@@ -23,29 +22,29 @@ all: $(PROGS)
 	@protoc-c --c_out=. $<	
 	
 $(LIBRARIES): $(CPROTOS) $(OBJS)
-	@wlib csave.lib +OakProfile.pb-c.obj +OakSave.pb-c.obj +OakShared.pb-c.obj +FileTranslator.obj +ItemCode.obj 
+	@lib /out:csave.lib OakProfile.pb-c.obj OakSave.pb-c.obj OakShared.pb-c.obj FileTranslator.obj ItemCode.obj 
 	
 $(PROGS): $(LIBRARIES)
 	@echo " LD    SaveUnpack"
-	@$(LD) $(LDPREFIX) file SaveUnpack.obj $(LDFLAGS)
+	@$(LD) $(LDPREFIX)  SaveUnpack.obj $(LDFLAGS)
 	@echo " LD    SaveToProto"
-	@$(LD) $(LDPREFIX) file SaveToProto.obj $(LDFLAGS)
+	@$(LD) $(LDPREFIX)  SaveToProto.obj $(LDFLAGS)
 	@echo " LD    ProtoToSave"
-	@$(LD) $(LDPREFIX) file ProtoToSave.obj $(LDFLAGS)
+	@$(LD) $(LDPREFIX)  ProtoToSave.obj $(LDFLAGS)
 	@echo " LD    SaveGenerate"
-	@$(LD) $(LDPREFIX) file SaveGenerate.obj $(LDFLAGS)
+	@$(LD) $(LDPREFIX)  SaveGenerate.obj $(LDFLAGS)
 	@echo " LD    ItemLookupTest"
-	@$(LD) $(LDPREFIX) file ItemLookupTest.obj $(LDFLAGS)
+	@$(LD) $(LDPREFIX)  ItemLookupTest.obj $(LDFLAGS)
 	@echo " LD    ProfileUnpack"
-	@$(LD) $(LDPREFIX) file ProfileUnpack.obj $(LDFLAGS)
+	@$(LD) $(LDPREFIX)  ProfileUnpack.obj $(LDFLAGS)
 	@echo " LD    ProfileGenerate"
-	@$(LD) $(LDPREFIX) file ProfileGenerate.obj $(LDFLAGS)
+	@$(LD) $(LDPREFIX)  ProfileGenerate.obj $(LDFLAGS)
 	@echo " LD    ProfileToProto"
-	@$(LD) $(LDPREFIX) file ProfileToProto.obj $(LDFLAGS)
+	@$(LD) $(LDPREFIX)  ProfileToProto.obj $(LDFLAGS)
 	@echo " LD    ProtoToProfile"
-	@$(LD) $(LDPREFIX) file ProtoToProfile.obj $(LDFLAGS)
+	@$(LD) $(LDPREFIX)  ProtoToProfile.obj $(LDFLAGS)
 	@echo " LD    SaveConvert"
-	@@$(LD) $(LDPREFIX) file SaveConvert.obj $(LDFLAGS)
+	@@$(LD) $(LDPREFIX)  SaveConvert.obj $(LDFLAGS)
 
 clean:
 	rm -f *.obj Oak*.pb-c.* *.exe *.lib
