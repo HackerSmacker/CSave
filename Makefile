@@ -4,9 +4,9 @@ LDFLAGS = -lprotobuf-c -L/usr/local/lib -L/usr/lib
 CFLAGS = -I. -O0
 DEPS = include/*.h
 PROTOS = *.proto
-OBJS = OakProfile.pb-c.o OakSave.pb-c.o OakShared.pb-c.o SaveUnpack.o FileTranslator.o SaveToProto.o ItemCode.o SaveGenerate.o ItemLookupTest.o ProtoToSave.o CSaveGUI.o ProfileUnpack.o ProfileGenerate.o ProtoToProfile.o ProfileToProto.o SaveConvert.o
+OBJS = OakProfile.pb-c.o OakSave.pb-c.o OakShared.pb-c.o SaveUnpack.o FileTranslator.o SaveToProto.o ItemCode.o SaveGenerate.o ItemLookupTest.o ProtoToSave.o CSaveGUI.o ProfileUnpack.o ProfileGenerate.o ProtoToProfile.o ProfileToProto.o SaveConvert.o CSaveMenu.o
 CPROTOS = OakProfile.pb-c.c OakSave.pb-c.c OakShared.pb-c.c
-PROGS = SaveUnpack SaveToProto SaveGenerate ItemLookupTest ProtoToSave CSaveGUI ProfileUnpack ProfileGenerate ProtoToProfile ProfileToProto SaveConvert
+PROGS = SaveUnpack SaveToProto SaveGenerate ItemLookupTest ProtoToSave CSaveGUI ProfileUnpack ProfileGenerate ProtoToProfile ProfileToProto SaveConvert CSaveMenu
 LIBRARIES = libBL3Proto.a
 MANUALS_PS = manual.ps
 MANUALS_PDF = manual.pdf
@@ -64,6 +64,8 @@ $(PROGS): $(LIBRARIES)
 	@$(LD) -o SaveConvert SaveConvert.o libBL3Proto.a $(LDFLAGS)
 	@echo " LD    CSaveGUI"
 	@$(LD) -o CSaveGUI CSaveGUI.o -lncurses
+	@echo " LD    CSaveMenu"
+	@$(LD) -o CSaveMenu CSaveMenu.o
 
 manual: $(MANUALS_PS) $(MANUALS_PDF) $(MANUALS_TEXT)
 
