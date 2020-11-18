@@ -4,6 +4,31 @@ CSave: Installation, Configuration, and Operation
 HS Software
 
 .NH 1
+CSave Package Contents
+.br
+.R
+CSave includes several useful programs:
+.br
+CSaveGUI - ncurses-based UNIX GUI
+.br
+CSaveMenu - CSave Main Menu
+.br
+SaveToProto - Convert saves to protobuf format
+.br
+ProtoToSave - Convert edited protobuf format files to BL3 saves
+.br
+ProfileToProto - Convert profile saves to protobuf format
+.br
+ProtoToProfile - Convert edited protobuf format profile to BL3 saves
+.br
+SaveGenerate - Protobuf format save editor
+.br
+ProfileGenerate - Protobuf format profile editor
+.br
+SaveConvert - Convert BL3 saves to other platforms, and change the bitmask
+
+
+.NH 1
 Installation (Prebuilt Builds) - Windows (Cygwin-compiled)
 .PP
 This is the recommended way to get CSave up and running. You need to do two things:
