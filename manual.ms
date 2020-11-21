@@ -152,7 +152,9 @@ Converting saves across different platforms
 .PP
 The "SaveConvert" program can convert, for instance, a PS4 save to a PC save. It manipulates the header and re-encodes
 the save data. Use this program with care, as it is basically a shortcut to running SaveToProto and ProtoToSave, except
-this program manipulates the headers to make the game not clobber over your save. 
+this program manipulates the headers to make the game not clobber over your save. Of course, you can also use a series
+of other CSave commands to manually convert saves without using SaveConvert. SaveConvert is useful for converting a large
+amount of saves in batch - just be sure to specify the correct platform numbers.
 
 .NH 2
 Editing saves

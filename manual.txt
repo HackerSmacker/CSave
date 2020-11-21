@@ -217,7 +217,11 @@ PS4 save to a PC save. It manipulates the header and  re-en-
 codes  the  save  data. Use this program with care, as it is
 basically a shortcut to running SaveToProto and ProtoToSave,
 except this program manipulates the headers to make the game
-not clobber over your save.
+not clobber over your save. Of course, you can  also  use  a
+series  of  other  CSave  commands to manually convert saves
+without using SaveConvert. SaveConvert is  useful  for  con-
+verting  a  large amount of saves in batch - just be sure to
+specify the correct platform numbers.
 
 
 1100..44..  EEddiittiinngg ssaavveess
@@ -251,10 +255,6 @@ ated and saved. Please now run ProtoToSave to pack the  save
 file into a BL3 binary format save.
 
 
-1100..66..22..  sseett nnaammee
-
-     Set  the  player's preferred name. It will prompt for a
-string.
 
 
 
@@ -266,6 +266,12 @@ string.
 
 
                              -5-
+
+
+1100..66..22..  sseett nnaammee
+
+     Set  the  player's preferred name. It will prompt for a
+string.
 
 
 1100..66..33..  sseett ccllaassss
@@ -316,12 +322,6 @@ first,  the  quest  path.  Use "SaveUnpack name.proto | grep
 CSAV001MSN" to find the quest. Copy and paste the class path
 for  the  mission  into  the  editor.  When prompted for the
 playthrough, enter 0 for NVHM or 1 for TVHM. Next, enter the
-quest  state  like this: 0 is Not Started, 1 is Active, 2 is
-Completed, 3 is Failed, and 4 is Unknown. Do  not  enter  4,
-your game will most likely crash.
-
-
-
 
 
 
@@ -332,6 +332,11 @@ your game will most likely crash.
 
 
                              -6-
+
+
+quest  state  like this: 0 is Not Started, 1 is Active, 2 is
+Completed, 3 is Failed, and 4 is Unknown. Do  not  enter  4,
+your game will most likely crash.
 
 
 1100..66..99..  sseett gguuaarrddiiaannrraannkk
@@ -383,11 +388,6 @@ CSAV001SDU - SDU information
 CSAV001VEH - Vehicle parts, loadouts, and configurations
 CSAV001MSN - Missions/quests
 CSAV001AMO - Ammo and grenades
-CSAV001GRD - Guardian rank, level, perks, and rewards
-CSAV001ROM - Crew  quarters/bedroom  information  (including
-guns on the rack)
-CSAV001ECH - ECHO logs
-CSAV001FTM  - Fast Travel machines: blacklisted, active, and
 
 
 
@@ -400,6 +400,11 @@ CSAV001FTM  - Fast Travel machines: blacklisted, active, and
                              -7-
 
 
+CSAV001GRD - Guardian rank, level, perks, and rewards
+CSAV001ROM - Crew  quarters/bedroom  information  (including
+guns on the rack)
+CSAV001ECH - ECHO logs
+CSAV001FTM  - Fast Travel machines: blacklisted, active, and
 reachable
 CSAV001INV - Inventory: backpack and equipped
 CSAV001CUS - Customizations: color, skin, emotes
@@ -423,11 +428,6 @@ ToProto, or ProtoToProfile.
 2 - PC profile file
 3 - PS4 save file
 4 - PS4 profile file
-
-
-
-
-
 
 
 

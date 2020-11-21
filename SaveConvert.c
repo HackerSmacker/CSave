@@ -16,7 +16,6 @@ int pc_out = 0;
 
 int main(int argc, char** argv) {
 	printf("CSAV001CNV Binary Save Conversion Program\n");
-	printf("CSAV001CNV WARNING: THIS PROGRAM TENDS TO OUTPUT GARBAGE!\n");
 	if(argc < 4) {
 		printf("CSAV001ABN Incorrect number of arguments! SaveConvert in.sav out.sav platformcode_in platformcode_out\n");
 		exit(1);
