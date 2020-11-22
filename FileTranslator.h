@@ -35,6 +35,15 @@ struct keyValuePair {
 void readSave(FILE* file, int fileType);
 void writeSave(FILE* file, FILE* outFile, char* data, int32_t dataLen, int fileType);
 
+size_t decryptSave(uint8_t* buffer, int offset, int length);
+size_t encryptSave(uint8_t* buffer, int offset, int length);
+size_t decryptProfile(uint8_t* buffer, int offset, int length);
+size_t encryptProfile(uint8_t* buffer, int offset, int length);
+size_t decryptSave_PS4(uint8_t* buffer, int offset, int length);
+size_t encryptSave_PS4(uint8_t* buffer, int offset, int length);
+size_t decryptProfile_PS4(uint8_t* buffer, int offset, int length);
+size_t encryptProfile_PS4(uint8_t* buffer, int offset, int length);
+
 
 #endif
 
