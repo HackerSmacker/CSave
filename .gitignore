@@ -7,3 +7,5 @@
 *.js
 LookupTables/*.js
 *.err
+*.sav
+*.sav.proto
