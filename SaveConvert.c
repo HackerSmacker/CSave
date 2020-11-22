@@ -8,7 +8,7 @@
 
 #define FILESIZE_LIMIT 2000000
 
-extern struct Save save_t;
+extern struct Save saveOut_t;
 FILE* outFile;
 FILE* inFile;
 int pc_in = 0;
@@ -97,7 +97,78 @@ int main(int argc, char** argv) {
 		processedLen = decryptProfile_PS4(save_t.remaining_data, 0, save_t.remaining_data_len);
 	}
 
-	
+
+
+	struct Save saveOut_t;
+	struct keyValuePair* kvpOut_t;
+	saveOut_t = save_t;
+	kvpOut_t = kvp_t;
+
+	if(pc_out == 1) {
+		saveOut_t.build_id = "OAK-PATCHWIN641-118";
+	}
+	else if(pc_out == 2) {
+		saveOut_t.build_id = "OAK-PATCHWIN641-118";
+	}
+	else if(pc_out == 3) {
+		saveOut_t.build_id = "OAK-PADPS41-31";
+	}
+	else if(pc_out == 4) {
+		saveOut_t.build_id = "OAK-PADPS41-31";
+	}
+
+
+	printf("CSAV001SCA Output save information:\n");
+	printf("CSAV001SCA Header: %s\n", saveOut_t.header);
+	printf("CSAV001SCA SG version: %d\n", saveOut_t.sg_version);
+	printf("CSAV001SCA Package version: %d\n", saveOut_t.pkg_version);
+	printf("CSAV001SCA Engine version: %d.%d.%d\n", saveOut_t.engine_major, saveOut_t.engine_minor, saveOut_t.engine_patch);
+	printf("CSAV001SCA Build ID length: %d\n", saveOut_t.build_id_length);
+	printf("CSAV001SCA Build ID: %s\n", saveOut_t.build_id);
+	printf("CSAV001SCA Custom format version: %d\n", saveOut_t.fmt_version);
+	printf("CSAV001SCA Custom format count: %d\n", saveOut_t.fmt_count);
+	//for(i = 0; i < saveOut_t.fmt_count; i++) {
+	//	printf("Custom format %d: GUID: %x, entry %d\n", i, kvpOut_t[i].guid, kvpOut_t[i].entry);
+	//}
+	printf("CSAV001SCA Save type length: %d\n", saveOut_t.sg_type_len);
+	printf("CSAV001SCA Save type: %s\n", saveOut_t.sg_type);
+	printf("CSAV001SCA Payload start position: %d\n", payloadStart);
+	printf("CSAV001SCA Payload length: %d\n", saveOut_t.remaining_data_len);
+
+	if(pc_out == 1) {
+		processedLen = encryptSave(saveOut_t.remaining_data, 0, saveOut_t.remaining_data_len);
+	}
+	else if(pc_out == 2) {
+		processedLen = encryptProfile(saveOut_t.remaining_data, 0, saveOut_t.remaining_data_len);
+	}
+	else if(pc_out == 3) {
+		processedLen = encryptSave_PS4(saveOut_t.remaining_data, 0, saveOut_t.remaining_data_len);
+	}
+	else if(pc_out == 4) {
+		processedLen = encryptProfile_PS4(saveOut_t.remaining_data, 0, saveOut_t.remaining_data_len);
+	}
+
+	printf("CSAV001SCA Writing new file...\n");
+	fwrite(saveOut_t.header, sizeof(char), 4, outFile);
+	fwrite(&saveOut_t.sg_version, sizeof(int32_t), 1, outFile);
+	fwrite(&saveOut_t.pkg_version, sizeof(int32_t), 1, outFile);
+	fwrite(&saveOut_t.engine_major, sizeof(int16_t), 1, outFile);
+	fwrite(&saveOut_t.engine_minor, sizeof(int16_t), 1, outFile);
+	fwrite(&saveOut_t.engine_patch, sizeof(int16_t), 1, outFile);
+	fwrite(&saveOut_t.engine_build, sizeof(uint32_t), 1, outFile);
+	fwrite(&saveOut_t.build_id_length, sizeof(int32_t), 1, outFile);
+	fwrite(saveOut_t.build_id, sizeof(char), saveOut_t.build_id_length, outFile);
+	fwrite(&saveOut_t.fmt_version, sizeof(int32_t), 1, outFile);
+	fwrite(&saveOut_t.fmt_count, sizeof(int32_t), 1, outFile);
+	for(i = 0; i < saveOut_t.fmt_count; i++) {
+		fwrite(kvpOut_t[i].guid, sizeof(char), 16, outFile);
+		fwrite(&kvpOut_t[i].entry, sizeof(int32_t), 1, outFile);
+	}
+	fwrite(&saveOut_t.sg_type_len, sizeof(int32_t), 1, outFile);
+	fwrite(saveOut_t.sg_type, sizeof(char), saveOut_t.sg_type_len, outFile);
+	fwrite(&saveOut_t.remaining_data_len, sizeof(int32_t), 1, outFile);
+	fwrite(saveOut_t.remaining_data, sizeof(char), saveOut_t.remaining_data_len, outFile);
+
 
 	printf("CSAV001SCA Execution complete\n");
 	return 0;
