@@ -1,4 +1,4 @@
-SYSTEM = nt
+SYSTEM = os2v2
 CC = wcc386
 LD = wlink
 CFLAGS = -bt=$(SYSTEM) -bc
@@ -8,7 +8,7 @@ CPROTOS = OakProfile.pb-c.c OakSave.pb-c.c OakShared.pb-c.c
 PROGS = SaveUnpack.exe SaveToProto.exe SaveGenerate.exe ItemLookupTest.exe ProtoToSave.exe ProfileUnpack.exe ProfileGenerate.exe ProtoToProfile.exe ProfileToProto.exe SaveConvert.exe
 LIBRARIES = csave.lib
 PREFIX = /usr/local
-PROTOCLIB = C:\\Users\\WEC\\Desktop\\Programs\\OWC\\lib386\\protobuf-c.lib
+PROTOCLIB = D:\\Programs\\OWC\\lib386\\protobuf-c.lib
 LDFLAGS = file csave.lib file $(PROTOCLIB)
 LDPREFIX = system $(SYSTEM)
 

@@ -13,6 +13,14 @@ FILE* outFile;
 FILE* inFile;
 int pc_in = 0;
 int pc_out = 0;
+int i;
+struct Save save_t;
+struct keyValuePair* kvp_t;
+int payloadStart;
+int processedLen;
+struct Save saveOut_t;
+struct keyValuePair* kvpOut_t;
+
 
 int main(int argc, char** argv) {
 	printf("CSAV001SCA Binary Save Conversion Program\n");
@@ -33,11 +41,7 @@ int main(int argc, char** argv) {
 	pc_in = atoi(argv[3]);
 	pc_out = atoi(argv[4]);
 	
-	int i;
-	struct Save save_t;
-	struct keyValuePair* kvp_t;
-	int payloadStart;
-	int processedLen;
+	
 
 	printf("CSAV001SCA Reading file...\n");
 	save_t.header = malloc(4);
@@ -96,13 +100,17 @@ int main(int argc, char** argv) {
 	else if(pc_in == 4) {
 		processedLen = decryptProfile_PS4(save_t.remaining_data, 0, save_t.remaining_data_len);
 	}
+	if(pc_in == 7) {
+		processedLen = decryptSave(save_t.remaining_data, 0, save_t.remaining_data_len);
+	}
+	else if(pc_in == 8) {
+		processedLen = decryptProfile(save_t.remaining_data, 0, save_t.remaining_data_len);
+	}
 
 
-
-	struct Save saveOut_t;
-	struct keyValuePair* kvpOut_t;
 	saveOut_t = save_t;
 	kvpOut_t = kvp_t;
+	
 
 	if(pc_out == 1) {
 		saveOut_t.build_id = "OAK-PATCHWIN641-118";
@@ -115,6 +123,12 @@ int main(int argc, char** argv) {
 	}
 	else if(pc_out == 4) {
 		saveOut_t.build_id = "OAK-PADPS41-31";
+	}
+	else if(pc_out == 7) {
+		saveOut_t.build_id = "OAK-PATCHDIESEL0-200";
+	}
+	else if(pc_out == 8) {
+		saveOut_t.build_id = "OAK-PATCHDIESEL0-200";
 	}
 
 

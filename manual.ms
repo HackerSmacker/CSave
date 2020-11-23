@@ -320,11 +320,19 @@ Platform Codes
 These numbers are supposed to be entered as the last command line argument on
 SaveToProto, ProtoToSave, ProfileToProto, or ProtoToProfile.
 .br
-1 - PC save file
+1 - PC save file - Steam
 .br
-2 - PC profile file
+2 - PC profile file - Steam
 .br
 3 - PS4 save file
 .br
 4 - PS4 profile file
 .br 
+5 - XB1 save file (NOT IMPLEMENTED)
+.br
+6 - XB1 profile file (NOT IMPLEMENTED)
+.br
+7 - PC save file - Epic Games
+.br
+8 - PC profile file - Epic Games
+.br
