@@ -118,6 +118,13 @@ Make sure your GCC version in GNV is 8.0.0 or newer, as the protobuf-c outputs w
 Operation
 
 .NH 2
+Quick start with CSaveMenu
+.PP
+For new users, it is highly recommended that you start with CSaveMenu. You can run it directly from the folder that you installed CSave to - on any platform. The precompiled builds of CSave should run on any OS. 
+.PP
+CSaveMenu is a question-and-answer driven application, so be sure to read each prompt and check this manual carefully if it asks you to.
+
+.NH 2
 Quick start
 .PP
 Start by running "SaveToProto XXX.sav" and then "SaveUnpack XXX.sav.proto" to get information about a save file. You can then use "SaveGenerate XXX.sav.proto" and then "ProtoToSave XXX.proto" to get a usable file. If you have CSaveGUI installed, please just use that.

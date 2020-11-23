@@ -197,6 +197,8 @@ int main(int argc, char** argv) {
 	}
 
 // Guardian rank
+// 11-23-2020 COMMENTED OUT DUE TO SOME STRANGE BUGS
+	/*
 	grData = charData->guardian_rank_character_data;
 	printf("CSAV001GRD Guardian tokens: %lu\n", grData->guardian_available_tokens);
 	printf("CSAV001GRD Guardian rank: %lu\n", grData->guardian_rank);
@@ -213,6 +215,7 @@ int main(int argc, char** argv) {
 	for(i = 0; i < grPerksNum; i++) {
 		printf("CSAV001GRD Guardian perk %d: %s\n", i, grPerks[i]->perk_data_path);
 	}
+	*/
 
 // Room stuff - Decorations and the gun rack
 	roomData = charData->crew_quarters_room;
