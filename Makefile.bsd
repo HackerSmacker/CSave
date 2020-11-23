@@ -4,9 +4,9 @@ LDFLAGS = -lprotobuf-c -L/usr/local/lib
 CFLAGS = -I. -I/usr/local/include
 DEPS = include/*.h
 PROTOS = *.proto
-OBJS = OakProfile.pb-c.o OakSave.pb-c.o OakShared.pb-c.o SaveUnpack.o FileTranslator.o SaveToProto.o ItemCode.o SaveGenerate.o ItemLookupTest.o ProtoToSave.o CSaveGUI.o ProfileUnpack.o ProfileGenerate.o
+OBJS = OakProfile.pb-c.o OakSave.pb-c.o OakShared.pb-c.o SaveUnpack.o FileTranslator.o SaveToProto.o ItemCode.o SaveGenerate.o ItemLookupTest.o ProtoToSave.o CSaveGUI.o ProfileUnpack.o ProfileGenerate.o ProtoToProfile.o ProfileToProto.o SaveConvert.o CSaveMenu.o
 CPROTOS = OakProfile.pb-c.c OakSave.pb-c.c OakShared.pb-c.c
-PROGS = SaveUnpack SaveToProto SaveGenerate ItemLookupTest ProtoToSave CSaveGUI ProfileUnpack ProfileGenerate
+PROGS = SaveUnpack SaveToProto SaveGenerate ItemLookupTest ProtoToSave CSaveGUI ProfileUnpack ProfileGenerate ProtoToProfile ProfileToProto SaveConvert CSaveMenu
 LIBRARIES = libBL3Proto.a
 MANUALS_PS = manual.ps
 MANUALS_PDF = manual.pdf
@@ -62,12 +62,20 @@ $(PROGS): $(LIBRARIES)
 	@$(LD) -o ProfileUnpack ProfileUnpack.o libBL3Proto.a $(LDFLAGS)
 	@echo " LD    ProfileGenerate"
 	@$(LD) -o ProfileGenerate ProfileGenerate.o libBL3Proto.a $(LDFLAGS)
+	@echo " LD    ProfileToProto"
+	@$(LD) -o ProfileToProto ProfileToProto.o libBL3Proto.a $(LDFLAGS)
+	@echo " LD    ProtoToProfile"
+	@$(LD) -o ProtoToProfile ProtoToProfile.o libBL3Proto.a $(LDFLAGS)
+	@echo " LD    SaveConvert"
+	@$(LD) -o SaveConvert SaveConvert.o libBL3Proto.a $(LDFLAGS)
 	@echo " LD    CSaveGUI"
 	@$(LD) -o CSaveGUI CSaveGUI.o -lncurses
+	@echo " LD    CSaveMenu"
+	@$(LD) -o CSaveMenu CSaveMenu.o
 
 manual: $(MANUALS_PS) $(MANUALS_PDF)
 
-install:
+install: $(PROGS)
 	@echo " INSTALL    SaveUnpack"
 	@install SaveUnpack $(PREFIX)/bin
 	@echo " INSTALL    SaveToProto"
@@ -82,6 +90,15 @@ install:
 	@install ProfileGenerate $(PREFIX)/bin
 	@echo " INSTALL    CSaveGUI"
 	@install CSaveGUI $(PREFIX)/bin
+	@echo " INSTALL    CSaveMenu"
+	@install CSaveMenu $(PREFIX)/bin
+	@echo " INSTALL    ProtoToProfile"
+	@install ProtoToProfile $(PREFIX)/bin
+	@echo " INSTALL    ProfileToProto"
+	@install ProfileToProto $(PREFIX)/bin
+	@echo " INSTALL    SaveConvert"
+	@install SaveConvert $(PREFIX)/bin
+
 
 uninstall:
 	@echo " RM    SaveUnpack"
@@ -98,9 +115,17 @@ uninstall:
 	@rm $(PREFIX)/bin/ProfileUnpack
 	@echo " RM    CSaveGUI"
 	@rm $(PREFIX)/bin/CSaveGUI
+	@echo " RM    CSaveMenu"
+	@rm $(PREFIX)/bin/CSaveMenu
+	@echo " RM    ProtoToProfile"
+	@rm $(PREFIX)/bin/ProtoToProfile
+	@echo " RM    ProfileToProto"
+	@rm $(PREFIX)/bin/ProfileToProto
+	@echo " RM    SaveConvert"
+	@rm $(PREFIX)/bin/SaveConvert
 
 
 .PHONY: clean
 
 clean:
-	rm -f *.o Oak*.pb-c.* *.a $(MANUALS_PS) $(MANUALS_PDF) $(MANUALS_TEXT) $(PROGS)
+	rm -f *.o Oak*.pb-c.* *.a $(MANUALS_PS) $(MANUALS_PDF) $(MANUALS_TXT) $(PROGS)

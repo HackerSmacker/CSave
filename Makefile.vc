@@ -2,9 +2,9 @@ CC = cl
 LD = link
 CFLAGS = /c
 PROTOS = *.proto
-OBJS = OakProfile.pb-c.obj OakSave.pb-c.obj OakShared.pb-c.obj SaveUnpack.obj FileTranslator.obj SaveToProto.obj ItemCode.obj SaveGenerate.obj ItemLookupTest.obj ProtoToSave.obj ProfileUnpack.obj ProfileGenerate.obj ProtoToProfile.obj ProfileToProto.obj SaveConvert.obj
+OBJS = OakProfile.pb-c.obj OakSave.pb-c.obj OakShared.pb-c.obj SaveUnpack.obj FileTranslator.obj SaveToProto.obj ItemCode.obj SaveGenerate.obj ItemLookupTest.obj ProtoToSave.obj ProfileUnpack.obj ProfileGenerate.obj ProtoToProfile.obj ProfileToProto.obj SaveConvert.obj CSaveMenu.obj
 CPROTOS = OakProfile.pb-c.c OakSave.pb-c.c OakShared.pb-c.c
-PROGS = SaveUnpack.exe SaveToProto.exe SaveGenerate.exe ItemLookupTest.exe ProtoToSave.exe ProfileUnpack.exe ProfileGenerate.exe ProtoToProfile.exe ProfileToProto.exe SaveConvert.exe
+PROGS = SaveUnpack.exe SaveToProto.exe SaveGenerate.exe ItemLookupTest.exe ProtoToSave.exe ProfileUnpack.exe ProfileGenerate.exe ProtoToProfile.exe ProfileToProto.exe SaveConvert.exe CSaveMenu.exe
 LIBRARIES = csave.lib
 PREFIX = /usr/local
 PROTOCLIB = D:\\Programs\\vsc2010\\protobuf-c\\Lib\\protobuf-c.lib
@@ -45,6 +45,8 @@ $(PROGS): $(LIBRARIES)
 	@$(LD) $(LDPREFIX)  ProtoToProfile.obj $(LDFLAGS)
 	@echo " LD    SaveConvert"
 	@@$(LD) $(LDPREFIX)  SaveConvert.obj $(LDFLAGS)
+	@echo " LD    CSaveMenu"
+	@@$(LD) $(LDPREFIX)  CSaveMenu.obj $(LDFLAGS)
 
 clean:
 	rm -f *.obj Oak*.pb-c.* *.exe *.lib

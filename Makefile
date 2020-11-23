@@ -84,6 +84,8 @@ install: $(PROGS) manual
 	@install ProfileGenerate $(PREFIX)/bin
 	@echo " INSTALL    CSaveGUI"
 	@install CSaveGUI $(PREFIX)/bin
+	@echo " INSTALL    CSaveMenu"
+	@install CSaveMenu $(PREFIX)/bin
 	@echo " INSTALL    ProtoToProfile"
 	@install ProtoToProfile $(PREFIX)/bin
 	@echo " INSTALL    ProfileToProto"
@@ -108,6 +110,8 @@ uninstall:
 	@rm $(PREFIX)/bin/ProfileUnpack
 	@echo " RM    CSaveGUI"
 	@rm $(PREFIX)/bin/CSaveGUI
+	@echo " RM    CSaveMenu"
+	@rm $(PREFIX)/bin/CSaveMenu
 	@echo " RM    ProtoToProfile"
 	@rm $(PREFIX)/bin/ProtoToProfile
 	@echo " RM    ProfileToProto"
