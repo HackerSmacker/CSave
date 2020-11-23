@@ -15,6 +15,11 @@ char input[256];
 char filenameNL[2048];
 char* filename;
 char* filename2;
+char filenameNL2[2048];
+char pcInNL[2048];
+char pcOutNL[2048];
+char* pcIn;
+char* pcOut;
 
 void drawMainMenu() {
 	printf("0    File Save Files\n");
@@ -27,6 +32,7 @@ void drawMainMenu() {
 	printf("7    Get Profile Information\n");
 	printf("8    Start Save Editor\n");
 	printf("9    Start Profile Editor\n");
+	printf("A    Convert Saves Between Platforms\n");
 	printf("Z    Exit\n");
 	printf("Enter option --> ");
 }
@@ -43,6 +49,57 @@ void listDirectory(char* path, char* grep) {
 	while((de = readdir(dr)) != NULL) {
 		printf("%s\n", de->d_name);
 	}
+}
+
+void saveConvert() {
+	printf("Convert Save\n");
+	printf("Please specify the input save file.\n");
+	printf("Enter file --> ");
+	fgets(filenameNL, 1024, stdin);
+	filename = malloc(strlen(filenameNL) - 1);
+	strncpy(filename, filenameNL, (strlen(filenameNL) - 1));
+	filename[strlen(filenameNL) - 1] = '\0';
+
+	printf("Please specify the output save file.\n");
+	printf("Enter file --> ");
+	fgets(filenameNL2, 1024, stdin);
+	filename2 = malloc(strlen(filenameNL2) - 1);
+	strncpy(filename2, filenameNL2, (strlen(filenameNL2) - 1));
+	filename2[strlen(filenameNL2) - 1] = '\0';
+
+	printf("Please specify the input platform code (see manual).\n");
+	printf("Enter value --> ");
+	fgets(pcInNL, 1024, stdin);
+	pcIn = malloc(strlen(pcInNL) - 1);
+	strncpy(pcIn, pcInNL, (strlen(pcInNL) - 1));
+	pcIn[strlen(pcInNL) - 1] = '\0';
+
+	printf("Please specify the output platform code (see manual).\n");
+	printf("Enter value --> ");
+	fgets(pcOutNL, 1024, stdin);
+	pcOut = malloc(strlen(pcOutNL) - 1);
+	strncpy(pcOut, pcOutNL, (strlen(pcOutNL) - 1));
+	pcOut[strlen(pcOutNL) - 1] = '\0';
+
+	printf("Will convert %s to %s\n", filename, filename2);
+	command = malloc(strlen("SaveConvert ") + strlen(filename) + 1 + strlen(filename2) + 8);
+	strcpy(command, "SaveConvert ");
+	strcat(command, filename);
+	strcat(command, " ");
+	strcat(command, filename2);
+	strcat(command, " ");
+	strcat(command, pcIn);
+	strcat(command, " ");
+	strcat(command, pcOut);
+	fp = popen(command, "r");
+	if(fp == NULL) {
+		printf("Failed to execute SaveConvert!\n");
+		return;
+	}
+	while(fgets(path, sizeof(path), fp) != NULL) {
+		printf("%s", myLine);
+	}
+	printf("Execution complete\n");
 }
 
 void saveToProto() {
