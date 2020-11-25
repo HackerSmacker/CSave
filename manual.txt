@@ -1,0 +1,528 @@
+
+
+
+
+
+
+
+
+
+     CCSSaavvee:: IInnssttaallllaattiioonn,, CCoonnffiigguurraattiioonn,, aanndd OOppeerraattiioonn
+
+
+                        _H_S _S_o_f_t_w_a_r_e
+
+
+
+11..  CCSSaavvee PPaacckkaaggee CCoonntteennttss
+CSave includes several useful programs:
+CSaveGUI - ncurses-based UNIX GUI
+CSaveMenu - CSave Main Menu
+SaveToProto - Convert saves to protobuf format
+ProtoToSave  -  Convert  edited protobuf format files to BL3
+saves
+ProfileToProto - Convert profile saves to protobuf format
+ProtoToProfile - Convert edited protobuf format  profile  to
+BL3 saves
+SaveGenerate - Protobuf format save editor
+ProfileGenerate - Protobuf format profile editor
+SaveConvert  -  Convert  BL3  saves  to other platforms, and
+change the bitmask
+
+
+
+22..  IInnssttaallllaattiioonn ((PPrreebbuuiilltt BBuuiillddss))  --  WWiinnddoowwss  ((CCyyggwwiinn--ccoomm--
+ppiilleedd))
+
+     This  is  the  recommended way to get CSave up and run-
+ning. You need to do two things: First, download  everything
+in  the build_win64 folder and put all of those files into a
+folder somewhere. Then, create a folder named "LookupTables"
+in  the folder where you put the CSave executables. Download
+everything from the LookupTables folder on GitHub  and  copy
+them  into  your LookupTables folder. It is MUCH easier just
+to use GitHub's "download zip" function to get  CSave.  That
+way,  you  can drag-and-drop the files to anywhere you want.
+Please note that CSave _w_i_l_l _n_o_t _f_u_n_c_t_i_o_n _c_o_r_r_e_c_t_l_y if you do
+not download the LookupTables properly. Next, open up a com-
+mand prompt, and use the "cd" command to navigate  to  where
+your CSave folder is. It is easiest to open the CSave folder
+on Windows Explorer, click up top where  the  path  is  dis-
+played,  and  copy and paste the path after the "cd" command
+on your command prompt.
+
+
+33..  IInnssttaallllaattiioonn ((PPrreebbuuiilltt BBiinnaarriieess))  --  WWiinnddoowwss  ((MMSSVVCC--ccoomm--
+ppiilleedd))
+
+     As  an  alternative to the Cygwin-built CSave binaries,
+you may also use the MSVC-compiled version of CSave (MSVC  =
+Microsoft   (R)   Visual  Studio  (TM)  C/C++).  Follow  the
+
+
+
+
+
+
+
+
+
+                             -2-
+
+
+instructions above, and be sure to download the LookupTables
+as well. The MSVC version of the CSave binaries is function-
+ally equalivent to the "standard" Cygwin binaries.
+
+
+44..  IInnssttaallllaattiioonn ((PPrreebbuuiilltt BBiinnaarriieess)) -- OOSS//22 vveerrssiioonn 22++
+
+     CSave supports OS/2 2.0 and newer as valid OSes to  run
+itself  on.  First,  go  to the CSave GitHub page and either
+download the files in  the  "build_os2v2"  folder  and  copy
+those  over  to your OS/2 system. Please note that there are
+minor issues running CSave on an SMP  OS/2  system.  Crashes
+have  been reported on OS/2 2.11 SMP, OS/2 Warp 3.0 SMP, and
+OS/2 Warp 4.52 (W4 kernel). Remember to  also  download  the
+LookupTables  fileset  as  well,  or you will not be able to
+edit items at all.
+
+
+55..  IInnssttaallllaattiioonn ((CCoommppiilliinngg)) -- UUnniixx,, LLiinnuuxx,, BBSSDD,, aanndd WWiinnddoowwss
+((CCyyggwwiinn))
+
+     The first thing you need to do is set up your build en-
+vironment - install protobuf,  gcc,  pkg-config,  make,  and
+git.  After you've installed everything, retrieve the source
+code   for    protobuf-c    by    executing    "git    clone
+https://github.com/protobuf-c/protobuf-c.git".  Next,  enter
+the source code directory (cd protobuf-c) and execute "./au-
+togen.sh", "./configure", "make -j4", and "make install". If
+the shell script isn't executable,  do  a  "chmod  +x  auto-
+gen.sh" before attempting to compile. Once you have success-
+fully installed protobuf-c, return to your home directory  -
+execute  "cd" - and download the CSave source code with "git
+clone  https://github.com/HackerSmacker/CSave.git".    Enter
+the  CSave source code directory with "cd CSave" and compile
+it with "make". Continue to the Operations section.
+
+
+66..  IInnssttaallllaattiioonn ((CCoommppiilliinngg)) -- WWiinnddoowwss ((NNaattiivvee//MMSSVVCC))
+
+     First, you need to compile protobuf-c  and  add  it  to
+your  install's "Lib and "Include and make sure they are ac-
+cessible by the compliler. From there, use a GNU  make  like
+this:  "make  -f Makefile.vc". This will compile CSave using
+the Visual C++ toolchain. You will need to edit  Makefile.vc
+to tell the linker where the protobuf-c library is.
+
+
+77..  IInnssttaallllaattiioonn ((CCoommppiilliinngg)) -- OOSS//22 ((WWaattccoomm CC//CC++++ 1111))
+
+     First, compile protobuf-c and install the single header
+it comes with.  Then, edit  Makefile.watcom  and  make  sure
+SYSTEM  =  os2v2.  os2v2  is OS/2 version 2 and newer.  From
+there, type "make -f Makefile.watcom" to cross-compile.  You
+will  need  to edit Makefile.watcom to tell the linker where
+
+
+
+
+
+
+
+
+
+                             -3-
+
+
+to find the protobuf-c library.
+
+
+88..  IInnssttaallllaattiioonn ((CCoommppiilliinngg)) -- OOSS//22 ((EEMMXX//AArrccaaOOSS PPaacckkaaggeess))
+
+     Follow  the  Unix  installation  instructions   written
+above. The same process should apply. You might need to edit
+the Makefile to get it to properly compile.
+
+
+99..  IInnssttaallllaattiioonn ((CCoommppiilliinngg)) -- OOppeennVVMMSS 88..44 ((DDEECC CC//CC++++))
+
+     CSave does not cleanly compile with the DEC C compiler.
+Use a cross compiler or use GNV.  Make sure your GCC version
+in GNV is 8.0.0 or newer, as the protobuf-c outputs will not
+compile.
+
+
+
+1100..  OOppeerraattiioonn
+
+
+1100..11..  QQuuiicckk ssttaarrtt wwiitthh CCSSaavveeMMeennuu
+
+     For  new users, it is highly recommended that you start
+with CSaveMenu. You can run it directly from the folder that
+you  installed  CSave  to - on any platform. The precompiled
+builds of CSave should run on any OS.
+
+     CSaveMenu is a question-and-answer driven  application,
+so  be  sure to read each prompt and check this manual care-
+fully if it asks you to.
+
+
+1100..22..  QQuuiicckk ssttaarrtt
+
+     Start by running "SaveToProto XXX.sav" and then  "Save-
+Unpack  XXX.sav.proto" to get information about a save file.
+You can then use "SaveGenerate XXX.sav.proto" and then "Pro-
+toToSave  XXX.proto"  to  get  a  usable  file.  If you have
+CSaveGUI installed, please just use that.
+
+
+
+1100..33..  CCoonnvveerrttiinngg ssaavveess
+
+     The included utilities "SaveToProto" and  "ProtoToSave"
+to  convert  to and from "binary format" (i.e. a normal save
+file) and "protobuf format" (the data actually in  the  save
+file)  with  ease.  These programs take one parameter each -
+the name of the save file.
+To convert a save to protobuf  format:  "SaveToProto  origi-
+nal.sav"
+To   edit   the   file:   "SaveGenerate   original.sav.proto
+
+
+
+
+
+
+
+
+
+                             -4-
+
+
+edited.proto"
+To convert from protobuf format to binary format:  "ProtoTo-
+Save edited.proto original.sav"
+
+     Likewise,  you must also convert your profile saves. To
+acomplish this, use these programs:
+To convert a profile  to  protobuf  format:  "ProfileToProto
+profile.sav"
+To   edit   the  file:  "ProfileGenereate  profile.sav.proto
+profedited.sav.proto"
+To convert from protobuf format to binary format:  "ProtoTo-
+Profile profedited.sav.proto profile.sav"
+
+     If  you want to convert to and from console saves, sim-
+ply put the "profile code" number as the last  command  line
+argument.   For  SaveToProto,  enter  something  like  this:
+"SaveToProto 2.sav 3"  (3  is  the  platform  code  for  PS4
+saves).  For ProtoToSave, enter something like this: "Proto-
+ToSave 2.sav.proto 2.sav 3"
+
+
+1100..44..  CCoonnvveerrttiinngg ssaavveess aaccrroossss ddiiffffeerreenntt ppllaattffoorrmmss
+
+     The "SaveConvert" program can convert, for instance,  a
+PS4  save to a PC save. It manipulates the header and re-en-
+codes the save data. Use this program with care,  as  it  is
+basically a shortcut to running SaveToProto and ProtoToSave,
+except this program manipulates the headers to make the game
+not  clobber  over  your save. Of course, you can also use a
+series of other CSave commands  to  manually  convert  saves
+without  using  SaveConvert.  SaveConvert is useful for con-
+verting a large amount of saves in batch - just be  sure  to
+specify the correct platform numbers.
+
+
+1100..55..  EEddiittiinngg ssaavveess
+
+
+1100..66..  CCoommpprreehheennssiivvee LLiisstt ooff PPrrooffiilleeGGeenneerraattee ccoommmmaannddss
+
+
+1100..66..11..  sseett ggoollddeennkkeeyyss
+
+     This  command  sets  how  many Golden Keys you have. It
+will ask for how many you want.
+
+
+1100..66..22..  uunnlloocckk aallll
+
+     Unlocks _e_v_e_r_y_t_h_i_n_g_.  Please note that this could  cause
+some  problems.  Also, AABBSSOOLLUUTTEELLYY UUNNDDEERR NNOO CCIIRRCCUUMMSSTTAANNCCEESS UUSSEE
+TTHHIISS CCOOMMMMAANNDD UUNNLLEESSSS YYOOUU HHAAVVEE MMEETT TTHHEE  LLIICCEENNSSEE  RREEQQUUIIRREEMMEENNTTSS..
+IITT  IISS  IILLLLEEGGAALL  TTOO UUSSEE TTHHIISS CCOOMMMMAANNDD TTOO OOBBTTAAIINN CCOONNTTEENNTT WWHHIICCHH
+YYOOUU DDIIDD NNOOTT PPAAYY FFOORR.. II AASSSSUUMMEE NNOO LLIIAABBIILLIITTYY IIFF YYOOUU UUSSEE TTHHIISS..
+
+
+
+
+
+
+
+
+
+                             -5-
+
+
+1100..66..33..  sseett ggttookkeennss
+
+     This command can be used to  set  how  many  unredeemed
+Guardian Rank tokens you have. Specify any number.
+
+
+1100..66..44..  sseett ggrraannkk
+
+     Use  this  command to set your Guardian Rank level (the
+one that appears at the bottom of the screen). Use this com-
+mand with caution, as this is a deprecated field.
+
+
+1100..66..55..  sseett ggeexxpp
+
+     Set the _o_l_d Guardian Rank experience level. Please note
+that this value is no longer used.
+
+
+1100..66..66..  sseett ggnneewweexxpp
+
+     Set the Guardian Rank experience level.  Use  this  in-
+stead  of  the "set gexp" command as that field is no longer
+used by the game.
+
+
+1100..66..77..  sseett ggsseeeedd
+
+     Set the Guardian Rank random rewards seed. Please enter
+it  in integer form. ProfileUnpack will output that value in
+integer form. If you are given  a  hexadecimal-format  seed,
+use a calculator to convert it to decimal and enter it.
+
+
+
+
+1100..77..  CCoommpprreehheennssiivvee LLiisstt ooff SSaavveeGGeenneerraattee ccoommmmaannddss
+
+
+1100..77..11..  qquuiitt,, eexxiitt
+
+     Exit  from SaveGenerate. The output file will be gener-
+ated and saved. Please now run ProtoToSave to pack the  save
+file into a BL3 binary format save.
+
+
+1100..77..22..  sseett nnaammee
+
+     Set  the  player's preferred name. It will prompt for a
+string.
+
+
+
+
+
+
+
+
+
+
+
+
+
+                             -6-
+
+
+1100..77..33..  sseett ccllaassss
+
+     Sets the player's class. Takes an integer. 0 is  Amara,
+1 is FL4K, 2 is Moze, and 3 is Zane.
+
+
+1100..77..44..  sseett ssdduu
+
+     Sets  SDU values. Iterates through each SDU and prompts
+for a new level. Press Enter to use the previous  value,  or
+specify  a blank line if using a script file. If you are us-
+ing a script file and you have too many blank lines, the ed-
+itor will ignore them. If you don't have enough blank lines,
+the editor will set that SDU to zero.
+
+
+1100..77..55..  sseett mmaayyhheemmlleevveell
+
+     Set the Mayhem Mode level for any playthrough you want.
+It  will first prompt for the Mayhem level you want, then it
+will  prompt  for  what  playthrough  you  want  to  update.
+Playthrough 0 is NVMH, and 1 is TVHM.
+
+
+1100..77..66..  sseett eexxppooiinnttss
+
+     Set  the  total  amount of experience points. This does
+not mean set the level - setting the EXP level  affects  the
+level because you need a certain amount of EXP to clear that
+level. Prompts for an integer value.
+
+
+1100..77..77..  sseett lleevveell
+
+     Sets the player level by getting the level, and setting
+the  EXP  to  the  minimum  required  to  clear  that level.
+Prompts for an integer. The max accepted value  is  80,  al-
+though  this  will not be accepted by the game, and will in-
+stead drop you down to the current level cap.
+
+
+1100..77..88..  sseett qquueesstt
+
+     This command will prompt the  user  for  three  things:
+first,  the  quest  path.  Use "SaveUnpack name.proto | grep
+CSAV001MSN" to find the quest. Copy and paste the class path
+for  the  mission  into  the  editor.  When prompted for the
+playthrough, enter 0 for NVHM or 1 for TVHM. Next, enter the
+quest  state  like this: 0 is Not Started, 1 is Active, 2 is
+Completed, 3 is Failed, and 4 is Unknown. Do  not  enter  4,
+your game will most likely crash.
+
+
+
+
+
+
+
+
+
+
+
+
+                             -7-
+
+
+1100..77..99..  sseett gguuaarrddiiaannrraannkk
+
+     This  feature  is currently not implemented. Check back
+later for an update.
+
+
+1100..77..1100..  sseett mmoonneeyy
+
+     Set how much money you have. Takes an integer.
+
+
+1100..77..1111..  sseett eerriiddiiuumm
+
+     Sets how much Eridium you have. Takes an integer.
+
+
+1100..77..1122..  uunnlloocckk sskkiillllttrreeee
+
+     Enable the selection of all skills on  the  tree.  Does
+not coorespond to how many skill points you have.
+
+
+1100..77..1133..  sseett sskkiillllppooiinnttss
+
+     Sets how many skill points you have. Takes an integer -
+there does not appear to be a cap on this value.
+
+
+1100..77..1144..  sseett cchhaalllleennggee
+
+     Modifies a challenge. "Challenges" includes crew  chal-
+lenges, and those challenges that pop up on the left side of
+your screen every now and  then  (especially  during  a  new
+playthrough). Challenges are shared between playthroughs, so
+it will not prompt if you want to search NVHM  or  TVHM.  It
+will first prompt you for what challenge you want. Enter the
+class path of the challenge (remember to use  SaveUnpack  to
+find them).  Then, enter a completion state (1 for completed
+and 0 for uncompleted).
+
+
+1100..88..  CCoommpprreehheennssiivvee lliisstt ooff CCSSaavvee mmeessssaaggee pprreeffiixxeess
+CSAV001GEN - General information
+CSAV001CLS - Player class information
+CSAV001SKL - Skill points, XP, skills, and tree information
+CSAV001SDU - SDU information
+CSAV001VEH - Vehicle parts, loadouts, and configurations
+CSAV001MSN - Missions/quests
+CSAV001AMO - Ammo and grenades
+CSAV001GRD - Guardian rank, level, perks, and rewards
+CSAV001ROM - Crew  quarters/bedroom  information  (including
+guns on the rack)
+CSAV001ECH - ECHO logs
+CSAV001FTM  - Fast Travel machines: blacklisted, active, and
+
+
+
+
+
+
+
+
+
+                             -8-
+
+
+reachable
+CSAV001INV - Inventory: backpack and equipped
+CSAV001CUS - Customizations: color, skin, emotes
+CSAV001CHL - Challenge information
+CSAV001ICL - Money (ICL means Inventory Category List)
+CSAV001MHM - Mayhem Mode information
+CSAVOO1ILT - Item Lookup Test program
+CSAV001FIL - CSave file processing messages
+CSAV001ABD - Abnormal End (crash)
+CSAV001RWS - Read Write Save operations: loading and  saving
+files
+CSAV001CNV - Conversion functions
+
+
+1100..88..11..  PPllaattffoorrmm CCooddeess
+
+     These  numbers  are  supposed to be entered as the last
+command line argument on SaveToProto, ProtoToSave,  Profile-
+ToProto, or ProtoToProfile.
+1 - PC save file - Steam
+2 - PC profile file - Steam
+3 - PS4 save file
+4 - PS4 profile file
+5 - XB1 save file (NOT IMPLEMENTED)
+6 - XB1 profile file (NOT IMPLEMENTED)
+7 - PC save file - Epic Games
+8 - PC profile file - Epic Games
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
