@@ -29,6 +29,9 @@ OakSave__GameStatSaveGameData** profile_stats_data;
 size_t n_profile_stats_data;
 int fileLen;
 FILE* pbF;
+OakSave__GuardianRankProfileData *guardian_rank_obj;
+size_t n_rank_rewards;
+OakSave__GuardianRankRewardSaveGameData** rank_rewards;
 
 int main(int argc, char** argv) {
 	if(argc < 2) {
@@ -102,6 +105,20 @@ int main(int argc, char** argv) {
 		printf("CSAV001CST Decoration %d: %s\n", i, unlocked_crew_quarters_decorations[i]->decoration_item_asset_path);
 	}
 
+// Guardian Rank
+	guardian_rank_obj = profData->guardian_rank;
+	rank_rewards = guardian_rank_obj->rank_rewards;
+	n_rank_rewards = guardian_rank_obj->n_rank_rewards;
+	printf("CSAV001GRD Available tokens: %d\n", guardian_rank_obj->available_tokens);
+	printf("CSAV001GRD Number of rank rewards: %d\n", guardian_rank_obj->n_rank_rewards);
+	printf("CSAV001GRD Guardian rank value: %d\n", guardian_rank_obj->guardian_rank);
+	printf("CSAV001GRD Guardian rank XP: %d\n", guardian_rank_obj->guardian_experience);
+	printf("CSAV001GRD Guardian rank random rewards seed: %d\n", guardian_rank_obj->guardian_reward_random_seed);
+	printf("CSAV001GRD Guardian rank new experience: %d\n", guardian_rank_obj->new_guardian_experience);
+	for(i = 0; i < n_rank_rewards; i++) {
+		printf("CSAV001GRD Reward %s has %d tokens\n", rank_rewards[i]->reward_data_path, rank_rewards[i]->num_tokens);
+	}
+	
 
 // Rooms
 	n_unlocked_crew_quarters_rooms = profData->n_unlocked_crew_quarters_rooms;

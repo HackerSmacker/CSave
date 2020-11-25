@@ -188,6 +188,41 @@ IT IS ILLEGAL TO USE THIS COMMAND TO OBTAIN CONTENT WHICH YOU DID NOT PAY FOR. I
 IF YOU USE THIS.
 .R
 
+.NH 3
+set gtokens
+.PP
+This command can be used to set how many unredeemed Guardian Rank tokens you have. Specify any number.
+
+.NH 3
+set grank
+.PP
+Use this command to set your Guardian Rank level (the one that appears at the bottom of the screen). Use
+this command with caution, as this is a deprecated field.
+
+.NH 3
+set gexp
+.PP
+Set the
+.I
+old
+.R
+Guardian Rank experience level. Please note that this value is no longer used.
+
+.NH 3
+set gnewexp
+.PP
+Set the Guardian Rank experience level. Use this instead of the "set gexp" command as that field
+is no longer used by the game.
+
+.NH 3
+set gseed
+.PP
+Set the Guardian Rank random rewards seed. Please enter it in integer form. ProfileUnpack will output
+that value in integer form. If you are given a hexadecimal-format seed, use a calculator to convert it
+to decimal and enter it.
+
+
+
 .NH 2
 Comprehensive List of SaveGenerate commands
 

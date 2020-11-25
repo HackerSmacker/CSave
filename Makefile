@@ -18,7 +18,8 @@ all: $(PROGS)
 
 %.txt: %.ms
 	@echo " TROFF   " $< " TEXT"
-	@groff -Tascii -ms -Z $< | grotty -c > $@
+	# @groff -Tascii -ms -Z $< | grotty -c | sed 's/[\x01-\x1F\x7F]//g' | sed 's/\([A-Za-z.,()]\)\1\+/\1/g' > $@
+	@groff -Tascii -ms -Z $< | grotty -c | sed 's/[\x01-\x1F\x7F]//g' > $@
 
 
 %.ps: %.ms

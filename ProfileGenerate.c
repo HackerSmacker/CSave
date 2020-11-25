@@ -27,6 +27,8 @@ char* command;
 FILE* inFile;
 FILE* outFile;
 int fileLen;
+char* cutText;
+
 
 int main(int argc, char** argv) {
 	if(argc < 3) {
@@ -99,6 +101,63 @@ int main(int argc, char** argv) {
 				}
 				// 3. store value
 				//profData->unlocked_customizations = custs;
+			}
+		}
+		else if(strcmp("set gtokens\n", command) == 0) {
+			printf("CSAV001IMM Specify how many tokens you want\n*Input\n");
+			fgets(command, 1024, stdin);
+			int32_t newTokens;
+			newTokens = atoi(command);
+			profData->guardian_rank->available_tokens = newTokens;
+		}
+		else if(strcmp("set grank\n", command) == 0) {
+			printf("CSAV001IMM Specify guardian rank level\n*Input\n");
+			fgets(command, 1024, stdin);
+			int32_t level;
+			level = atoi(command);
+			profData->guardian_rank->guardian_rank = level;
+		}
+		else if(strcmp("set gexp\n", command) == 0) {
+			printf("CSAV001IMM Specify guardian rank experience\n*Input\n");
+			fgets(command, 1024, stdin);
+			int32_t level;
+			level = atoi(command);
+			profData->guardian_rank->guardian_experience = level;
+		}
+		else if(strcmp("set gseed\n", command) == 0) {
+			printf("CSAV001IMM Specify guardian rank random speed (integer form please)\n*Input\n");
+			fgets(command, 1024, stdin);
+			int32_t seed;
+			seed = atoi(command);
+			profData->guardian_rank->guardian_reward_random_seed = seed;
+		}
+		else if(strcmp("set gnewexp\n", command) == 0) {
+			printf("CSAV001IMM Specify new guardian rank experience\n*Input\n");
+			fgets(command, 1024, stdin);
+			int64_t level;
+			level = atoi(command);
+			profData->guardian_rank->new_guardian_experience = level;
+		}
+		else if(strcmp("set greward\n", command) == 0) {
+			printf("CSAV001IMM Specify class path of reward\n*Input\n");
+			fgets(command, 1024, stdin);
+			cutText = malloc(strlen(command) - 1);
+			strncpy(cutText, command, (strlen(command) - 1));
+			cutText[strlen(command) - 1] = '\0';
+			int found;
+			found = 0;
+			for(i = 0; i < profData->guardian_rank->n_rank_rewards; i++) {
+				if(strcmp(profData->guardian_rank->rank_rewards[i]->reward_data_path, cutText) == 0) {
+					printf("CSAV001IMM Found\n");
+					printf("CSAV001IMM Enter number of tokens for reward\n*Input\n");
+					fgets(command, 1024, stdin);
+					int numTokens;
+					numTokens = atoi(command);
+					profData->guardian_rank->rank_rewards[i]->num_tokens = numTokens;
+				}
+			}
+			if(found == 0) {
+				printf("CSAV001IMM Not found\n");
 			}
 		}
 		else {
