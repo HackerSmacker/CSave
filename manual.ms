@@ -26,7 +26,11 @@ SaveGenerate - Protobuf format save editor
 ProfileGenerate - Protobuf format profile editor
 .br
 SaveConvert - Convert BL3 saves to other platforms, and change the bitmask
-
+.br
+LookupTables - required files for item editing.
+.br
+Scripts - CSave script files, mostly for SaveGenerate.
+.br
 
 .NH 1
 Installation (Prebuilt Builds) - Windows (Cygwin-compiled)
@@ -162,6 +166,15 @@ the save data. Use this program with care, as it is basically a shortcut to runn
 this program manipulates the headers to make the game not clobber over your save. Of course, you can also use a series
 of other CSave commands to manually convert saves without using SaveConvert. SaveConvert is useful for converting a large
 amount of saves in batch - just be sure to specify the correct platform numbers.
+
+.NH 2 Running scripts
+.PP
+There are several example scripts in the "Scripts" folder included with the distribution. Please inspect these 
+files and realize that they are actually just a series of commands you pipe into SaveGenerate or ProfileGenerate. 
+To "run" a script file, use a command like this: "SaveGenerate input.sav.proto output.sav.proto < scriptFile.txt". 
+Please note that your command shell might have different command syntax. Make sure that "SaveGenerate" and/or
+"ProfileGenerate" are in your system path, or are in the same folder as your scripts are stored. Also note that the
+Windows command processor and PowerShell are not case-sensitive.
 
 .NH 2
 Editing saves

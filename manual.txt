@@ -28,7 +28,8 @@ SaveGenerate - Protobuf format save editor
 ProfileGenerate - Protobuf format profile editor
 SaveConvert  -  Convert  BL3  saves  to other platforms, and
 change the bitmask
-
+LookupTables - required files for item editing.
+Scripts - CSave script files, mostly for SaveGenerate.
 
 
 22..  IInnssttaallllaattiioonn ((PPrreebbuuiilltt BBuuiillddss))  --  WWiinnddoowwss  ((CCyyggwwiinn--ccoomm--
@@ -57,7 +58,6 @@ ppiilleedd))
 
      As  an  alternative to the Cygwin-built CSave binaries,
 you may also use the MSVC-compiled version of CSave (MSVC  =
-Microsoft   (R)   Visual  Studio  (TM)  C/C++).  Follow  the
 
 
 
@@ -70,9 +70,10 @@ Microsoft   (R)   Visual  Studio  (TM)  C/C++).  Follow  the
                              -2-
 
 
-instructions above, and be sure to download the LookupTables
-as well. The MSVC version of the CSave binaries is function-
-ally equalivent to the "standard" Cygwin binaries.
+Microsoft (R) Visual Studio (TM) C/C++). Follow the instruc-
+tions above, and be sure to  download  the  LookupTables  as
+well. The MSVC version of the CSave binaries is functionally
+equalivent to the "standard" Cygwin binaries.
 
 
 44..  IInnssttaallllaattiioonn ((PPrreebbuuiilltt BBiinnaarriieess)) -- OOSS//22 vveerrssiioonn 22++
@@ -123,7 +124,6 @@ to tell the linker where the protobuf-c library is.
 it comes with.  Then, edit  Makefile.watcom  and  make  sure
 SYSTEM  =  os2v2.  os2v2  is OS/2 version 2 and newer.  From
 there, type "make -f Makefile.watcom" to cross-compile.  You
-will  need  to edit Makefile.watcom to tell the linker where
 
 
 
@@ -136,6 +136,7 @@ will  need  to edit Makefile.watcom to tell the linker where
                              -3-
 
 
+will  need  to edit Makefile.watcom to tell the linker where
 to find the protobuf-c library.
 
 
@@ -189,7 +190,6 @@ file)  with  ease.  These programs take one parameter each -
 the name of the save file.
 To convert a save to protobuf  format:  "SaveToProto  origi-
 nal.sav"
-To   edit   the   file:   "SaveGenerate   original.sav.proto
 
 
 
@@ -202,6 +202,7 @@ To   edit   the   file:   "SaveGenerate   original.sav.proto
                              -4-
 
 
+To   edit   the   file:   "SaveGenerate   original.sav.proto
 edited.proto"
 To convert from protobuf format to binary format:  "ProtoTo-
 Save edited.proto original.sav"
@@ -237,25 +238,24 @@ verting a large amount of saves in batch - just be  sure  to
 specify the correct platform numbers.
 
 
-1100..55..  EEddiittiinngg ssaavveess
+1100..55..
+
+     There  are  several  example  scripts  in the "Scripts"
+folder included with the distribution. Please inspect  these
+files  and  realize  that they are actually just a series of
+commands you pipe into SaveGenerate or ProfileGenerate.   To
+"run"  a script file, use a command like this: "SaveGenerate
+input.sav.proto output.sav.proto < scriptFile.txt".   Please
+note  that  your  command shell might have different command
+syntax. Make sure that "SaveGenerate" and/or  "ProfileGener-
+ate"  are  in your system path, or are in the same folder as
+your scripts are stored. Also note that the Windows  command
+processor and PowerShell are not case-sensitive.
 
 
-1100..66..  CCoommpprreehheennssiivvee LLiisstt ooff PPrrooffiilleeGGeenneerraattee ccoommmmaannddss
 
 
-1100..66..11..  sseett ggoollddeennkkeeyyss
 
-     This  command  sets  how  many Golden Keys you have. It
-will ask for how many you want.
-
-
-1100..66..22..  uunnlloocckk aallll
-
-     Unlocks _e_v_e_r_y_t_h_i_n_g_.  Please note that this could  cause
-some  problems.  Also, AABBSSOOLLUUTTEELLYY UUNNDDEERR NNOO CCIIRRCCUUMMSSTTAANNCCEESS UUSSEE
-TTHHIISS CCOOMMMMAANNDD UUNNLLEESSSS YYOOUU HHAAVVEE MMEETT TTHHEE  LLIICCEENNSSEE  RREEQQUUIIRREEMMEENNTTSS..
-IITT  IISS  IILLLLEEGGAALL  TTOO UUSSEE TTHHIISS CCOOMMMMAANNDD TTOO OOBBTTAAIINN CCOONNTTEENNTT WWHHIICCHH
-YYOOUU DDIIDD NNOOTT PPAAYY FFOORR.. II AASSSSUUMMEE NNOO LLIIAABBIILLIITTYY IIFF YYOOUU UUSSEE TTHHIISS..
 
 
 
@@ -268,59 +268,59 @@ YYOOUU DDIIDD NNOOTT PPAAYY FFOORR.. II AASSSSUUMMEE NNOO LLIIAABBIILLIITTYY IIF
                              -5-
 
 
-1100..66..33..  sseett ggttookkeennss
+1100..66..  EEddiittiinngg ssaavveess
+
+
+1100..77..  CCoommpprreehheennssiivvee LLiisstt ooff PPrrooffiilleeGGeenneerraattee ccoommmmaannddss
+
+
+1100..77..11..  sseett ggoollddeennkkeeyyss
+
+     This  command  sets  how  many Golden Keys you have. It
+will ask for how many you want.
+
+
+1100..77..22..  uunnlloocckk aallll
+
+     Unlocks _e_v_e_r_y_t_h_i_n_g_.  Please note that this could  cause
+some  problems.  Also, AABBSSOOLLUUTTEELLYY UUNNDDEERR NNOO CCIIRRCCUUMMSSTTAANNCCEESS UUSSEE
+TTHHIISS CCOOMMMMAANNDD UUNNLLEESSSS YYOOUU HHAAVVEE MMEETT TTHHEE  LLIICCEENNSSEE  RREEQQUUIIRREEMMEENNTTSS..
+IITT  IISS  IILLLLEEGGAALL  TTOO UUSSEE TTHHIISS CCOOMMMMAANNDD TTOO OOBBTTAAIINN CCOONNTTEENNTT WWHHIICCHH
+YYOOUU DDIIDD NNOOTT PPAAYY FFOORR.. II AASSSSUUMMEE NNOO LLIIAABBIILLIITTYY IIFF YYOOUU UUSSEE TTHHIISS..
+
+
+1100..77..33..  sseett ggttookkeennss
 
      This command can be used to  set  how  many  unredeemed
 Guardian Rank tokens you have. Specify any number.
 
 
-1100..66..44..  sseett ggrraannkk
+1100..77..44..  sseett ggrraannkk
 
      Use  this  command to set your Guardian Rank level (the
 one that appears at the bottom of the screen). Use this com-
 mand with caution, as this is a deprecated field.
 
 
-1100..66..55..  sseett ggeexxpp
+1100..77..55..  sseett ggeexxpp
 
      Set the _o_l_d Guardian Rank experience level. Please note
 that this value is no longer used.
 
 
-1100..66..66..  sseett ggnneewweexxpp
+1100..77..66..  sseett ggnneewweexxpp
 
      Set the Guardian Rank experience level.  Use  this  in-
 stead  of  the "set gexp" command as that field is no longer
 used by the game.
 
 
-1100..66..77..  sseett ggsseeeedd
+1100..77..77..  sseett ggsseeeedd
 
      Set the Guardian Rank random rewards seed. Please enter
 it  in integer form. ProfileUnpack will output that value in
 integer form. If you are given  a  hexadecimal-format  seed,
 use a calculator to convert it to decimal and enter it.
-
-
-
-
-1100..77..  CCoommpprreehheennssiivvee LLiisstt ooff SSaavveeGGeenneerraattee ccoommmmaannddss
-
-
-1100..77..11..  qquuiitt,, eexxiitt
-
-     Exit  from SaveGenerate. The output file will be gener-
-ated and saved. Please now run ProtoToSave to pack the  save
-file into a BL3 binary format save.
-
-
-1100..77..22..  sseett nnaammee
-
-     Set  the  player's preferred name. It will prompt for a
-string.
-
-
-
 
 
 
@@ -334,13 +334,29 @@ string.
                              -6-
 
 
-1100..77..33..  sseett ccllaassss
+1100..88..  CCoommpprreehheennssiivvee LLiisstt ooff SSaavveeGGeenneerraattee ccoommmmaannddss
+
+
+1100..88..11..  qquuiitt,, eexxiitt
+
+     Exit  from SaveGenerate. The output file will be gener-
+ated and saved. Please now run ProtoToSave to pack the  save
+file into a BL3 binary format save.
+
+
+1100..88..22..  sseett nnaammee
+
+     Set  the  player's preferred name. It will prompt for a
+string.
+
+
+1100..88..33..  sseett ccllaassss
 
      Sets the player's class. Takes an integer. 0 is  Amara,
 1 is FL4K, 2 is Moze, and 3 is Zane.
 
 
-1100..77..44..  sseett ssdduu
+1100..88..44..  sseett ssdduu
 
      Sets  SDU values. Iterates through each SDU and prompts
 for a new level. Press Enter to use the previous  value,  or
@@ -350,7 +366,7 @@ itor will ignore them. If you don't have enough blank lines,
 the editor will set that SDU to zero.
 
 
-1100..77..55..  sseett mmaayyhheemmlleevveell
+1100..88..55..  sseett mmaayyhheemmlleevveell
 
      Set the Mayhem Mode level for any playthrough you want.
 It  will first prompt for the Mayhem level you want, then it
@@ -358,7 +374,7 @@ will  prompt  for  what  playthrough  you  want  to  update.
 Playthrough 0 is NVMH, and 1 is TVHM.
 
 
-1100..77..66..  sseett eexxppooiinnttss
+1100..88..66..  sseett eexxppooiinnttss
 
      Set  the  total  amount of experience points. This does
 not mean set the level - setting the EXP level  affects  the
@@ -366,28 +382,12 @@ level because you need a certain amount of EXP to clear that
 level. Prompts for an integer value.
 
 
-1100..77..77..  sseett lleevveell
+1100..88..77..  sseett lleevveell
 
      Sets the player level by getting the level, and setting
 the  EXP  to  the  minimum  required  to  clear  that level.
 Prompts for an integer. The max accepted value  is  80,  al-
-though  this  will not be accepted by the game, and will in-
-stead drop you down to the current level cap.
-
-
-1100..77..88..  sseett qquueesstt
-
-     This command will prompt the  user  for  three  things:
-first,  the  quest  path.  Use "SaveUnpack name.proto | grep
-CSAV001MSN" to find the quest. Copy and paste the class path
-for  the  mission  into  the  editor.  When prompted for the
-playthrough, enter 0 for NVHM or 1 for TVHM. Next, enter the
-quest  state  like this: 0 is Not Started, 1 is Active, 2 is
-Completed, 3 is Failed, and 4 is Unknown. Do  not  enter  4,
-your game will most likely crash.
-
-
-
+though  this  will  not  be  accepted  by the game, and will
 
 
 
@@ -400,35 +400,50 @@ your game will most likely crash.
                              -7-
 
 
-1100..77..99..  sseett gguuaarrddiiaannrraannkk
+instead drop you down to the current level cap.
+
+
+1100..88..88..  sseett qquueesstt
+
+     This command will prompt the  user  for  three  things:
+first,  the  quest  path.  Use "SaveUnpack name.proto | grep
+CSAV001MSN" to find the quest. Copy and paste the class path
+for  the  mission  into  the  editor.  When prompted for the
+playthrough, enter 0 for NVHM or 1 for TVHM. Next, enter the
+quest  state  like this: 0 is Not Started, 1 is Active, 2 is
+Completed, 3 is Failed, and 4 is Unknown. Do  not  enter  4,
+your game will most likely crash.
+
+
+1100..88..99..  sseett gguuaarrddiiaannrraannkk
 
      This  feature  is currently not implemented. Check back
 later for an update.
 
 
-1100..77..1100..  sseett mmoonneeyy
+1100..88..1100..  sseett mmoonneeyy
 
      Set how much money you have. Takes an integer.
 
 
-1100..77..1111..  sseett eerriiddiiuumm
+1100..88..1111..  sseett eerriiddiiuumm
 
      Sets how much Eridium you have. Takes an integer.
 
 
-1100..77..1122..  uunnlloocckk sskkiillllttrreeee
+1100..88..1122..  uunnlloocckk sskkiillllttrreeee
 
      Enable the selection of all skills on  the  tree.  Does
 not coorespond to how many skill points you have.
 
 
-1100..77..1133..  sseett sskkiillllppooiinnttss
+1100..88..1133..  sseett sskkiillllppooiinnttss
 
      Sets how many skill points you have. Takes an integer -
 there does not appear to be a cap on this value.
 
 
-1100..77..1144..  sseett cchhaalllleennggee
+1100..88..1144..  sseett cchhaalllleennggee
 
      Modifies a challenge. "Challenges" includes crew  chal-
 lenges, and those challenges that pop up on the left side of
@@ -441,7 +456,17 @@ find them).  Then, enter a completion state (1 for completed
 and 0 for uncompleted).
 
 
-1100..88..  CCoommpprreehheennssiivvee lliisstt ooff CCSSaavvee mmeessssaaggee pprreeffiixxeess
+
+
+
+
+
+
+
+                             -8-
+
+
+1100..99..  CCoommpprreehheennssiivvee lliisstt ooff CCSSaavvee mmeessssaaggee pprreeffiixxeess
 CSAV001GEN - General information
 CSAV001CLS - Player class information
 CSAV001SKL - Skill points, XP, skills, and tree information
@@ -454,18 +479,6 @@ CSAV001ROM - Crew  quarters/bedroom  information  (including
 guns on the rack)
 CSAV001ECH - ECHO logs
 CSAV001FTM  - Fast Travel machines: blacklisted, active, and
-
-
-
-
-
-
-
-
-
-                             -8-
-
-
 reachable
 CSAV001INV - Inventory: backpack and equipped
 CSAV001CUS - Customizations: color, skin, emotes
@@ -480,7 +493,7 @@ files
 CSAV001CNV - Conversion functions
 
 
-1100..88..11..  PPllaattffoorrmm CCooddeess
+1100..99..11..  PPllaattffoorrmm CCooddeess
 
      These  numbers  are  supposed to be entered as the last
 command line argument on SaveToProto, ProtoToSave,  Profile-
@@ -493,19 +506,6 @@ ToProto, or ProtoToProfile.
 6 - XB1 profile file (NOT IMPLEMENTED)
 7 - PC save file - Epic Games
 8 - PC profile file - Epic Games
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
