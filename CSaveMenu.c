@@ -9,17 +9,17 @@ int loopContinue = 1;
 FILE* fp;
 char path[8192];
 char* command;
-char* myLine;
+char myLine[8192];
 char choice[32];
 char input[256];
 char filenameNL[2048];
-char* filename;
-char* filename2;
+char filename[2048];
+char filename2[2048];
 char filenameNL2[2048];
 char pcInNL[2048];
 char pcOutNL[2048];
-char* pcIn;
-char* pcOut;
+char pcIn[2048];
+char pcOut[2048];
 
 void drawMainMenu() {
 	printf("0    File Save Files\n");
@@ -55,31 +55,23 @@ void saveConvert() {
 	printf("Convert Save\n");
 	printf("Please specify the input save file.\n");
 	printf("Enter file --> ");
-	fgets(filenameNL, 1024, stdin);
-	filename = malloc(strlen(filenameNL) - 1);
-	strncpy(filename, filenameNL, (strlen(filenameNL) - 1));
-	filename[strlen(filenameNL) - 1] = '\0';
+	fgets(filename, 1024, stdin);
+	strtok(filename, "\n");
 
 	printf("Please specify the output save file.\n");
 	printf("Enter file --> ");
-	fgets(filenameNL2, 1024, stdin);
-	filename2 = malloc(strlen(filenameNL2) - 1);
-	strncpy(filename2, filenameNL2, (strlen(filenameNL2) - 1));
-	filename2[strlen(filenameNL2) - 1] = '\0';
+	fgets(filename2, 1024, stdin);
+	strtok(filename2, "\n");
 
 	printf("Please specify the input platform code (see manual).\n");
 	printf("Enter value --> ");
-	fgets(pcInNL, 1024, stdin);
-	pcIn = malloc(strlen(pcInNL) - 1);
-	strncpy(pcIn, pcInNL, (strlen(pcInNL) - 1));
-	pcIn[strlen(pcInNL) - 1] = '\0';
+	fgets(pcIn, 1024, stdin);
+	strtok(pcIn, "\n");
 
 	printf("Please specify the output platform code (see manual).\n");
 	printf("Enter value --> ");
-	fgets(pcOutNL, 1024, stdin);
-	pcOut = malloc(strlen(pcOutNL) - 1);
-	strncpy(pcOut, pcOutNL, (strlen(pcOutNL) - 1));
-	pcOut[strlen(pcOutNL) - 1] = '\0';
+	fgets(pcOut, 1024, stdin);
+	strtok(pcOut, "\n");
 
 	printf("Will convert %s to %s\n", filename, filename2);
 	command = malloc(strlen("SaveConvert ") + strlen(filename) + 1 + strlen(filename2) + 8);
@@ -106,12 +98,10 @@ void saveToProto() {
 	printf("Save to Protobuf\n");
 	printf("Please specify a filename.\n");
 	printf("Enter file --> ");
-	fgets(filenameNL, 1024, stdin);
-	filename = malloc(strlen(filenameNL) - 1);
-	strncpy(filename, filenameNL, (strlen(filename) - 1));
-	filename[strlen(filenameNL) - 1] = '\0';
+	fgets(filename, 1024, stdin);
+	strtok(filename, "\n");
 	printf("Will convert %s\n", filename);
-	command = malloc(strlen("SaveToProto ") + strlen(filenameNL) + 1);
+	command = malloc(strlen("SaveToProto ") + strlen(filename) + 1);
 	strcpy(command, "SaveToProto ");
 	strcat(command, filename);
 	fp = popen(command, "r");
@@ -119,7 +109,7 @@ void saveToProto() {
 		printf("Failed to execute SaveToProto!\n");
 		return;
 	}
-	while(fgets(path, sizeof(path), fp) != NULL) {
+	while(fgets(myLine, 8192, fp) != NULL) {
 		printf("%s", myLine);
 	}
 	printf("Execution complete\n");
@@ -129,10 +119,8 @@ void saveToProtoProfile() {
 	printf("Profile to Protobuf\n");
 	printf("Please specify a filename.\n");
 	printf("Enter file --> ");
-	fgets(filenameNL, 1024, stdin);
-	filename = malloc(strlen(filenameNL) - 1);
-	strncpy(filename, filenameNL, (strlen(filenameNL) - 1));
-	filename[strlen(filenameNL) - 1] = '\0';
+	fgets(filename, 1024, stdin);
+	strtok(filename, "\n");
 	printf("Will convert %s\n", filename);
 	command = malloc(strlen("ProfileToProto ") + strlen(filename) + 1);
 	strcpy(command, "ProfileToProto ");
@@ -142,7 +130,7 @@ void saveToProtoProfile() {
 		printf("Failed to execute ProfileToProto!\n");
 		return;
 	}
-	while(fgets(path, sizeof(path), fp) != NULL) {
+	while(fgets(myLine, 8192, fp) != NULL) {
 		printf("%s", myLine);
 	}
 	printf("Execution complete\n");
@@ -153,17 +141,13 @@ void protoToSave() {
 	printf("Protobuf to Save\n");
 	printf("Please specify a protobuf file.\n");
 	printf("Enter file --> ");
-	fgets(filenameNL, 1024, stdin);
-	filename = malloc(strlen(filenameNL) - 1);
-	strncpy(filename, filenameNL, (strlen(filenameNL) - 1));
-	filename[strlen(filenameNL) - 1] = '\0';
+	fgets(filename, 1024, stdin);
+	strtok(filename, "\n");
 
 	printf("Please specify the original file.\n");
 	printf("Enter file --> ");
-	fgets(filenameNL, 1024, stdin);
-	filename2 = malloc(strlen(filenameNL) - 1);
-	strncpy(filename2, filenameNL, (strlen(filenameNL) - 1));
-	filename2[strlen(filenameNL) - 1] = '\0';
+	fgets(filename2, 1024, stdin);
+	strtok(filename2, "\n");
 
 	printf("Will convert %s\n", filename);
 	command = malloc(strlen("ProtoToSave ") + strlen(filename) + 1 + strlen(filename2));
@@ -176,7 +160,7 @@ void protoToSave() {
 		printf("Failed to execute ProtoToSave!\n");
 		return;
 	}
-	while(fgets(path, sizeof(path), fp) != NULL) {
+	while(fgets(myLine, 8192, fp) != NULL) {
 		printf("%s", myLine);
 	}
 	printf("Execution complete\n");
@@ -186,17 +170,13 @@ void protoToSaveProfile() {
 	printf("Protobuf to Profile\n");
 	printf("Please specify a protobuf file.\n");
 	printf("Enter file --> ");
-	fgets(filenameNL, 1024, stdin);
-	filename = malloc(strlen(filenameNL) - 1);
-	strncpy(filename, filenameNL, (strlen(filename) - 1));
-	filename[strlen(filenameNL) - 1] = '\0';
+	fgets(filename, 1024, stdin);
+	strtok(filename, "\n");
 
 	printf("Please specify the original file.\n");
 	printf("Enter file --> ");
-	fgets(filenameNL, 1024, stdin);
-	filename2 = malloc(strlen(filenameNL) - 1);
-	strncpy(filename2, filenameNL, (strlen(filenameNL) - 1));
-	filename2[strlen(filenameNL) - 1] = '\0';
+	fgets(filename2, 1024, stdin);
+	strtok(filename2, "\n");
 
 	printf("Will convert %s\n", filename);
 	command = malloc(strlen("ProtoToProfile ") + strlen(filename) + 1 + strlen(filename2));
@@ -209,7 +189,7 @@ void protoToSaveProfile() {
 		printf("Failed to execute ProtoToProfile!\n");
 		return;
 	}
-	while(fgets(path, sizeof(path), fp) != NULL) {
+	while(fgets(myLine, 8192, fp) != NULL) {
 		printf("%s", myLine);
 	}
 	printf("Execution complete\n");
@@ -219,10 +199,8 @@ void saveUnpack() {
 	printf("View Save Information\n");
 	printf("Please specify protobuf file.\n");
 	printf("Enter file --> ");
-	fgets(filenameNL, 1024, stdin);
-	filename = malloc(strlen(filenameNL) - 1);
-	strncpy(filename, filenameNL, (strlen(filename) - 1));
-	filename[strlen(filenameNL) - 1] = '\0';
+	fgets(filename, 1024, stdin);
+	strtok(filename, "\n");
 	printf("Will process %s\n", filename);
 	command = malloc(strlen("SaveUnpack ") + strlen(filename) + 1);
 	strcpy(command, "SaveUnpack ");
@@ -232,7 +210,7 @@ void saveUnpack() {
 		printf("Failed to execute SaveUnpack\n");
 		return;
 	}
-	while(fgets(path, sizeof(path), fp) != NULL) {
+	while(fgets(myLine, 8192, fp) != NULL) {
 		printf("%s", myLine);
 	}
 	printf("Execution complete\n");
@@ -242,10 +220,8 @@ void profUnpack() {
 	printf("View Profile Information\n");
 	printf("Please specify protobuf file.\n");
 	printf("Enter file --> ");
-	fgets(filenameNL, 1024, stdin);
-	filename = malloc(strlen(filenameNL) - 1);
-	strncpy(filename, filenameNL, (strlen(filename) - 1));
-	filename[strlen(filenameNL) - 1] = '\0';
+	fgets(filename, 1024, stdin);
+	strtok(filename, "\n");
 	printf("Will process %s\n", filename);
 	command = malloc(strlen("ProfileUnpack ") + strlen(filename) + 1);
 	strcpy(command, "ProfileUnpack ");
@@ -255,7 +231,7 @@ void profUnpack() {
 		printf("Failed to execute ProfileUnpack!\n");
 		return;
 	}
-	while(fgets(path, sizeof(path), fp) != NULL) {
+	while(fgets(myLine, 8192, fp) != NULL) {
 		printf("%s", myLine);
 	}
 	printf("Execution complete\n");

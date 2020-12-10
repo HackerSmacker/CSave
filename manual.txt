@@ -17,7 +17,7 @@
 11..  CCSSaavvee PPaacckkaaggee CCoonntteennttss
 CSave includes several useful programs:
 CSaveGUI - ncurses-based UNIX GUI
-CSaveMenu - CSave Main Menu
+CSaveMenu - CSave Main Menu ((ssttaarrtt hheerree))
 SaveToProto - Convert saves to protobuf format
 ProtoToSave  -  Convert  edited protobuf format files to BL3
 saves
