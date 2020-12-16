@@ -4,9 +4,9 @@ LDFLAGS = -lprotobuf-c -L/usr/local/lib
 CFLAGS = -I. -I/usr/local/include
 DEPS = include/*.h
 PROTOS = *.proto
-OBJS = OakProfile.pb-c.o OakSave.pb-c.o OakShared.pb-c.o SaveUnpack.o FileTranslator.o SaveToProto.o ItemCode.o SaveGenerate.o ItemLookupTest.o ProtoToSave.o CSaveGUI.o ProfileUnpack.o ProfileGenerate.o ProtoToProfile.o ProfileToProto.o SaveConvert.o CSaveMenu.o
+OBJS = OakProfile.pb-c.o OakSave.pb-c.o OakShared.pb-c.o SaveUnpack.o FileTranslator.o SaveToProto.o ItemCode.o SaveGenerate.o ItemLookupTest.o ProtoToSave.o CSaveGUI.o ProfileUnpack.o ProfileGenerate.o ProtoToProfile.o ProfileToProto.o SaveConvert.o CSaveMenu.o ReadSaveHeader.o
 CPROTOS = OakProfile.pb-c.c OakSave.pb-c.c OakShared.pb-c.c
-PROGS = SaveUnpack SaveToProto SaveGenerate ItemLookupTest ProtoToSave CSaveGUI ProfileUnpack ProfileGenerate ProtoToProfile ProfileToProto SaveConvert CSaveMenu
+PROGS = SaveUnpack SaveToProto SaveGenerate ItemLookupTest ProtoToSave CSaveGUI ProfileUnpack ProfileGenerate ProtoToProfile ProfileToProto SaveConvert CSaveMenu ReadSaveHeader
 LIBRARIES = libBL3Proto.a
 MANUALS_PS = manual.ps
 MANUALS_PDF = manual.pdf
@@ -68,6 +68,8 @@ $(PROGS): $(LIBRARIES)
 	@$(LD) -o ProtoToProfile ProtoToProfile.o libBL3Proto.a $(LDFLAGS)
 	@echo " LD    SaveConvert"
 	@$(LD) -o SaveConvert SaveConvert.o libBL3Proto.a $(LDFLAGS)
+	@echo " LD    ReadSaveHeader"
+	@$(LD) -o ReadSaveHeader ReadSaveHeader.o libBL3Proto.a $(LDFLAGS)
 	@echo " LD    CSaveGUI"
 	@$(LD) -o CSaveGUI CSaveGUI.o -lncurses
 	@echo " LD    CSaveMenu"
@@ -98,6 +100,8 @@ install: $(PROGS)
 	@install ProfileToProto $(PREFIX)/bin
 	@echo " INSTALL    SaveConvert"
 	@install SaveConvert $(PREFIX)/bin
+	@echo " INSTALL    ReadSaveHeader"
+	@install ReadSaveHeader $(PREFIX)/bin
 
 
 uninstall:
@@ -123,6 +127,8 @@ uninstall:
 	@rm $(PREFIX)/bin/ProfileToProto
 	@echo " RM    SaveConvert"
 	@rm $(PREFIX)/bin/SaveConvert
+	@echo " RM    ReadSaveHeader"
+	@rm $(PREFIX)/bin/ReadSaveHeader
 
 
 .PHONY: clean

@@ -358,3 +358,56 @@ void writeSave(FILE* file, FILE* outFile, char* data, int32_t dataLen, int fileT
 	fwrite(data, sizeof(char), dataLen, outFile);
 }
 
+
+void readSaveHeader(FILE* file) {
+	int i;
+	printf("CSAV001RWS Reading file...\n");
+	// The actual save.
+	// Read it byte by byte.
+	save_t.header = malloc(4);
+	fread(save_t.header, sizeof(char), 4, file);
+	fread(&save_t.sg_version, sizeof(int32_t), 1, file);
+	fread(&save_t.pkg_version, sizeof(int32_t), 1, file);
+	fread(&save_t.engine_major, sizeof(int16_t), 1, file);
+	fread(&save_t.engine_minor, sizeof(int16_t), 1, file);
+	fread(&save_t.engine_patch, sizeof(int16_t), 1, file);
+	fread(&save_t.engine_build, sizeof(uint32_t), 1, file);
+	fread(&save_t.build_id_length, sizeof(int32_t), 1, file);
+	save_t.build_id = malloc(save_t.build_id_length);
+	fread(save_t.build_id, sizeof(char), save_t.build_id_length, file);
+	fread(&save_t.fmt_version, sizeof(int32_t), 1, file);
+	fread(&save_t.fmt_count, sizeof(int32_t), 1, file);
+	kvp_t = malloc(save_t.fmt_count * sizeof(struct keyValuePair));
+	for(i = 0; i < save_t.fmt_count; i++) {
+		kvp_t[i].guid = malloc(16);
+		fread(kvp_t[i].guid, sizeof(char), 16, file);
+		//printf("%d, ", ftell(file));
+		fread(&kvp_t[i].entry, sizeof(int32_t), 1, file);
+		//printf("%d, ", ftell(file));
+	}
+	//printf("%d, ", ftell(file));
+	fread(&save_t.sg_type_len, sizeof(int32_t), 1, file);
+	save_t.sg_type = malloc(save_t.sg_type_len);
+	fread(save_t.sg_type, sizeof(char), save_t.sg_type_len, file);
+	fread(&save_t.remaining_data_len, sizeof(int32_t), 1, file);
+	payloadStart = ftell(file);
+	save_t.remaining_data = malloc(save_t.remaining_data_len);
+	fread(save_t.remaining_data, sizeof(char), save_t.remaining_data_len, file);
+
+	printf("CSAV001RWS Save information:\n");
+	printf("Header: %s\n", save_t.header);
+	printf("SG version: %d\n", save_t.sg_version);
+	printf("Package version: %d\n", save_t.pkg_version);
+	printf("Engine version: %d.%d.%d\n", save_t.engine_major, save_t.engine_minor, save_t.engine_patch);
+	printf("Build ID length: %d\n", save_t.build_id_length);
+	printf("Build ID: %s\n", save_t.build_id);
+	printf("Custom format version: %d\n", save_t.fmt_version);
+	printf("Custom format count: %d\n", save_t.fmt_count);
+	//for(i = 0; i < save_t.fmt_count; i++) {
+	//	printf("Custom format %d: GUID: %x, entry %d\n", i, kvp_t[i].guid, kvp_t[i].entry);
+	//}
+	printf("Save type length: %d\n", save_t.sg_type_len);
+	printf("Save type: %s\n", save_t.sg_type);
+	printf("Payload start position: %d\n", payloadStart);
+	printf("Payload length: %d\n", save_t.remaining_data_len);
+}

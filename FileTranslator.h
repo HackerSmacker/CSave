@@ -43,7 +43,7 @@ size_t decryptSave_PS4(uint8_t* buffer, int offset, int length);
 size_t encryptSave_PS4(uint8_t* buffer, int offset, int length);
 size_t decryptProfile_PS4(uint8_t* buffer, int offset, int length);
 size_t encryptProfile_PS4(uint8_t* buffer, int offset, int length);
-
+void readSaveHeader(FILE* file);
 
 #endif
 
