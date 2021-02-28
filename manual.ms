@@ -371,6 +371,8 @@ CSAV001ABD - Abnormal End (crash)
 CSAV001RWS - Read Write Save operations: loading and saving files
 .br
 CSAV001CNV - Conversion functions
+.br
+CSAV001RGN - Saved region data (possibly unused?)
 
 .NH 3
 Platform Codes

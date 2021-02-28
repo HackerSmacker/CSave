@@ -72,6 +72,8 @@ OakSave__GameStateSaveData** sgData;
 int sgDataLen;
 OakSave__OakPlayerCharacterSlotSaveGameData* slotData;
 OakSave__OakPlayerAbilitySaveGameData* skillData;
+OakSave__RegionSaveGameData** regions;
+int numRegions;
 
 int main(int argc, char** argv) {
 	if(argc < 2) {
@@ -336,6 +338,12 @@ int main(int argc, char** argv) {
 	for(i = 0; i < sgDataLen; i++) {
 		printf("CSAV001MHM Mayhem level on playthrough %d: %d\n", i, sgData[i]->mayhem_level);
 		printf("CSAV001MHM Mayhem seed for playthrough %d: %x\n", i, sgData[i]->mayhem_random_seed);
+	}
+
+	regions = charData->saved_regions;
+	numRegions = charData->n_saved_regions;
+	for(i = 0; i < numRegions; i++) {
+		printf("CSAV001RGN Region %d: Game stage: %d, Playthrough %d, Region path %s\n", regions[i]->game_stage, regions[i]->play_through_idx, regions[i]->region_path);
 	}
 
 // Free the thing

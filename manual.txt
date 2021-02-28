@@ -491,6 +491,7 @@ CSAV001ABD - Abnormal End (crash)
 CSAV001RWS - Read Write Save operations: loading and  saving
 files
 CSAV001CNV - Conversion functions
+CSAV001RGN - Saved region data (possibly unused?)
 
 
 1100..99..11..  PPllaattffoorrmm CCooddeess
@@ -506,7 +507,6 @@ ToProto, or ProtoToProfile.
 6 - XB1 profile file (NOT IMPLEMENTED)
 7 - PC save file - Epic Games
 8 - PC profile file - Epic Games
-
 
 
 
