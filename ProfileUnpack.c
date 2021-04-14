@@ -32,6 +32,13 @@ FILE* pbF;
 OakSave__GuardianRankProfileData *guardian_rank_obj;
 size_t n_rank_rewards;
 OakSave__GuardianRankRewardSaveGameData** rank_rewards;
+OakSave__VaultCardSaveGameData* vcData;
+int numVcPrevs;
+OakSave__VaultCardPreviousChallenge** vcPrev;
+int numVcRewards;
+OakSave__VaultCardRewardList** vcRewards;
+int numVcRewardsCurrent;
+OakSave__VaultCardReward** vcRewardCurrent;
 
 int main(int argc, char** argv) {
 	if(argc < 2) {
@@ -123,6 +130,28 @@ int main(int argc, char** argv) {
 // Rooms
 	n_unlocked_crew_quarters_rooms = profData->n_unlocked_crew_quarters_rooms;
 	unlocked_crew_quarters_rooms = profData->unlocked_crew_quarters_rooms;
+
+	vcData = profData->vault_card;
+	printf("CSAV001VCD Last active Vault Card ID: %d\n", vcData->last_active_vault_card_id);
+	printf("CSAV001VCD Seed for today: %d\n", vcData->current_day_seed);
+	printf("CSAV001VCD Seed for this week: %d\n", vcData->current_week_seed);
+	numVcPrevs = vcData->n_vault_card_previous_challenges;
+	vcPrev = vcData->vault_card_previous_challenges;
+	for(i = 0; i < numVcPrevs; i++) {
+		printf("CSAV001VCD Previous challenge %d:\n", i);
+		printf("CSAV001VCD Seed: %d, ID: %d\n", vcPrev[i]->previous_challenge_seed, vcPrev[i]->previous_challenge_id);
+	}
+	
+	vcRewards = vcData->vault_card_claimed_rewards;
+	numVcRewards = vcData->n_vault_card_claimed_rewards;
+	for(i = 0; i < numVcRewards; i++) {
+		printf("CSAV001VCD Reward (card) %d:\n", i);
+		printf("CSAV001VCD Card ID: %d\n", vcRewards[i]->vault_card_id);
+		printf("CSAV001VCD Experience on card: %d\n", vcRewards[i]->vault_card_experience);
+		printf("CSAV001VCD Vault Card chests: %d\n", vcRewards[i]->vault_card_chests);
+	printf("CSAV001VCD Vault Card chests opened: %d\n", vcRewards[i]->vault_card_chests);
+	printf("CSAV001VCD Spent keys: %d\n", vcRewards[i]->vault_card_keys_spent);
+	}
 
 	oak_save__profile__free_unpacked(profData, NULL);
 	return 0;

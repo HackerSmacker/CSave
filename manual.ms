@@ -373,6 +373,8 @@ CSAV001RWS - Read Write Save operations: loading and saving files
 CSAV001CNV - Conversion functions
 .br
 CSAV001RGN - Saved region data (possibly unused?)
+.br
+CSAV001VCD - Vault Card Data
 
 .NH 3
 Platform Codes

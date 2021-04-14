@@ -75,6 +75,7 @@ OakSave__OakPlayerAbilitySaveGameData* skillData;
 OakSave__RegionSaveGameData** regions;
 int numRegions;
 
+
 int main(int argc, char** argv) {
 	if(argc < 2) {
 		printf("CSAV001ABD Missing filename\n");
@@ -345,6 +346,9 @@ int main(int argc, char** argv) {
 	for(i = 0; i < numRegions; i++) {
 		printf("CSAV001RGN Region %d: Game stage: %d, Playthrough %d, Region path %s\n", regions[i]->game_stage, regions[i]->play_through_idx, regions[i]->region_path);
 	}
+
+	
+
 
 // Free the thing
 	oak_save__character__free_unpacked(charData, NULL);
