@@ -131,6 +131,8 @@ int main(int argc, char** argv) {
 	n_unlocked_crew_quarters_rooms = profData->n_unlocked_crew_quarters_rooms;
 	unlocked_crew_quarters_rooms = profData->unlocked_crew_quarters_rooms;
 
+// Vault Cards
+
 	vcData = profData->vault_card;
 	printf("CSAV001VCD Last active Vault Card ID: %d\n", vcData->last_active_vault_card_id);
 	printf("CSAV001VCD Seed for today: %d\n", vcData->current_day_seed);

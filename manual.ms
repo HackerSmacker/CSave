@@ -185,7 +185,7 @@ Editing saves
 .NH 2
 Comprehensive List of ProfileGenerate commands
 
-.NH 3
+.NH 3 
 set goldenkeys
 .PP
 This command sets how many Golden Keys you have. It will ask for how many you want.
@@ -376,25 +376,98 @@ CSAV001RGN - Saved region data (possibly unused?)
 .br
 CSAV001VCD - Vault Card Data
 
-.NH 3
+.NH 2
 Platform Codes
 .PP
 These numbers are supposed to be entered as the last command line argument on
 SaveToProto, ProtoToSave, ProfileToProto, or ProtoToProfile.
-.br
-1 - PC save file - Steam
-.br
-2 - PC profile file - Steam
-.br
-3 - PS4 save file
-.br
-4 - PS4 profile file
-.br 
-5 - XB1 save file (NOT IMPLEMENTED)
-.br
-6 - XB1 profile file (NOT IMPLEMENTED)
-.br
-7 - PC save file - Epic Games
-.br
-8 - PC profile file - Epic Games
-.br
+.IP 1
+PC save file - Steam
+.IP 2
+PC profile file - Steam
+.IP 3
+Ps4 save file
+.IP 4
+PS4 profile file
+.IP 5
+XB1 save file (NOT IMPLEMENTED)
+.IP 6
+XB1 profile file (NOT IMPLEMENTED)
+.IP 7
+PC save file - Epic Games
+.IP 8
+PC profile file - Epic Games
+.IP 9
+XBSX save file (NOT IMPLEMENTED)
+.IP 10
+XBSX profile file (NOT IMPLEMENTED)
+.IP 11
+PS5 save file (NOT IMPLEMENTED)
+.IP 12
+PS5 profile file (NOT IMPLEMENTED)
+
+
+.NH 1
+Other Programs
+.PP
+The CSave source code contains other programs, including:
+.IP 1.
+ReadSaveHeader
+.IP 2.
+ItemLookupTest
+.IP 3.
+GenSaveHeader
+.PP
+These programs can be used to test CSave. ReadSaveHeader is especially useful for getting
+information about what platform a save originated on, while GenSaveHeader can make a save
+header to make completely new save files. Please note that using GenSaveHeader with
+SaveGenerate and then ProtoToSave is rather risky, as the game will fill in a lot of missing
+information. ItemLookupTest is used to get information about items, and is mainly present
+to test your installation's paths. 
+
+.NH 1
+FAQ
+.PP
+.I
+What does CSAV001 mean?
+.R
+Well, it's the message prefix. CSave was originally intended to be part
+of one of my MVS (IBM mainframe) systems, and on that operating system,
+every message is prefixed by a message code. Ideally, if you came across
+an error message, you could go to the "Messages and Codes" manual for
+that program product, and you would flip through it looking for that message
+number, and it would tell you how to fix it. Since CSave would like to honor
+its MVS heritage, the message prefixes still persist in the latest CSave
+versions.
+.PP
+.I
+Can CSave export a PS4 save that I can put on a flash drive?
+.R
+No, and it never will. In order to produce an importable PS4 save, you will
+need to cryptographically sign it. Since I don't have those certificates
+required to sign a save and never will, you're on your own here. 
+.PP
+.I
+Will CSave ever support XB1 saves?
+.R
+Probably not. I have no knowledge of how the XB1 save format works, and 
+they're probably encrypted like they are on the PS4. Since I also am not
+going to have those certificates, you're on your own here too. Technically,
+CSave also does not support producing even the XB1 header, as nobody has
+been able to examine XB1 save files to investigate the header and bitmask.
+.PP
+.I
+Why does CSave support all these weird OSes?
+.R
+Why not? I figured that if I can get CSave to run on computers from the 
+Bad Old Days, like VAX/VMS, Windows NT, OS/2, and VM/CMS, it should literally
+run on anything. This was mainly intended to improve portability and weed out
+bugs, as I have encountered several portability bugs in libprotobuf-c that
+have resulted in CSave only working on little-endian systems. 
+.PP
+.I
+Why does CSave crash so much?
+.R
+Mainly because I simply don't have the time to throughly test CSave and weed
+out every possible bug. However, if you do encounter lots of crashes, please
+file a bug report on GitHub and I will get to it to the best of my ability.

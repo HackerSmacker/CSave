@@ -495,19 +495,151 @@ CSAV001RGN - Saved region data (possibly unused?)
 CSAV001VCD - Vault Card Data
 
 
-1100..99..11..  PPllaattffoorrmm CCooddeess
+1100..1100..  PPllaattffoorrmm CCooddeess
 
      These  numbers  are  supposed to be entered as the last
 command line argument on SaveToProto, ProtoToSave,  Profile-
 ToProto, or ProtoToProfile.
-1 - PC save file - Steam
-2 - PC profile file - Steam
-3 - PS4 save file
-4 - PS4 profile file
-5 - XB1 save file (NOT IMPLEMENTED)
-6 - XB1 profile file (NOT IMPLEMENTED)
-7 - PC save file - Epic Games
-8 - PC profile file - Epic Games
+
+1    PC save file - Steam
+
+2    PC profile file - Steam
+
+3    Ps4 save file
+
+4    PS4 profile file
+
+5    XB1 save file (NOT IMPLEMENTED)
+
+6    XB1 profile file (NOT IMPLEMENTED)
+
+7    PC save file - Epic Games
+
+8    PC profile file - Epic Games
+
+9    XBSX save file (NOT IMPLEMENTED)
+
+
+
+
+
+
+
+
+
+
+
+                             -9-
+
+
+10   XBSX profile file (NOT IMPLEMENTED)
+
+11   PS5 save file (NOT IMPLEMENTED)
+
+12   PS5 profile file (NOT IMPLEMENTED)
+
+
+
+1111..  OOtthheerr PPrrooggrraammss
+
+     The  CSave source code contains other programs, includ-
+ing:
+
+1.   ReadSaveHeader
+
+2.   ItemLookupTest
+
+3.   GenSaveHeader
+
+     These programs can be used  to  test  CSave.  ReadSave-
+Header  is  especially  useful for getting information about
+what platform a save originated on, while GenSaveHeader  can
+make a save header to make completely new save files. Please
+note that using GenSaveHeader  with  SaveGenerate  and  then
+ProtoToSave  is rather risky, as the game will fill in a lot
+of missing information. ItemLookupTest is used to get infor-
+mation  about  items, and is mainly present to test your in-
+stallation's paths.
+
+
+1122..  FFAAQQ
+
+     _W_h_a_t _d_o_e_s _C_S_A_V_0_0_1 _m_e_a_n_?  Well, it's the message prefix.
+CSave  was  originally  intended to be part of one of my MVS
+(IBM mainframe) systems, and on that operating system, every
+message  is prefixed by a message code. Ideally, if you came
+across an error message, you could go to the  "Messages  and
+Codes"  manual  for that program product, and you would flip
+through it looking for that message  number,  and  it  would
+tell  you how to fix it. Since CSave would like to honor its
+MVS heritage, the message prefixes still persist in the lat-
+est CSave versions.
+
+     _C_a_n  _C_S_a_v_e  _e_x_p_o_r_t _a _P_S_4 _s_a_v_e _t_h_a_t _I _c_a_n _p_u_t _o_n _a _f_l_a_s_h
+_d_r_i_v_e_?  No, and it never will. In order to  produce  an  im-
+portable  PS4  save, you will need to cryptographically sign
+it. Since I don't have those certificates required to sign a
+save and never will, you're on your own here.
+
+     _W_i_l_l  _C_S_a_v_e  _e_v_e_r  _s_u_p_p_o_r_t  _X_B_1 _s_a_v_e_s_?  Probably not. I
+have no knowledge of how the  XB1  save  format  works,  and
+they're probably encrypted like they are on the PS4. Since I
+also am not going to have those certificates, you're on your
+own  here  too.  Technically,  CSave  also  does not support
+
+
+
+
+
+
+
+
+
+                            -10-
+
+
+producing even the XB1 header, as nobody has  been  able  to
+examine  XB1  save  files to investigate the header and bit-
+mask.
+
+     _W_h_y _d_o_e_s _C_S_a_v_e _s_u_p_p_o_r_t _a_l_l _t_h_e_s_e _w_e_i_r_d _O_S_e_s_?  Why  not?
+I  figured  that if I can get CSave to run on computers from
+the Bad Old  Days,  like  VAX/VMS,  Windows  NT,  OS/2,  and
+VM/CMS, it should literally run on anything. This was mainly
+intended to improve portability and weed out bugs, as I have
+encountered  several  portability bugs in libprotobuf-c that
+have resulted in CSave only working  on  little-endian  sys-
+tems.
+
+     _W_h_y  _d_o_e_s _C_S_a_v_e _c_r_a_s_h _s_o _m_u_c_h_?  Mainly because I simply
+don't have the time to throughly test CSave and weed out ev-
+ery  possible  bug.  However,  if  you  do encounter lots of
+crashes, please file a bug report on GitHub and I  will  get
+to it to the best of my ability.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
