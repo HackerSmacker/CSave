@@ -85,9 +85,11 @@ int32_t levelToXP[] = {
 };
 
 uint32_t currencyHashes[] = {
-	618814354,	// money
-	3679636065, // Eridium
-	4031389239	// golden keys
+	618814354,	// Money
+	3679636065,	// Eridium
+	4031389239,	// Golden Keys
+	3707609395,	// Vault Cards
+	2268671775	// Diamond Keys
 };
 
 char* playerClassToObject[] = {
@@ -96,6 +98,9 @@ char* playerClassToObject[] = {
 	"/Game/PlayerCharacters/Gunner/PlayerClassId_Gunner.PlayerClassId_Gunner",	// Moze
 	"/Game/PlayerCharacters/Operative/PlayerClassId_Operative.PlayerClassId_Operative"	// Zane
 };
+
+// VERY IMPORTANT NOTE
+// I did not figure out this table. Gibbed did. It is very important that he gets the credit!
 
 uint64_t customizationHashes[] = {
 	0x00000000, 0x04C11DB7, 0x09823B6E, 0x0D4326D9, 0x130476DC, 0x17C56B6B, 0x1A864DB2, 0x1E475005,

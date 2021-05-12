@@ -150,9 +150,9 @@ int main(int argc, char** argv) {
 		printf("CSAV001VCD Reward (card) %d:\n", i);
 		printf("CSAV001VCD Card ID: %d\n", vcRewards[i]->vault_card_id);
 		printf("CSAV001VCD Experience on card: %d\n", vcRewards[i]->vault_card_experience);
-		printf("CSAV001VCD Vault Card chests: %d\n", vcRewards[i]->vault_card_chests);
-	printf("CSAV001VCD Vault Card chests opened: %d\n", vcRewards[i]->vault_card_chests);
-	printf("CSAV001VCD Spent keys: %d\n", vcRewards[i]->vault_card_keys_spent);
+		printf("CSAV001VCD Vault Card chests available: %d\n", vcRewards[i]->vault_card_chests);
+		printf("CSAV001VCD Vault Card chests opened: %d\n", vcRewards[i]->vault_card_chests_opened);
+		printf("CSAV001VCD Spent keys: %d\n", vcRewards[i]->vault_card_keys_spent);
 	}
 
 	oak_save__profile__free_unpacked(profData, NULL);

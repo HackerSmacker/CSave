@@ -36,7 +36,10 @@ Scripts - CSave script files, mostly for SaveGenerate.
 .br
 
 .NH 1
-Installation (Prebuilt Builds) - Windows (Cygwin-compiled)
+Installation
+
+.NH 2
+Prebuilt Builds - Windows (Cygwin-compiled)
 .PP
 This is the recommended way to get CSave up and running. You need to do two things:
 First, download everything in the build_win64 folder and put all of those files into
@@ -53,26 +56,28 @@ the "cd" command to navigate to where your CSave folder is. It is easiest to ope
 CSave folder on Windows Explorer, click up top where the path is displayed, and copy and
 paste the path after the "cd" command on your command prompt. 
 
-.NH 1
-Installation (Prebuilt Binaries) - Windows (MSVC-compiled)
+.NH 2
+Prebuilt Builds - Windows (MSVC-compiled)
 .PP
 As an alternative to the Cygwin-built CSave binaries, you may also use the MSVC-compiled
 version of CSave (MSVC = Microsoft (R) Visual Studio (TM) C/C++). Follow the instructions
 above, and be sure to download the LookupTables as well. The MSVC version of the CSave
 binaries is functionally equalivent to the "standard" Cygwin binaries.
 
-.NH 1
-Installation (Prebuilt Binaries) - OS/2 version 2+
+.NH 2
+Prebuilt Builds - OS/2 version 2+
 .PP
 CSave supports OS/2 2.0 and newer as valid OSes to run itself on. First, go to the
 CSave GitHub page and either download the files in the "build_os2v2" folder and copy
 those over to your OS/2 system. Please note that there are minor issues running CSave
 on an SMP OS/2 system. Crashes have been reported on OS/2 2.11 SMP, OS/2 Warp 3.0 SMP,
 and OS/2 Warp 4.52 (W4 kernel). Remember to also download the LookupTables fileset as 
-well, or you will not be able to edit items at all.
+well, or you will not be able to edit items at all. Yes, I know good and well that
+nobody's actually going to use CSave on OS/2, it's mainly a compile verification step,
+as if it can be made to work on OS/2, it'll run on pretty much anything.
 
-.NH 1
-Installation (Compiling) - Unix, Linux, BSD, and Windows (Cygwin)
+.NH 2
+Compiling - Unix, Linux, BSD, and Windows (Cygwin)
 .PP
 The first thing you need to do is set up your build environment - install protobuf, gcc, 
 pkg-config, make, and git. After you've installed everything, retrieve the source code for
@@ -82,10 +87,37 @@ and "make install". If the shell script isn't executable, do a "chmod +x autogen
 attempting to compile. Once you have successfully installed protobuf-c, return to your home
 directory - execute "cd" - and download the CSave source code with "git clone https://github.com/HackerSmacker/CSave.git".
 Enter the CSave source code directory with "cd CSave" and compile it with "make". Continue
-to the Operations section.
+to the Operations section. If you ran into issues compiling something, here are some notes:
+.IP 1
+If you are on a true C89-only system, the best thing you can do is substitute stdint.h
+for inttypes.h in the protobuf-c.h header as well as the FileTranslator.h header. I could
+add in extra #define checks, but those are unnecessary. 
+.IP 2.
+The CSave GUI can be made to work with older X/Open Curses libraries, from about 1998
+and up. Anything older will simply not work, or you will need to jump through a lot
+of hoops. 
+.IP 3.
+You will probably need to use GCC. While CSave can be made to compile with C89 compilers
+(for instance, the default ones on UNIX System V), you might run into strange issues.
+.IP 4.
+CSave will not work on big-endian machines. It just won't. 
+.IP 5. 
+You may run into issues compiling protobuf-c. You might want to compile protoc-c with a
+C++11 compiler, compile the protobuf files, then send those over to your old machine.
+.B
+If you edit protobuf-c.h and FileTranslator.h, replacing stdint.h with inttypes.h, it should\(dg compile.
+.R
+.FS
+\(dg I should probably clarify here, but it's aside the point. Some machines that are 32-bit
+will completely lack a 64-bit integer type, which can cause serious issues. For instance, if
+you're on a HP PA-RISC 1.1 system, you will probably need to use "unsigned long". If you are on
+a native 64-bit system like a DEC Alpha AXP running OSF/1, then 64-bit integer types will be
+available in your "inttypes.h" header. While this is incredibly kuldgey, it is enough to allow
+you to edit BL3 saves on the oldest systems possible.
+.FE
 
-.NH 1
-Installation (Compiling) - Windows (Native/MSVC)
+.NH 2
+Compiling - Windows (Native/MSVC)
 .PP
 First, you need to compile protobuf-c and add it to your install's
 .U
@@ -99,8 +131,8 @@ and make sure they are accessible by the compliler. From there, use a GNU make l
 "make -f Makefile.vc". This will compile CSave using the Visual C++ toolchain. You will need
 to edit Makefile.vc to tell the linker where the protobuf-c library is.
 
-.NH 1
-Installation (Compiling) - OS/2 (Watcom C/C++ 11)
+.NH 2
+Compiling - OS/2 and other platforms (Watcom C/C++ 11)
 .PP
 First, compile protobuf-c and install the single header it comes with.
 Then, edit Makefile.watcom and make sure SYSTEM = os2v2. os2v2 is OS/2 version 2 and newer. 
@@ -108,18 +140,18 @@ From there, type "make -f Makefile.watcom"
 to cross-compile. You will need to edit Makefile.watcom to tell the linker where to find the
 protobuf-c library. 
 
-.NH 1
-Installation (Compiling) - OS/2 (EMX/ArcaOS Packages)
+.NH 2
+Compiling - OS/2 (EMX/ArcaOS Packages)
 .PP
 Follow the Unix installation instructions written above. The same process should apply. You might
-need to edit the Makefile to get it to properly compile.
+need to edit the Makefile to get it to properly compile. It should be noted that I have never
+actually tested this.
 
-.NH 1
-Installation (Compiling) - OpenVMS 8.4 (DEC C/C++)
+.NH 2
+Compiling - OpenVMS 8.4 (DEC C/C++)
 .PP
-CSave does not cleanly compile with the DEC C compiler. Use a cross compiler or use GNV.
-Make sure your GCC version in GNV is 8.0.0 or newer, as the protobuf-c outputs will not compile.
-
+The GUI will not compile. Everything else should compile with a new enough DEC C. VAX/VMS is
+not very well supported, and you might run into serious issues.
 
 .NH 1
 Operation
@@ -170,7 +202,8 @@ this program manipulates the headers to make the game not clobber over your save
 of other CSave commands to manually convert saves without using SaveConvert. SaveConvert is useful for converting a large
 amount of saves in batch - just be sure to specify the correct platform numbers.
 
-.NH 2 Running scripts
+.NH 2
+Running scripts
 .PP
 There are several example scripts in the "Scripts" folder included with the distribution. Please inspect these 
 files and realize that they are actually just a series of commands you pipe into SaveGenerate or ProfileGenerate. 
@@ -189,6 +222,76 @@ Comprehensive List of ProfileGenerate commands
 set goldenkeys
 .PP
 This command sets how many Golden Keys you have. It will ask for how many you want.
+
+.NH 3
+set diamondkeys
+.PP
+This command works exactly like the command that sets golden keys, except this
+one will prompt you for how many Diamond Keys you want.
+
+.NH 3
+set vckeys
+.PP
+This command will allow you to get Vault Card reward keys. This does not affect the chests
+at all, you will need to use "set vaultcardchests" for that.
+
+.NH 3
+set vcid
+.PP
+This command will set which Vault Card is currently active. Usually, this is
+1, but as the game continues to be updated, this value can be changed. Please
+note that setting it to some unknown high value will result in weirdness.
+
+.NH 3
+set vcdayseed
+.PP
+This command will set the seed for the current day. Since you will need to
+run this command often, it might be advisable to use a Windows scheduled
+task or a UNIX cron job to run a script over your profile save and force the
+seed to be something unique every day. The Vault Card index counter starts
+from zero, so card 1 is actually 0.
+
+.NH 3
+set vcweekseed
+.PP
+This command functions exactly like "set vcdayseed" but it sets the reward
+seed for the week. As before, you might want to use a cron job or a scheduled
+task to automate this. Like other commands, the index starts at zero.
+
+.NH 3
+set vcrewardcardid
+.PP
+This command is "dangerous" and should be used with care. This command will
+allow you to manipulate the card ID associated with a Vault Card rewards
+object. This value does not affect much, but you should not change it unless
+you really know what you're doing, as setting it to something invalid might
+result in a corrupted game save or a crashing game.
+
+.NH 3
+set vcexp
+.PP
+This command will set how much experience is on a certain Vault Card. It will
+prompt for the card to modify (again, the first card is ID 0) and how much
+experience you want to put on it. 
+
+.NH 3
+set vcchests
+.PP
+This command will set how many openable chests there are. Specify the card ID
+and the number of openable chests.
+
+.NH 3
+set vcchestsopened
+.PP
+There isn't much point to this command, but it allows you to set how many
+Vault Card reward chests you have opened.
+
+.NH 3
+set vcusedkeys
+.PP
+This command sets how many keys you have used. This is the opposite of
+"set vckeys". This has similar relevance to the "set vcchestsopened" command,
+as in, it's basically useless.
 
 .NH 3
 unlock all
@@ -237,6 +340,12 @@ Set the Guardian Rank random rewards seed. Please enter it in integer form. Prof
 that value in integer form. If you are given a hexadecimal-format seed, use a calculator to convert it
 to decimal and enter it.
 
+.NH 3
+set greward
+.PP
+Set the parameters of a Guardian Rank reward. This will prompt you for the class path to a reward, you
+will need to obtain a list of these from the game files. For info on how to get at this data, please
+look for an article named "Accessing Borderlands 3 Data" on the BLCmods or BLCM GitHub pages. 
 
 
 .NH 2
@@ -325,6 +434,34 @@ left side of your screen every now and then (especially during a new playthrough
 between playthroughs, so it will not prompt if you want to search NVHM or TVHM. It will first prompt you
 for what challenge you want. Enter the class path of the challenge (remember to use SaveUnpack to find them).
 Then, enter a completion state (1 for completed and 0 for uncompleted).
+
+
+.NH 2
+Comprehensive List of ItemLookupTest Commands
+
+.NH 3
+findtable
+.PP
+Allows you to look up an item table whose name you specify. For instance, BPInvPart_SM_TED_C
+(or any of the files included in the LookupTables directory). This is the command you can use
+to verify your CSave installation.
+
+.NH 3
+getindex
+.PP
+Extracts out an item class path. The format for the input is the "index" in a table of an
+item. This is the same number that is encoded in the BL3 serial format data. You can use this
+command to quickly look up what an item's index is if you manually examine an inventory serial.
+
+.NH 3
+findindex
+.PP
+This command takes a class path to an object and returns its index. This command calls the same
+function that the item editing code uses to manipulate stored items. If this command does not
+properly work, you have encountered a serious issue and you won't be able to edit items with
+CSave.
+
+
 
 .NH 2
 Comprehensive list of CSave message prefixes
@@ -471,3 +608,12 @@ Why does CSave crash so much?
 Mainly because I simply don't have the time to throughly test CSave and weed
 out every possible bug. However, if you do encounter lots of crashes, please
 file a bug report on GitHub and I will get to it to the best of my ability.
+
+.NH 1
+Additional Help
+.PP
+If you need more help, please check out the UNIX manpages that have been added
+to the source repository. These are intended as a supplement to this manual, and
+to help you remember the commands' arguments should you forget. If you are encountering
+actual bugs, please file a bug report. If you have any further questions, you're 
+on your own. 

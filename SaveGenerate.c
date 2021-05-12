@@ -9,26 +9,36 @@
 
 #define FILESIZE_LIMIT 9000000
 
+/* Common loop var defs to save memory */
 int i;
 int j;
 int k;
 int loopContinue = 1;
+
+/* The file data buffer */
 uint8_t fileBuffer[FILESIZE_LIMIT];
 uint8_t* outBuffer;
+
+/* The character data itself */
 OakSave__Character* charData;
+
+/* File-related properties */
 FILE* inFile;
 FILE* outFile;
 int fileLen;
+
+/* Current command */
 char* command;
 
+/* Related to string looping and processing */
 size_t writeLen;
-int i;
 int found = 0;
 char* cutText;
+
+/* Game data */
 OakSave__ChallengeSaveGameData** challenge_data;
 size_t n_challenge_data;
 int newState;
-int k;
 int choice;
 int missionDFPLen;
 OakSave__MissionStatusPlayerSaveGameData** missionDataForPlaythrough;

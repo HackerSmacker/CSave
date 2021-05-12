@@ -31,8 +31,16 @@ char* cutText;
 int32_t level;
 int32_t newTokens;
 int32_t seed;
+int32_t id;
 int found;
 int numTokens;
+OakSave__VaultCardSaveGameData* vcData;
+int numVcPrevs;
+OakSave__VaultCardPreviousChallenge** vcPrev;
+int numVcRewards;
+OakSave__VaultCardRewardList** vcRewards;
+int numVcRewardsCurrent;
+OakSave__VaultCardReward** vcRewardCurrent;
 
 int main(int argc, char** argv) {
 	if(argc < 3) {
@@ -157,6 +165,133 @@ int main(int argc, char** argv) {
 				printf("CSAV001IMM Not found\n");
 			}
 		}
+		else if(strcmp("set vckeys\n", command) == 0) {
+                        icl = profData->bank_inventory_category_list;
+                        numICL = profData->n_bank_inventory_category_list;
+                        printf("CSAV001IMM How many Vault Card keys do you want?\n");
+                        printf("*Input\n");
+                        fgets(command, 1024, stdin);
+                        newGKeys = atoi(command);
+                        for(i = 0; i < numICL; i++) {
+                                if(icl[i]->base_category_definition_hash == currencyHashes[3]) {
+                                        icl[i]->quantity = newGKeys;
+                                }
+                        }
+                        printf("CSAV001IMM Vault Card keys updated\n");
+                }
+		else if(strcmp("set diamondkeys\n", command) == 0) {
+                        icl = profData->bank_inventory_category_list;
+                        numICL = profData->n_bank_inventory_category_list;
+                        printf("CSAV001IMM How many diamond keys do you want?\n");
+                        printf("*Input\n");
+                        fgets(command, 1024, stdin);
+                        newGKeys = atoi(command);
+                        for(i = 0; i < numICL; i++) {
+                                if(icl[i]->base_category_definition_hash == currencyHashes[4]) {
+                                        icl[i]->quantity = newGKeys;
+                                }
+                        }
+                        printf("CSAV001IMM Diamond keys updated\n");
+                }
+		else if(strcmp("set vcid\n", command) == 0) {
+			vcData = profData->vault_card;
+			printf("CSAV001IMM What Vault Card do you want to make active?\n");
+			printf("*Input\n");
+			fgets(command, 1024, stdin);
+			id = atoi(command);
+			vcData->last_active_vault_card_id = id;
+			printf("CSAV001IMM Updated.\n");
+		}
+		else if(strcmp("set vcdayseed\n", command) == 0) {
+			vcData = profData->vault_card;
+			printf("CSAV001IMM Please specify the new Vault Card seed for today\n");
+			printf("*Input\n");
+			fgets(command, 1024, stdin);
+			seed = atoi(command);
+			vcData->current_day_seed = seed;
+			printf("CSAV001IMM Updated.\n");
+		}
+		else if(strcmp("set vcweekseed\n", command) == 0) {
+                        vcData = profData->vault_card;
+                        printf("CSAV001IMM Please specify the new Vault Card seed for this week\n");
+                        printf("*Input\n");
+                        fgets(command, 1024, stdin);
+                        seed = atoi(command);
+                        vcData->current_week_seed = seed;
+                        printf("CSAV001IMM Updated.\n");
+                }
+		else if(strcmp("set vcrewardcardid", command) == 0) {
+			vcData = profData->vault_card;
+			vcRewards = vcData->vault_card_claimed_rewards;
+        		numVcRewards = vcData->n_vault_card_claimed_rewards;
+			printf("CSAV001WNG Warning! This is a potentially dangerous command. Use with caution.\n");
+			printf("CSAV001IMM What card reward are you modifying?\n");
+			printf("*Input\n");
+			fgets(command, 1024, stdin);
+			i = atoi(command);
+			printf("CSAV001IMM What do you want to set the ID to?\n");
+			printf("*Input\n");
+			fgets(command, 1024, stdin);
+			id = atoi(command);
+			vcRewards[i]->vault_card_id = id;
+			printf("CSAV001IMM Updated.\n");
+		}
+		else if(strcmp("set vcexp", command) == 0) {
+                        vcData = profData->vault_card;
+                        vcRewards = vcData->vault_card_claimed_rewards;
+                        numVcRewards = vcData->n_vault_card_claimed_rewards;
+                        printf("CSAV001IMM What card reward are you modifying?\n");
+                        printf("*Input\n");
+                        fgets(command, 1024, stdin);
+                        i = atoi(command);
+                        printf("CSAV001IMM What do you want to set the experience to?\n");
+                        printf("*Input\n");
+                        fgets(command, 1024, stdin);
+                        vcRewards[i]->vault_card_experience = atoi(command);
+                        printf("CSAV001IMM Updated.\n");
+                }
+		else if(strcmp("set vcchests", command) == 0) {
+                        vcData = profData->vault_card;
+                        vcRewards = vcData->vault_card_claimed_rewards;
+                        numVcRewards = vcData->n_vault_card_claimed_rewards;
+                        printf("CSAV001IMM What card reward are you modifying?\n");
+                        printf("*Input\n");
+                        fgets(command, 1024, stdin);
+                        i = atoi(command);
+                        printf("CSAV001IMM How many openable chests do you want?\n");
+                        printf("*Input\n");
+                        fgets(command, 1024, stdin);
+                        vcRewards[i]->vault_card_chests = atoi(command);
+                        printf("CSAV001IMM Updated.\n");
+                }
+		else if(strcmp("set vcchestsopened", command) == 0) {
+                        vcData = profData->vault_card;
+                        vcRewards = vcData->vault_card_claimed_rewards;
+                        numVcRewards = vcData->n_vault_card_claimed_rewards;
+                        printf("CSAV001IMM What card reward are you modifying?\n");
+                        printf("*Input\n");
+                        fgets(command, 1024, stdin);
+                        i = atoi(command);
+                        printf("CSAV001IMM How many chests do you want to have opened?\n");
+                        printf("*Input\n");
+                        fgets(command, 1024, stdin);
+                        vcRewards[i]->vault_card_chests_opened = atoi(command);
+                        printf("CSAV001IMM Updated.\n");
+                }
+		else if(strcmp("set vcusedkeys", command) == 0) {
+                        vcData = profData->vault_card;
+                        vcRewards = vcData->vault_card_claimed_rewards;
+                        numVcRewards = vcData->n_vault_card_claimed_rewards;
+                        printf("CSAV001IMM What card reward are you modifying?\n");
+                        printf("*Input\n");
+                        fgets(command, 1024, stdin);
+                        i = atoi(command);
+                        printf("CSAV001IMM How many spent keys do you want?\n");
+                        printf("*Input\n");
+                        fgets(command, 1024, stdin);
+                        vcRewards[i]->vault_card_keys_spent = atoi(command);
+                        printf("CSAV001IMM Updated.\n");
+                }
 		else {
 			printf("CSAV001IMM Invalid command...\n");
 		}

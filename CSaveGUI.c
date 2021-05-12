@@ -1,9 +1,6 @@
-#include <ncurses.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdint.h>
 #include <dirent.h>
-
 
 /*
  * A (very poorly written) menu for CSave

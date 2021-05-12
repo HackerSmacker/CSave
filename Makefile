@@ -12,19 +12,23 @@ MANUALS_PS = manual.ps
 MANUALS_PDF = manual.pdf
 MANUALS_TEXT = manual.txt
 PREFIX = /usr/local
+TCONV = grops
+# TCONV = /usr/lib/lp/postscript/dpost
 
 
 all: $(PROGS)
 
 %.txt: %.ms
 	@echo " TROFF   " $< " TEXT"
-	# @groff -Tascii -ms -Z $< | grotty -c | sed 's/[\x01-\x1F\x7F]//g' | sed 's/\([A-Za-z.,()]\)\1\+/\1/g' > $@
-	@groff -Tascii -ms -Z $< | grotty -c | sed 's/[\x01-\x1F\x7F]//g' > $@
+	@troff -ms $< > $@
+	@# @groff -Tascii -ms -Z $< | grotty -c | sed 's/[\x01-\x1F\x7F]//g' > $@
 
 
 %.ps: %.ms
 	@echo " TROFF   " $<
-	@groff -Tps -ms $< > $@
+	@troff -Tps -ms $< > $@.temp
+	@$(TCONV) $@.temp > $@
+	@rm $@.temp
 
 %.pdf: %.ps
 	@echo " PS2PDF   " $<
