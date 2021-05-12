@@ -4,9 +4,37 @@
 #include <stdint.h>
 #include <dirent.h>
 
+
+/*
+ * A (very poorly written) menu for CSave
+ * Yes, it looks like ISPF
+ *  
+ * Some compiling notes:
+ * - This will compile just fine with an
+ *   X/Open compliant Curses.
+ * - For whatever reason, pdCurses doesn't
+ *   work (clarification needed)
+ * - OSF/1 AXP 5.1 works
+ * - FreeBSD 4.0+ works
+ * - AIX 6.1 supposedly works
+ * - You have to compile this with GNU C
+ *   (proof needed)
+ */
+
+// Do you have a modern enough NCurses?
+#define NCURSES
+
+#ifdef NCURSES
+// If so, use its header
+#include <ncurses.h>
+#else
+// No, gotta use the crappy old one
+#include <curses.h>
+#endif
+
 char* menuHeaderText = "CSave Functions Menu";
-int row;
-int col;
+int row = 24;
+int col = 80;
 char* currentFile;
 int loopContinue = 1;
 char filename[1024];
@@ -400,7 +428,11 @@ int main(int argc, char** argv) {
 	initscr();
 	start_color();
 	defineColors();
+#ifdef NCURSES
 	getmaxyx(stdscr, row, col);
+#else
+#warning Compiling with older X/Open Curses, problems may result!
+#endif
 	// Start.
 	do {
 		drawMainMenu();
