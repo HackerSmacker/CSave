@@ -29,7 +29,9 @@
 #include <curses.h>
 #endif
 
-char* menuHeaderText = "CSave Functions Menu";
+char* menuHeaderText = "CSave Functions Menu"; // This only exists because strlen.
+
+// Default terminal size -- change me if you want
 int row = 24;
 int col = 80;
 char* currentFile;

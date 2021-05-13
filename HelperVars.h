@@ -1,6 +1,8 @@
 #ifndef HELPERVARS_H
 #define HELPERVARS_H 1
 
+// A precomputed table of XP values.
+
 int32_t levelToXP[] = {
 	0,	   // lvl 1
 	358,	 // lvl 2
@@ -84,6 +86,8 @@ int32_t levelToXP[] = {
 	12787955,    // lvl 80	
 };
 
+// Currency hashes.
+
 uint32_t currencyHashes[] = {
 	618814354,	// Money
 	3679636065,	// Eridium
@@ -91,6 +95,8 @@ uint32_t currencyHashes[] = {
 	3707609395,	// Vault Cards
 	2268671775	// Diamond Keys
 };
+
+// Helper for "set class"
 
 char* playerClassToObject[] = {
 	"/Game/PlayerCharacters/SirenBrawler/PlayerClassId_Siren.PlayerClassId_Siren",	// Amara

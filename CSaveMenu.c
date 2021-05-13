@@ -4,6 +4,13 @@
 #include <stdint.h>
 #include <dirent.h>
 
+/*
+ * WARNING WARNING WARNING!
+ * THIS PROGRAM IS SUPER DUPER BUGGY AND YOU PROBABLY SHOULDN'T RUN IT JUST YET
+ */
+
+
+
 char* currentFile;
 int loopContinue = 1;
 FILE* fp;

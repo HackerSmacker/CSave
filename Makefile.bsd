@@ -1,16 +1,33 @@
+# (Free/Net/Open)BSD Makefile.
+# Also applicable to MacOS
+
+# Your C compiler. GCC gives you less warnings
 CC = clang
 LD = clang
+
+# Linker library paths.
 LDFLAGS = -lprotobuf-c -L/usr/local/lib
 CFLAGS = -I. -I/usr/local/include
-DEPS = include/*.h
+
+# Autocheck rule for the protos
 PROTOS = *.proto
+
+# Resultant objects
 OBJS = OakProfile.pb-c.o OakSave.pb-c.o OakShared.pb-c.o SaveUnpack.o FileTranslator.o SaveToProto.o ItemCode.o SaveGenerate.o ItemLookupTest.o ProtoToSave.o CSaveGUI.o ProfileUnpack.o ProfileGenerate.o ProtoToProfile.o ProfileToProto.o SaveConvert.o CSaveMenu.o ReadSaveHeader.o
+
+# Results of the protobuf generation process
 CPROTOS = OakProfile.pb-c.c OakSave.pb-c.c OakShared.pb-c.c
+
+# All programs
 PROGS = SaveUnpack SaveToProto SaveGenerate ItemLookupTest ProtoToSave CSaveGUI ProfileUnpack ProfileGenerate ProtoToProfile ProfileToProto SaveConvert CSaveMenu ReadSaveHeader
 LIBRARIES = libBL3Proto.a
+
+# Manuals
 MANUALS_PS = manual.ps
 MANUALS_PDF = manual.pdf
 MANUALS_TXT = manual.txt
+
+# Install prefix (they'll go in /usr/local/bin by default)
 PREFIX = /usr/local
 
 all: $(PROGS)
@@ -19,7 +36,7 @@ all: $(PROGS)
 
 .ms.txt:
 	@echo " TROFF   " $< " TEXT"
-	@groff -Tascii -ms $< > $@
+	@troff -Tascii -ms $< > $@
 
 .ms.ps:
 	@echo " TROFF   " $<

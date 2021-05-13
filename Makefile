@@ -1,51 +1,81 @@
+# GNU-style Makefile for CSave.
+
+# If you're using a compiler besides GCC (like clang or xlc), please say so here:
 CC = gcc
 LD = gcc
+
+# Link flags. 
 LDFLAGS = -lprotobuf-c -L/usr/local/lib -L/usr/lib
 CFLAGS = -I. -O0
-DEPS = include/*.h
+
+# Global match rule for the protobufs.
 PROTOS = *.proto
+
+# Object files.
 OBJS = OakProfile.pb-c.o OakSave.pb-c.o OakShared.pb-c.o SaveUnpack.o FileTranslator.o SaveToProto.o ItemCode.o SaveGenerate.o ItemLookupTest.o ProtoToSave.o CSaveGUI.o ProfileUnpack.o ProfileGenerate.o ProtoToProfile.o ProfileToProto.o SaveConvert.o CSaveMenu.o ReadSaveHeader.o
+
+# Results of "compiling" $(PROTOS)
 CPROTOS = OakProfile.pb-c.c OakSave.pb-c.c OakShared.pb-c.c
+
+# Every program that should be included.
 PROGS = SaveUnpack SaveToProto SaveGenerate ItemLookupTest ProtoToSave CSaveGUI ProfileUnpack ProfileGenerate ProtoToProfile ProfileToProto SaveConvert CSaveMenu ReadSaveHeader
+
+# A library of the protos as to not overwhelm the linker on slower systems.
 LIBRARIES = libBL3Proto.a
+
+# Manual artifacts.
 MANUALS_PS = manual.ps
 MANUALS_PDF = manual.pdf
 MANUALS_TEXT = manual.txt
+
+# Install prefix.
 PREFIX = /usr/local
+
+# Troff postprocessor for the manual. The bottom one is for system V unix.
 TCONV = grops
 # TCONV = /usr/lib/lp/postscript/dpost
 
 
 all: $(PROGS)
 
+# Rule to typeset the manual to text
+# Note: you might want to use nroff here
 %.txt: %.ms
 	@echo " TROFF   " $< " TEXT"
-	@troff -ms $< > $@
+	@nroff -ms $< > $@
 	@# @groff -Tascii -ms -Z $< | grotty -c | sed 's/[\x01-\x1F\x7F]//g' > $@
 
-
+# Rule to typeset the manual to postscript
 %.ps: %.ms
 	@echo " TROFF   " $<
 	@troff -Tps -ms $< > $@.temp
 	@$(TCONV) $@.temp > $@
 	@rm $@.temp
 
+# Rule to convert the postscript manual to PDF
 %.pdf: %.ps
 	@echo " PS2PDF   " $<
 	@ps2pdf $< $@
 
+# Rule to compile all C sources to objects.
 %.o: %.c
 	@echo " CC   " $<
 	@$(CC) $(CFLAGS) -c -o $@ $<
 
+# Rule to "compile" the protobufs.
 %.pb-c.c: %.proto
 	@echo " PROTOC   " $<
 	@protoc-c --c_out=. $<
 
+# Rule to quickly re-generate the protobuf-c files without a complete rebuild.
+cprotos: $(CPROTOS)
+
+# Rule to generate the library.
 $(LIBRARIES): $(CPROTOS) $(OBJS)
 	@echo " AR    libBL3Proto"
 	@ar cr libBL3Proto.a OakProfile.pb-c.o OakSave.pb-c.o OakShared.pb-c.o SaveToProto.o ItemCode.o FileTranslator.o
 
+# Linking rule.
 $(PROGS): $(LIBRARIES)
 	@echo " LD    SaveUnpack"
 	@$(LD) -o SaveUnpack SaveUnpack.o libBL3Proto.a $(LDFLAGS)
@@ -74,8 +104,10 @@ $(PROGS): $(LIBRARIES)
 	@echo " LD    CSaveMenu"
 	@$(LD) -o CSaveMenu CSaveMenu.o
 
+# Manual generation rule.
 manual: $(MANUALS_PS) $(MANUALS_PDF) $(MANUALS_TEXT)
 
+# Install. Please note that this is a BSD-style install command, not a SVR4/5 style command!
 install: $(PROGS) manual
 	@echo " INSTALL    SaveUnpack"
 	@install SaveUnpack $(PREFIX)/bin

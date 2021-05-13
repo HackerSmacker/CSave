@@ -105,10 +105,10 @@ CSave will not work on big-endian machines. It just won't.
 You may run into issues compiling protobuf-c. You might want to compile protoc-c with a
 C++11 compiler, compile the protobuf files, then send those over to your old machine.
 .B
-If you edit protobuf-c.h and FileTranslator.h, replacing stdint.h with inttypes.h, it should\(dg compile.
+If you edit protobuf-c.h and FileTranslator.h, replacing stdint.h with inttypes.h, it should\(dg1 compile.
 .R
 .FS
-\(dg I should probably clarify here, but it's aside the point. Some machines that are 32-bit
+\(dg1 I should probably clarify here, but it's aside the point. Some machines that are 32-bit
 will completely lack a 64-bit integer type, which can cause serious issues. For instance, if
 you're on a HP PA-RISC 1.1 system, you will probably need to use "unsigned long". If you are on
 a native 64-bit system like a DEC Alpha AXP running OSF/1, then 64-bit integer types will be
@@ -136,9 +136,17 @@ Compiling - OS/2 and other platforms (Watcom C/C++ 11)
 .PP
 First, compile protobuf-c and install the single header it comes with.
 Then, edit Makefile.watcom and make sure SYSTEM = os2v2. os2v2 is OS/2 version 2 and newer. 
-From there, type "make -f Makefile.watcom"
+From there, type "wmake -f Makefile.watcom" \(dg2
 to cross-compile. You will need to edit Makefile.watcom to tell the linker where to find the
 protobuf-c library. 
+
+.FS
+\(dg2 Please note that some older versions of Watcom Make simply will not work. I have tested
+WMake from the Watcom C/C++ 11.0 CD and WMake from OpenWatcom on GitHub, dated from about 3-15-21.
+You can also use GNU Make, to the same effect. If you don't have protoc-c available on your system,
+simply "cross-compile" the protobuf C sources. Yes, I know nobody's gonna actually use CSave on 
+OS/2, but I keep it here for historical interest. 
+.FE
 
 .NH 2
 Compiling - OS/2 (EMX/ArcaOS Packages)
@@ -151,7 +159,19 @@ actually tested this.
 Compiling - OpenVMS 8.4 (DEC C/C++)
 .PP
 The GUI will not compile. Everything else should compile with a new enough DEC C. VAX/VMS is
-not very well supported, and you might run into serious issues.
+not very well supported, and you might run into serious issues. \(dg3
+
+.FS
+I've had serious difficulty running CSave on VMS. VAX/VMS flat out does not work, but newer OpenVMS
+versions work. Again, the only reason that this sort of works on VMS is for historical interest. 
+The VAX
+.I
+is
+.R
+little-endian, but you will still run into issues. Because the VAX is 32-bit, you aren't going to
+have easy access to 64-bit datatypes. Meanwhile on Alpha AXP and Itanium, you've got 64-bit types,
+so it should work.
+.FE
 
 .NH 1
 Operation
