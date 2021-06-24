@@ -644,14 +644,14 @@ find them).  Then, enter a completion state (1 for completed
 and 0 for uncompleted).
 
 
+[1m3.8.15.  set leagueid[0m
 
-[1m3.9.  Comprehensive List of ItemLookupTest Commands[0m
+     This command will set the current league ID,  in  other
+words,  the active event. Generally speaking, ID 1 is Bloody
+Harvest, 2 is Broken Hearts Day, and 3  is  Revenge  of  the
+Cartels.  Please  note  that setting this value to something
+out‐of‐the‐range will probably crash your game.
 
-
-[1m3.9.1.  findtable[0m
-
-     Allows you to look up an  item  table  whose  name  you
-specify.  For  instance,  BPInvPart_SM_TED_C  (or any of the
 
 
 
@@ -664,6 +664,22 @@ specify.  For  instance,  BPInvPart_SM_TED_C  (or any of the
                             ‐11‐
 
 
+[1m3.8.16.  set leagueinst[0m
+
+     This command, much like the one above, will  allow  you
+to  select  an  event. League instance ID 1 is for the first
+occurrence of that event, and 2 is  for  the  second  occur‐
+rence.  Go  to  the  end of this manual for an easy table of
+what numbers to enter here (and for "set leagueid").
+
+
+[1m3.9.  Comprehensive List of ItemLookupTest Commands[0m
+
+
+[1m3.9.1.  findtable[0m
+
+     Allows you to look up an  item  table  whose  name  you
+specify.  For  instance,  BPInvPart_SM_TED_C  (or any of the
 files included in the LookupTables directory). This  is  the
 command you can use to verify your CSave installation.
 
@@ -702,6 +718,18 @@ CSAV001ROM ‐ Crew  quarters/bedroom  information  (including
 guns on the rack)
 CSAV001ECH ‐ ECHO logs
 CSAV001FTM  ‐ Fast Travel machines: blacklisted, active, and
+
+
+
+
+
+
+
+
+
+                            ‐12‐
+
+
 reachable
 CSAV001INV ‐ Inventory: backpack and equipped
 CSAV001CUS ‐ Customizations: color, skin, emotes
@@ -716,18 +744,9 @@ files
 CSAV001CNV ‐ Conversion functions
 CSAV001RGN ‐ Saved region data (possibly unused?)
 CSAV001VCD ‐ Vault Card Data
+CSAV001EVT ‐ Event/league save data
+CSAV001CLD ‐ Cloud (crossplay?) data
 
-
-
-
-
-
-
-
-
-
-
-                            ‐12‐
 
 
 [1m3.11.  Platform Codes[0m
@@ -762,6 +781,21 @@ ToProto, or ProtoToProfile.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+                            ‐13‐
+
+
 [1m4.  Other Programs[0m
 
      The  CSave source code contains other programs, includ‐
@@ -782,18 +816,6 @@ ProtoToSave  is rather risky, as the game will fill in a lot
 of missing information. ItemLookupTest is used to get infor‐
 mation  about  items, and is mainly present to test your in‐
 stallation’s paths.
-
-
-
-
-
-
-
-
-
-
-
-                            ‐13‐
 
 
 [1m5.  FAQ[0m
@@ -828,6 +850,18 @@ I figured that if I can get CSave to run on  computers  from
 the  Bad  Old  Days,  like  VAX/VMS,  Windows  NT, OS/2, and
 VM/CMS, it should literally run on anything. This was mainly
 intended to improve portability and weed out bugs, as I have
+
+
+
+
+
+
+
+
+
+                            ‐14‐
+
+
 encountered several portability bugs in  libprotobuf‐c  that
 have  resulted  in  CSave only working on little‐endian sys‐
 tems.
@@ -847,6 +881,38 @@ are intended as a supplement to this manual, and to help you
 remember  the  commands’ arguments should you forget. If you
 are encountering actual bugs, please file a bug  report.  If
 you have any further questions, you’re on your own.
+
+
+[1m7.  League Instance/ID Table[0m
+
+     Printed  below  is  a table of the supported league and
+instance IDs.
+
+allbox; c s s c c c c c c c c c c c c c c c c c  c  c  c  c.
+IDs  Event Name     ID   Instance Bloody Harvest 2019 1    1
+Broken Hearts  Day  2020   2    1  Revenge  of  the  Cartels
+2020   3    1 Broken Hearts Day 2021   2    2 Revenge of the
+Cartels 2021    3    2 Bloody Harvest 2021 1    2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

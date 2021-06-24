@@ -9,7 +9,7 @@ SYSTEM = os2v2
 CC = wcc386
 LD = wlink
 
-CFLAGS = -bt=$(SYSTEM) -bc
+CFLAGS = -bt=$(SYSTEM) -bc -q
 PROTOS = *.proto
 OBJS = OakProfile.pb-c.obj OakSave.pb-c.obj OakShared.pb-c.obj SaveUnpack.obj FileTranslator.obj SaveToProto.obj ItemCode.obj SaveGenerate.obj ItemLookupTest.obj ProtoToSave.obj ProfileUnpack.obj ProfileGenerate.obj ProtoToProfile.obj ProfileToProto.obj SaveConvert.obj ReadSaveHeader.obj
 CPROTOS = OakProfile.pb-c.c OakSave.pb-c.c OakShared.pb-c.c
@@ -19,7 +19,7 @@ LIBRARIES = csave.lib
 # Path to your protobuf-c library
 PROTOCLIB = D:\\Programs\\OWC\\lib386\\protobuf-c.lib
 LDFLAGS = file csave.lib file $(PROTOCLIB)
-LDPREFIX = system $(SYSTEM)
+LDPREFIX = option quiet system $(SYSTEM)
 
 all: $(PROGS)
 
@@ -60,9 +60,9 @@ $(PROGS): $(LIBRARIES)
 	@echo " LD    ProtoToProfile"
 	@$(LD) $(LDPREFIX) file ProtoToProfile.obj $(LDFLAGS)
 	@echo " LD    SaveConvert"
-	@@$(LD) $(LDPREFIX) file SaveConvert.obj $(LDFLAGS)
+	@$(LD) $(LDPREFIX) file SaveConvert.obj $(LDFLAGS)
 	@echo " LD    ReadSaveHeader"
-	@@$(LD) $(LDPREFIX) file ReadSaveHeader.obj $(LDFLAGS)
+	@$(LD) $(LDPREFIX) file ReadSaveHeader.obj $(LDFLAGS)
 
 clean:
 	rm -f *.obj Oak*.pb-c.* *.exe *.lib

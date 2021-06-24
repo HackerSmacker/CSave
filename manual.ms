@@ -455,6 +455,19 @@ between playthroughs, so it will not prompt if you want to search NVHM or TVHM. 
 for what challenge you want. Enter the class path of the challenge (remember to use SaveUnpack to find them).
 Then, enter a completion state (1 for completed and 0 for uncompleted).
 
+.NH 3
+set leagueid
+.PP
+This command will set the current league ID, in other words, the active event. Generally speaking,
+ID 1 is Bloody Harvest, 2 is Broken Hearts Day, and 3 is Revenge of the Cartels. Please note that setting
+this value to something out-of-the-range will probably crash your game.
+
+.NH 3
+set leagueinst
+.PP
+This command, much like the one above, will allow you to select an event. League instance ID 1 is for the
+first occurrence of that event, and 2 is for the second occurrence. Go to the end of this manual for an
+easy table of what numbers to enter here (and for "set leagueid").
 
 .NH 2
 Comprehensive List of ItemLookupTest Commands
@@ -532,6 +545,11 @@ CSAV001CNV - Conversion functions
 CSAV001RGN - Saved region data (possibly unused?)
 .br
 CSAV001VCD - Vault Card Data
+.br
+CSAV001EVT - Event/league save data
+.br
+CSAV001CLD - Cloud (crossplay?) data
+
 
 .NH 2
 Platform Codes
@@ -637,3 +655,27 @@ to the source repository. These are intended as a supplement to this manual, and
 to help you remember the commands' arguments should you forget. If you are encountering
 actual bugs, please file a bug report. If you have any further questions, you're 
 on your own. 
+
+.NH 1
+League Instance/ID Table
+.PP
+Printed below is a table of the supported league and instance IDs.
+.TS
+allbox;
+c s s
+c c c
+c c c
+c c c
+c c c
+c c c
+c c c 
+c c c.
+IDs
+Event Name	ID	Instance
+Bloody Harvest 2019	1	1
+Broken Hearts Day 2020	2	1
+Revenge of the Cartels 2020	3	1
+Broken Hearts Day 2021	2	2
+Revenge of the Cartels 2021	3	2
+Bloody Harvest 2021	1	2
+.TE 

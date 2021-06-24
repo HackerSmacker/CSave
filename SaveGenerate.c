@@ -62,6 +62,7 @@ uint32_t newMHLevel;
 int32_t newMoney;
 
 
+
 int main(int argc, char** argv) {
 	if(argc < 3) {
 		printf("CSAV001ABD Missing filenames (specify input file and output file)\n");
@@ -296,6 +297,20 @@ int main(int argc, char** argv) {
 				printf("CSAV001IMM Challenge not found.\n");
 			}
 		}
+		else if(strcmp("set leagueid\n", command) == 0) {
+			printf("CSAV001IMM What league ID do you want to activate?\n*Input\n");
+			fgets(command, 1024, stdin);
+			charData->last_active_league = atoi(command);
+			printf("CSAV001IMM Updated to %d\n", charData->last_active_league);
+		}
+		else if(strcmp("set leagueinst\n", command) == 0) {
+                        printf("CSAV001IMM What league instance do you want to activate?\n*Input\n");
+                        fgets(command, 1024, stdin);
+                        charData->last_active_league_instance = atoi(command);
+                        printf("CSAV001IMM Updated to %d\n", charData->last_active_league_instance);
+                }
+
+
 		else {
 			printf("CSAV001ERR Invalid command...\n");
 		}

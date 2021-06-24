@@ -16,6 +16,8 @@ uint8_t fileBuffer[FILESIZE_LIMIT];
 OakSave__Character* charData;
 
 // And the symbol table expands to the size of the universe!
+// Why? Because I want this object file to be linkable with other modules.
+// yes, it's dumber than a box of rocks!
 OakSave__OakSDUSaveGameData** sduData;
 int sduDataSize;
 char** unlockedCarParts;
@@ -74,6 +76,8 @@ OakSave__OakPlayerCharacterSlotSaveGameData* slotData;
 OakSave__OakPlayerAbilitySaveGameData* skillData;
 OakSave__RegionSaveGameData** regions;
 int numRegions;
+int numEventLeagues;
+OakSave__Character__ActiveLeagueInstanceForEventEntry** leagueData;
 
 
 int main(int argc, char** argv) {
@@ -341,10 +345,25 @@ int main(int argc, char** argv) {
 		printf("CSAV001MHM Mayhem seed for playthrough %d: %x\n", i, sgData[i]->mayhem_random_seed);
 	}
 
+	/*
+// Saved regions
+// 6/24/21: NOT WORKING!
 	regions = charData->saved_regions;
 	numRegions = charData->n_saved_regions;
 	for(i = 0; i < numRegions; i++) {
 		printf("CSAV001RGN Region %d: Game stage: %d, Playthrough %d, Region path %s\n", regions[i]->game_stage, regions[i]->play_through_idx, regions[i]->region_path);
+	}
+	*/
+
+
+	printf("CSAV001INF WARNING - if the program crashes after this, your save has not been updated for DLC8.\n");
+	printf("CSAV001EVT Last active league (event): %d\n", charData->last_active_league);
+	printf("CSAV001EVT Last active league instance: %d\n", charData->last_active_league_instance);
+	printf("CSAV001EVT League instances:\n");
+	numEventLeagues = charData->n_active_league_instance_for_event;
+	leagueData = charData->active_league_instance_for_event;
+	for(i = 0; i < numEventLeagues; i++) {
+		printf("CSAV001EVT For event ID %d: Key %lu, Value %lu\n", i, leagueData[i]->key, leagueData[i]->value);
 	}
 
 	

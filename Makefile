@@ -48,7 +48,7 @@ all: $(PROGS)
 # Rule to typeset the manual to postscript
 %.ps: %.ms
 	@echo " TROFF   " $<
-	@troff -Tps -ms $< > $@.temp
+	@tbl $< | troff -Tps -ms > $@.temp
 	@$(TCONV) $@.temp > $@
 	@rm $@.temp
 

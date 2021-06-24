@@ -220,7 +220,7 @@ int main(int argc, char** argv) {
                         vcData->current_week_seed = seed;
                         printf("CSAV001IMM Updated.\n");
                 }
-		else if(strcmp("set vcrewardcardid", command) == 0) {
+		else if(strcmp("set vcrewardcardid\n", command) == 0) {
 			vcData = profData->vault_card;
 			vcRewards = vcData->vault_card_claimed_rewards;
         		numVcRewards = vcData->n_vault_card_claimed_rewards;
@@ -236,7 +236,7 @@ int main(int argc, char** argv) {
 			vcRewards[i]->vault_card_id = id;
 			printf("CSAV001IMM Updated.\n");
 		}
-		else if(strcmp("set vcexp", command) == 0) {
+		else if(strcmp("set vcexp\n", command) == 0) {
                         vcData = profData->vault_card;
                         vcRewards = vcData->vault_card_claimed_rewards;
                         numVcRewards = vcData->n_vault_card_claimed_rewards;
@@ -250,7 +250,7 @@ int main(int argc, char** argv) {
                         vcRewards[i]->vault_card_experience = atoi(command);
                         printf("CSAV001IMM Updated.\n");
                 }
-		else if(strcmp("set vcchests", command) == 0) {
+		else if(strcmp("set vcchests\n", command) == 0) {
                         vcData = profData->vault_card;
                         vcRewards = vcData->vault_card_claimed_rewards;
                         numVcRewards = vcData->n_vault_card_claimed_rewards;
@@ -264,7 +264,7 @@ int main(int argc, char** argv) {
                         vcRewards[i]->vault_card_chests = atoi(command);
                         printf("CSAV001IMM Updated.\n");
                 }
-		else if(strcmp("set vcchestsopened", command) == 0) {
+		else if(strcmp("set vcchestsopened\n", command) == 0) {
                         vcData = profData->vault_card;
                         vcRewards = vcData->vault_card_claimed_rewards;
                         numVcRewards = vcData->n_vault_card_claimed_rewards;
@@ -278,7 +278,7 @@ int main(int argc, char** argv) {
                         vcRewards[i]->vault_card_chests_opened = atoi(command);
                         printf("CSAV001IMM Updated.\n");
                 }
-		else if(strcmp("set vcusedkeys", command) == 0) {
+		else if(strcmp("set vcusedkeys\n", command) == 0) {
                         vcData = profData->vault_card;
                         vcRewards = vcData->vault_card_claimed_rewards;
                         numVcRewards = vcData->n_vault_card_claimed_rewards;
