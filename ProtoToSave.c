@@ -9,17 +9,15 @@
 #define FILESIZE_LIMIT 9000000
 #define OUTPUT_EXTENSION ".edited.sav"
 
-extern struct Save save_t;
-int saveMode;
-FILE* inFile;
-char* outFileName;
-FILE* outFile;
-FILE* origFile;
-uint8_t* protoData;
-int inFileLen;
-
 int main(int argc, char** argv) {
-	saveMode = 1;
+	int saveMode = 1;
+	FILE* inFile;
+	char* outFileName;
+	FILE* outFile;
+	FILE* origFile;
+	unsigned char* protoData;
+	int inFileLen;
+
 	printf("CSAV001CNV Save to Protocol Buffer Data Translation Program\n");
 	if(argc < 3) {
 		fprintf(stderr, "CSAV001ABN Incorrect number of arguments: input.proto, original.sav, (optional) platform code\n");

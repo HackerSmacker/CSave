@@ -10,7 +10,7 @@
  */
 
 
-
+/* No sense in duplicating variables when it's all one-context anyways */
 char* currentFile;
 int loopContinue = 1;
 FILE* fp;

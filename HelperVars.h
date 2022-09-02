@@ -1,15 +1,15 @@
 #ifndef HELPERVARS_H
 #define HELPERVARS_H 1
 
-// A precomputed table of XP values.
+/* Embeddable header file (intended to be used in single-file examples/programs) for some constants. */
 
-int32_t levelToXP[] = {
-	0,	   // lvl 1
-	358,	 // lvl 2
-	1241,	// lvl 3
-	2850,	// lvl 4
-	5376,	// lvl 5
-	8997,	// lvl 6
+int levelToXP[] = {
+	0,           // lvl 1
+	358,         // lvl 2
+	1241,        // lvl 3
+	2850,        // lvl 4
+	5376,        // lvl 5
+	8997,        // lvl 6
 	13886,       // lvl 7
 	20208,       // lvl 8
 	28126,       // lvl 9
@@ -88,7 +88,7 @@ int32_t levelToXP[] = {
 
 // Currency hashes.
 
-uint32_t currencyHashes[] = {
+unsigned long currencyHashes[] = {
 	618814354,	// Money
 	3679636065,	// Eridium
 	4031389239,	// Golden Keys
@@ -105,10 +105,12 @@ char* playerClassToObject[] = {
 	"/Game/PlayerCharacters/Operative/PlayerClassId_Operative.PlayerClassId_Operative"	// Zane
 };
 
-// VERY IMPORTANT NOTE
-// I did not figure out this table. Gibbed did. It is very important that he gets the credit!
+/* 
+ * VERY IMPORTANT NOTE
+ * I did not figure out this table. Gibbed did. It is very important that he gets the credit!
+*/
 
-uint64_t customizationHashes[] = {
+unsigned long long customizationHashes[] = {
 	0x00000000, 0x04C11DB7, 0x09823B6E, 0x0D4326D9, 0x130476DC, 0x17C56B6B, 0x1A864DB2, 0x1E475005,
 	0x2608EDB8, 0x22C9F00F, 0x2F8AD6D6, 0x2B4BCB61, 0x350C9B64, 0x31CD86D3, 0x3C8EA00A, 0x384FBDBD,
 	0x4C11DB70, 0x48D0C6C7, 0x4593E01E, 0x4152FDA9, 0x5F15ADAC, 0x5BD4B01B, 0x569796C2, 0x52568B75,

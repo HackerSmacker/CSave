@@ -7,17 +7,8 @@
 
 #define FILESIZE_LIMIT 9000000
 
-int i;
-int j;
-FILE* pbF;
-int fileLen;
-
-uint8_t fileBuffer[FILESIZE_LIMIT];
+/* These are all global to allow an external program/object/module to interface with this, without having to juggle things around. */
 OakSave__Character* charData;
-
-// And the symbol table expands to the size of the universe!
-// Why? Because I want this object file to be linkable with other modules.
-// yes, it's dumber than a box of rocks!
 OakSave__OakSDUSaveGameData** sduData;
 int sduDataSize;
 char** unlockedCarParts;
@@ -26,7 +17,6 @@ OakSave__VehicleUnlockedSaveGameData** carsUnlocked;
 int numCarsUnlocked;
 OakSave__MissionPlaythroughSaveGameData** missionData;
 int missionDataLen;
-int k;
 OakSave__MissionStatusPlayerSaveGameData** missionDataForPlaythrough;
 int missionDFPLen;
 OakSave__ResourcePoolSavegameData** resData;
@@ -79,8 +69,14 @@ int numRegions;
 int numEventLeagues;
 OakSave__Character__ActiveLeagueInstanceForEventEntry** leagueData;
 
-
 int main(int argc, char** argv) {
+	int i;
+	int j;
+	int k;
+	FILE* pbF;
+	struct File file_t;
+	unsigned char* fileBuffer;
+	int fileLen;
 	if(argc < 2) {
 		printf("CSAV001ABD Missing filename\n");
 		exit(1);
@@ -91,7 +87,9 @@ int main(int argc, char** argv) {
 		printf("CSAV001ABD Failed to open file\n");
 		exit(1);
 	}
-	fileLen = read_buffer(FILESIZE_LIMIT, fileBuffer, pbF);
+	file_t = read_buffer(pbF);
+	fileLen = file_t.length;
+	fileBuffer = file_t.data;
 
 // Print the welcome message
 	printf("CSAV00100I Borderlands 3 CSave\n");

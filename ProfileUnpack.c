@@ -7,12 +7,8 @@
 
 #define FILESIZE_LIMIT 9000000
 
-int i;
-int j;
-
-uint8_t fileBuffer[FILESIZE_LIMIT];
+/* Once again, massive symbol table usage for cross-object linkage. */
 OakSave__Profile* profData;
-
 OakSave__CrewQuartersRoomItemSaveGameData** unlocked_crew_quarters_rooms;
 size_t n_unlocked_crew_quarters_rooms;
 OakSave__CrewQuartersDecorationItemSaveGameData** unlocked_crew_quarters_decorations;
@@ -27,8 +23,6 @@ size_t n_bank_inventory_category_list;
 OakSave__InventoryCategorySaveData** bank_inventory_category_list;
 OakSave__GameStatSaveGameData** profile_stats_data;
 size_t n_profile_stats_data;
-int fileLen;
-FILE* pbF;
 OakSave__GuardianRankProfileData *guardian_rank_obj;
 size_t n_rank_rewards;
 OakSave__GuardianRankRewardSaveGameData** rank_rewards;
@@ -41,6 +35,13 @@ int numVcRewardsCurrent;
 OakSave__VaultCardReward** vcRewardCurrent;
 
 int main(int argc, char** argv) {
+	int i;
+	int j;
+	int fileLen;
+	FILE* pbF;
+	unsigned char* fileBuffer;
+	struct File file_t;
+
 	if(argc < 2) {
 		printf("CSAV001ABD Missing filename\n");
 		exit(1);
@@ -51,7 +52,9 @@ int main(int argc, char** argv) {
 		printf("CSAV001ABD Failed to open file\n");
 		exit(1);
 	}
-	fileLen = read_buffer(FILESIZE_LIMIT, fileBuffer, pbF);
+	file_t = read_buffer(pbF);
+	fileBuffer = file_t.data;
+	fileLen = file_t.length;
 
 // Print the welcome message
 	printf("CSAV00100I Borderlands 3 CSave\n");

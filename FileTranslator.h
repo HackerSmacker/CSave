@@ -6,7 +6,6 @@
 #include <stddef.h>
 #include <stdint.h>
 
-size_t read_buffer(int max_length, uint8_t* out, FILE* f);
 
 struct Save {
 	char* header;
@@ -20,21 +19,33 @@ struct Save {
 	int build_id_length;
 	int32_t fmt_version;
 	int32_t fmt_count;
-	char** custom_format_data; // DON'T use, use struct keyValuePair
+	char** custom_format_data; /* DON'T use, use struct KeyValuePair */
 	int32_t sg_type_len;
 	char* sg_type;
 	int32_t remaining_data_len;
 	char* remaining_data;
 };
 
-struct keyValuePair {
+struct KeyValuePair {
 	char* guid;
 	int entry;
 };
 
-void readSave(FILE* file, int fileType);
-void writeSave(FILE* file, FILE* outFile, char* data, int32_t dataLen, int fileType);
+struct SaveFile {
+	struct Save save;
+	struct KeyValuePair* kvp;
+	int payloadStart;
+	int processedLen;
+};
 
+struct File {
+	unsigned char* data;
+	int length;
+};
+
+struct File read_buffer(FILE* f);
+struct SaveFile readSave(FILE* file, int fileType);
+void writeSave(FILE* file, FILE* outFile, unsigned char* data, int dataLen, int fileType);
 size_t decryptSave(uint8_t* buffer, int offset, int length);
 size_t encryptSave(uint8_t* buffer, int offset, int length);
 size_t decryptProfile(uint8_t* buffer, int offset, int length);

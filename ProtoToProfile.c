@@ -9,18 +9,15 @@
 #define FILESIZE_LIMIT 9000000
 #define OUTPUT_EXTENSION ".edited.sav"
 
-extern struct Save save_t;
-int saveMode;
-FILE* inFile;
-char* outFileName;
-FILE* outFile;
-FILE* origFile;
-uint8_t* protoData;
-int inFileLen;
-uint8_t* protoData;
-
 int main(int argc, char** argv) {
-	saveMode = 2;
+	int saveMode = 2;
+	FILE* inFile;
+	char* outFileName;
+	FILE* outFile;
+	FILE* origFile;
+	unsigned char* protoData;
+	int inFileLen;
+
 	printf("CSAV001CNV Save to Protocol Buffer Data Translation Program (for profile saves)\n");
 	if(argc < 3) {
 		fprintf(stderr, "CSAV001ABN Incorrect number of arguments: input.proto, original.sav, (optional) platform code\n");
@@ -62,7 +59,7 @@ int main(int argc, char** argv) {
 		printf("CSAV001ABD OUT OF MEMORY.\n");
 		exit(420);
 	}
-	fread(protoData, inFileLen, sizeof(uint8_t), inFile);
+	fread(protoData, inFileLen, sizeof(unsigned char), inFile);
 	fclose(inFile);
 	printf("CSAV001CNV Input protobuf file length: %d\n", inFileLen);
 	writeSave(origFile, outFile, protoData, inFileLen, saveMode);

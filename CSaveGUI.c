@@ -5,48 +5,27 @@
 /*
  * A (very poorly written) menu for CSave
  * Yes, it looks like ISPF
- *  
- * Some compiling notes:
- * - This will compile just fine with an
- *   X/Open compliant Curses.
- * - For whatever reason, pdCurses doesn't
- *   work (clarification needed)
- * - OSF/1 AXP 5.1 works
- * - FreeBSD 4.0+ works
- * - AIX 6.1 supposedly works
- * - You have to compile this with GNU C
- *   (proof needed)
  */
 
-// Do you have a modern enough NCurses?
+/* Change this to select or de-select New Curses, or crappy old Curses. */
 #define NCURSES
 
 #ifdef NCURSES
-// If so, use its header
 #include <ncurses.h>
 #else
-// No, gotta use the crappy old one
 #include <curses.h>
 #endif
 
-char* menuHeaderText = "CSave Functions Menu"; // This only exists because strlen.
+char* menuHeaderText = "CSave Functions Menu"; 
 
-// Default terminal size -- change me if you want
 int row = 24;
 int col = 80;
-char* currentFile;
-int loopContinue = 1;
-char filename[1024];
-FILE* fp;
-char path[8192];
-char* command;
 int outRow = 4;
 int outCol = 2;
-char* myLine;
-char choice;
-
 
 void drawMainMenu() {
+	char* menuHeaderText = "CSave Functions Menu"; 
+
 	clear();
 	attron(A_BOLD);
 	attron(COLOR_PAIR(1));
@@ -80,6 +59,7 @@ void defineColors() {
 }
 
 void listDirectory(char* path, char* grep) {
+	int line = 2;
 	struct dirent* de;
 	DIR* dr = opendir(path);
 	if(dr == NULL) {
@@ -93,7 +73,6 @@ void listDirectory(char* path, char* grep) {
 		refresh();
 		return;
 	}
-	int line = 2;
 	clear();
 	attron(COLOR_PAIR(1));
 	mvprintw(0, (col - strlen("File Listing")) / 2, "File Listing");
@@ -112,6 +91,12 @@ void listDirectory(char* path, char* grep) {
 }
 
 void saveToProto() {
+	FILE* fp;
+	char path[8192];
+	char filename[1024];
+	char* command;
+	char* myLine;
+
 	clear();
 	attron(COLOR_PAIR(1));
 	mvprintw(0, (col - strlen("Save to Protobuf")) / 2, "Save To Protobuf");
@@ -164,6 +149,12 @@ void saveToProto() {
 }
 
 void saveToProtoProfile() {
+	FILE* fp;
+	char path[8192];
+	char filename[1024];
+	char* command;
+	char* myLine;
+
 	clear();
 	attron(COLOR_PAIR(1));
 	mvprintw(0, (col - strlen("Profile to Protobuf")) / 2, "Profile To Protobuf");
@@ -216,6 +207,12 @@ void saveToProtoProfile() {
 }
 
 void protoToSave() {
+	FILE* fp;
+	char path[8192];
+	char filename[1024];
+	char* command;
+	char* myLine;
+
 	clear();
 	attron(COLOR_PAIR(1));
 	mvprintw(0, (col - strlen("Protobuf To Save")) / 2, "Protobuf To Save");
@@ -268,6 +265,12 @@ void protoToSave() {
 }
 
 void protoToSaveProfile() {
+	FILE* fp;
+	char path[8192];
+	char filename[1024];
+	char* command;
+	char* myLine;
+
 	clear();
 	attron(COLOR_PAIR(1));
 	mvprintw(0, (col - strlen("Protobuf To Profile")) / 2, "Protobuf To Profile");
@@ -320,6 +323,12 @@ void protoToSaveProfile() {
 }
 
 void saveUnpack() {
+	FILE* fp;
+	char path[8192];
+	char filename[1024];
+	char* command;
+	char* myLine;
+
 	clear();
 	attron(COLOR_PAIR(1));
 	mvprintw(0, (col - strlen("Save Info")) / 2, "Save Info");
@@ -372,6 +381,12 @@ void saveUnpack() {
 }
 
 void profUnpack() {
+        FILE* fp;
+        char path[8192];
+	char filename[1024];
+	char* command;
+	char* myLine;
+
 	clear();
 	attron(COLOR_PAIR(1));
 	mvprintw(0, (col - strlen("Profile Info")) / 2, "Profile Info");
@@ -424,6 +439,9 @@ void profUnpack() {
 }
 
 int main(int argc, char** argv) {
+	char* myLine;
+	char choice;
+	int loopContinue = 1;
 	initscr();
 	start_color();
 	defineColors();
@@ -432,7 +450,6 @@ int main(int argc, char** argv) {
 #else
 #warning Compiling with older X/Open Curses, problems may result!
 #endif
-	// Start.
 	do {
 		drawMainMenu();
 		choice = getch();
@@ -472,7 +489,6 @@ int main(int argc, char** argv) {
 		}
 	} while(loopContinue == 1);
 
-	// Exit.
 	clear();
 	mvprintw(0, 0, "Strike any key to continue");
 	refresh();

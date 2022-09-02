@@ -15,12 +15,12 @@ int i;
 int j;
 int k;
 int loopContinue = 1;
-uint8_t fileBuffer[FILESIZE_LIMIT];
-uint8_t* outBuffer;
+unsigned char* fileBuffer;
+unsigned char* outBuffer;
 OakSave__Profile* profData;
 size_t writeLen;
 OakSave__OakCustomizationSaveGameData* custs;
-int32_t newGKeys;
+int newGKeys;
 int numICL;
 OakSave__InventoryCategorySaveData** icl;
 char* command;
@@ -28,10 +28,10 @@ FILE* inFile;
 FILE* outFile;
 int fileLen;
 char* cutText;
-int32_t level;
-int32_t newTokens;
-int32_t seed;
-int32_t id;
+int level;
+int newTokens;
+int seed;
+int id;
 int found;
 int numTokens;
 OakSave__VaultCardSaveGameData* vcData;
@@ -41,6 +41,8 @@ int numVcRewards;
 OakSave__VaultCardRewardList** vcRewards;
 int numVcRewardsCurrent;
 OakSave__VaultCardReward** vcRewardCurrent;
+
+struct File saveFile;
 
 int main(int argc, char** argv) {
 	if(argc < 3) {
@@ -64,7 +66,9 @@ int main(int argc, char** argv) {
 		printf("CSAV001ABD Failed to open output file\n");
 		exit(1);
 	}
-	fileLen = read_buffer(FILESIZE_LIMIT, fileBuffer, inFile);
+	saveFile = read_buffer(inFile);
+	fileLen = saveFile.length;
+	fileBuffer = saveFile.data;
 
 // Print the welcome message
 	printf("CSAV00100I Borderlands 3 CSave\n");

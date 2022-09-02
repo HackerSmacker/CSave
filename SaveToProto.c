@@ -8,14 +8,12 @@
 
 #define FILESIZE_LIMIT 2000000
 
-extern struct Save save_t;
-int saveMode;
-FILE* inFile;
-char* outFileName;
-FILE* outFile;
-
-
 int main(int argc, char** argv) {
+	struct SaveFile savefile_t;
+	int saveMode;
+	FILE* inFile;
+	char* outFileName;
+	FILE* outFile;
 	saveMode = 1;
 	printf("CSAV001CNV Save to Protocol Buffer Data Translation Program\n");
 	if(argc < 2) {
@@ -43,9 +41,11 @@ int main(int argc, char** argv) {
 	//int fileLen = read_buffer(FILESIZE_LIMIT, inputBuffer, inFile);
 	//rewind(inFile); // Rewind the tape drive like it's 1981
 	//printf("CSAV00200I File size = %d\n", fileLen);
-	readSave(inFile, saveMode);
-	fwrite(save_t.remaining_data, sizeof(char), save_t.remaining_data_len, outFile);
+
+	savefile_t = readSave(inFile, saveMode);
+	fwrite(savefile_t.save.remaining_data, 1, savefile_t.save.remaining_data_len, outFile);
 	printf("CSAV001CNV Execution complete\n");
+
 	return 0;
 }
 

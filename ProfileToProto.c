@@ -8,14 +8,12 @@
 
 #define FILESIZE_LIMIT 2000000
 
-extern struct Save save_t;
-int saveMode;
-FILE* inFile;
-char* outFileName;
-FILE* outFile;
-
 int main(int argc, char** argv) {
-	saveMode = 2;
+	struct Save save_t;
+	int saveMode = 2;
+	FILE* inFile;
+	char* outFileName;
+	FILE* outFile;
 	printf("CSAV001CNV Save to Protocol Buffer Data Translation Program (for profile saves)\n");
 	if(argc < 2) {
 		printf("CSAV001ABN Incorrect number of arguments (specify an input file and optionally a platform code)\n");

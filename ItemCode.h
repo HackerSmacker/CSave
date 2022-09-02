@@ -18,7 +18,7 @@ enum Item_flags {
 };
 
 struct Item {
-	/*
+	/* --- These fields are commented out for now...
 	int writable;
 	int version;
 	char* parts_category;
@@ -32,10 +32,10 @@ struct Item {
 	struct aspect* parts;
 	struct aspect* genericParts;
 	int seed;
-	uint8_t* wear;
+	unsigned char* wear;
 	int numCustom;
 	char* remainingBits;
-	*/
+	--- end disablement block */
 	int version;
 	int balance_bits;
 	int balance_idx;
@@ -58,8 +58,8 @@ struct Item {
 };
 
 void dumpSerial(ProtobufCBinaryData item_serial_number);
-uint8_t* xorSaveData(uint8_t* data, uint8_t seed);
-uint8_t* xorItemSerialData(uint8_t* data, uint32_t seed, int len);
+unsigned char* xorSaveData(unsigned char* data, unsigned char seed);
+unsigned char* xorItemSerialData(unsigned char* data, unsigned int seed, int len);
 void loadLookupTables();
 char* lookupInTable(int tableIndex, int lineNumber);
 int findLookupTable(char* searchText);

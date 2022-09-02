@@ -25,18 +25,20 @@ A general explanation of what's going on here:
 */
 
 
-// File descriptors for lookup tables
+/* Files for lookup tables */
 FILE** lookupTableFiles;
 
-// Array of strings containing all that good stuff
-// Explanation:
-// X, Y, Z. X is the current table, Y is the line, and Z is the character.
+/* 
+ * Array of strings containing all that good stuff
+ * Explanation:
+ * X, Y, Z. X is the current table, Y is the line, and Z is the character.
+*/ 
 char lookupTable[50][500][2000];
 
-// Number of LT files (this value is hardcoded):
+/* Number of LT files (this value is hardcoded): */
 int lookupTableCount = 48;
 
-// Filenames to lookup tables
+/* Filenames to lookup tables */
 const char lookupTableFilenames[50][256] = {
 	"LookupTables/BPInvPart_AR_COV_C.txt",
 	"LookupTables/BPInvPart_AR_DAL_C.txt",
@@ -138,12 +140,16 @@ const char lookupTableIndex[50][256] = {
 	"ManufacturerData.txt",
 	"OakDownloadableContentLicenseData.txt"
 };
-uint8_t currentByte = 0;
-int dataLen;
-uint8_t* out;
 
-// de-XOR the save file.
-uint8_t* xorSaveData(uint8_t* data, uint8_t seed) {
+/* de-XOR the save file.
+ * CAVEAT ALERT!
+ * I used strlen here, now, normally, you wouldn't do that. However, it appears that BL3 save files are null-less.
+*/
+
+unsigned char* xorSaveData(unsigned char* data, unsigned char seed) {
+	unsigned char currentByte = 0;
+	int dataLen;
+	unsigned char* out;
 	int i;
 	dataLen = strlen(data);
 	out = malloc(dataLen);
@@ -158,12 +164,10 @@ uint8_t* xorSaveData(uint8_t* data, uint8_t seed) {
 	return out;
 }
 
-
-uint32_t xorMaskItself;
-uint8_t* temp;
-
-// de-XOR an item serial.
-uint8_t* xorItemSerialData(uint8_t* data, uint32_t seed, int len) {
+/* de-XOR an item serial. */
+unsigned char* xorItemSerialData(unsigned char* data, unsigned int seed, int len) {
+	unsigned int xorMaskItself = 0;
+	unsigned char* temp;
 	int i;
 	xorMaskItself = (seed >> 5) & 0xFFFFFFFF;
 	temp = malloc(len);
@@ -177,16 +181,15 @@ uint8_t* xorItemSerialData(uint8_t* data, uint32_t seed, int len) {
 	return temp;
 }
 
-uint8_t* data;
-int len;
-uint8_t magicNumber;
-uint32_t xorSeed;
-int xorDataLen;
-uint8_t* xorData;
-uint8_t* decryptedData;
-
-// Print out info about a serial to the console.
+/* Print out info about a serial to the console */
 void dumpSerial(ProtobufCBinaryData item_serial_number) {
+	unsigned char* data;
+	int len;
+	unsigned char magicNumber;
+	unsigned int xorSeed;
+	int xorDataLen;
+	unsigned char* xorData;
+	unsigned char* decryptedData;
 	int i;
 	// The actual data and the length.
 	data = item_serial_number.data;
@@ -224,61 +227,48 @@ void dumpSerial(ProtobufCBinaryData item_serial_number) {
 
 }
 
-
-char line[2048];
-
-// Load the lookup tables into memory.
+/* Load the lookup tables into memory. */
 void loadLookupTables() {
 	int i;
-	int j, k;
-	// Define variables
-	// Allocate space for some FILEs
+	int j;
+	int k; /* three-axis lookup: [table][line][character] */
+	char line[2048];
 	lookupTableFiles = malloc(sizeof(FILE*) * lookupTableCount);
-	// Print messages
 	printf("CSAV001FIL Loading lookup tables... will load %d files.\n", lookupTableCount);
-	// Iterate through each file...
 	for(i = 1; i < lookupTableCount; i++) {
-		// ...print out a message to the user...
 		printf("CSAV001FIL Loading file %d: %s\n", i, lookupTableFilenames[i]);
-		// ...open the file...
 		lookupTableFiles[i] = fopen(lookupTableFilenames[i], "r");
-		// ...make sure it actually did.
 		if(lookupTableFiles[i] == NULL) {
 			fprintf(stderr, "CSAV001FIL FATAL PROCESSING ERROR WHEN OPENING FILE %s\n. EXECUTION MAY NOT CONTINUE.\n", lookupTableFilenames[i]);
 		}
-		// Now, read the file:
-		// j is the line indicator, i is the file number
 		j = 0;
-		while (fgets(line, sizeof(line), lookupTableFiles[i])) {
+		while(fgets(line, sizeof(line), lookupTableFiles[i])) {
 			strtok(line, "\n");
-			//printf("%s\n", line);
 			strcpy(lookupTable[i][j], line);
-			//printf("%s\n", lookupTable[i][j]);
 			j++;
 		}
     	}
 	printf("CSAV001FIL Lookup table load complete\n");
 }
 
-// Function to get a value from the lookup table without using extern char*** lookupTable
-// This is for decoding item serials
+/* Function to get a value from the lookup table without using extern char*** lookupTable */
 char* lookupInTable(int tableIndex, int lineNumber) {
 	return lookupTable[tableIndex][lineNumber];
 }
 
-// Find something in a table. AKA the line number in a table file.
-// This is for generating item serials
+/* Find something in a table. AKA the line number in a table file. */
 int findInTable(int tableIndex, char* searchText) {
 	int i;
-	// 500 is the arbitrary max... this is horrifically dangerous
+	/* 500 is the arbitrary max... this is horrifically dangerous */
 	for(i = 0; i < 500; i++) {
 		if(strcmp(searchText, lookupTable[tableIndex][i]) == 0) {
 			return i;
 		}
-	}
+	}	
+	return -1;
 }
 
-// Find a lookup table's index.
+/* Find a lookup table's index. */
 int findLookupTable(char* searchText) {
 	int i;
 	for(i = 0; i < lookupTableCount; i++) {
@@ -289,9 +279,10 @@ int findLookupTable(char* searchText) {
 			return -1;
 		}
 	}
+	return -1;
 }
 
 
-struct Item parseItemCode(size_t length, uint8_t* data, int outcome) {
+struct Item parseItemCode(size_t length, unsigned char* data, int outcome) {
 
 }

@@ -8,22 +8,19 @@
 
 #define FILESIZE_LIMIT 2000000
 
-FILE* outFile;
-FILE* inFile;
-
-struct Save saveIn_t;
-struct keyValuePair* kvpIn_t;
-
-struct Save saveOut_t;
-struct keyValuePair* kvpOut_t;
-
-
 int main(int argc, char** argv) {
+	FILE* outFile;
+	FILE* inFile;
+	struct Save saveIn_t;
+	struct KeyValuePair* kvpIn_t;
+	struct Save saveOut_t;
+	struct KeyValuePair* kvpOut_t;
 	int payloadStart;
 	int processedLen;
 	int pc_in = 0;
 	int pc_out = 0;
 	int i;
+
 	printf("CSAV001SCA Binary Save Conversion Program\n");
 	if(argc < 4) {
 		printf("CSAV001ABN Incorrect number of arguments! SaveConvert in.sav out.sav platformcode_in platformcode_out\n");
@@ -41,33 +38,31 @@ int main(int argc, char** argv) {
 	}
 	pc_in = atoi(argv[3]);
 	pc_out = atoi(argv[4]);
-	
-	
 
 	printf("CSAV001SCA Reading file...\n");
 	saveIn_t.header = malloc(4);
 	fread(saveIn_t.header, sizeof(char), 4, inFile);
-	fread(&saveIn_t.sg_version, sizeof(int32_t), 1, inFile);
-	fread(&saveIn_t.pkg_version, sizeof(int32_t), 1, inFile);
+	fread(&saveIn_t.sg_version, sizeof(int), 1, inFile);
+	fread(&saveIn_t.pkg_version, sizeof(int), 1, inFile);
 	fread(&saveIn_t.engine_major, sizeof(int16_t), 1, inFile);
 	fread(&saveIn_t.engine_minor, sizeof(int16_t), 1, inFile);
 	fread(&saveIn_t.engine_patch, sizeof(int16_t), 1, inFile);
-	fread(&saveIn_t.engine_build, sizeof(uint32_t), 1, inFile);
-	fread(&saveIn_t.build_id_length, sizeof(int32_t), 1, inFile);
+	fread(&saveIn_t.engine_build, sizeof(unsigned int), 1, inFile);
+	fread(&saveIn_t.build_id_length, sizeof(int), 1, inFile);
 	saveIn_t.build_id = malloc(saveIn_t.build_id_length);
 	fread(saveIn_t.build_id, sizeof(char), saveIn_t.build_id_length, inFile);
-	fread(&saveIn_t.fmt_version, sizeof(int32_t), 1, inFile);
-	fread(&saveIn_t.fmt_count, sizeof(int32_t), 1, inFile);
-	kvpIn_t = malloc(saveIn_t.fmt_count * sizeof(struct keyValuePair));
+	fread(&saveIn_t.fmt_version, sizeof(int), 1, inFile);
+	fread(&saveIn_t.fmt_count, sizeof(int), 1, inFile);
+	kvpIn_t = malloc(saveIn_t.fmt_count * sizeof(struct KeyValuePair));
 	for(i = 0; i < saveIn_t.fmt_count; i++) {
 		kvpIn_t[i].guid = malloc(16);
 		fread(kvpIn_t[i].guid, sizeof(char), 16, inFile);
-		fread(&kvpIn_t[i].entry, sizeof(int32_t), 1, inFile);
+		fread(&kvpIn_t[i].entry, sizeof(int), 1, inFile);
 	}
-	fread(&saveIn_t.sg_type_len, sizeof(int32_t), 1, inFile);
+	fread(&saveIn_t.sg_type_len, sizeof(int), 1, inFile);
 	saveIn_t.sg_type = malloc(saveIn_t.sg_type_len);
 	fread(saveIn_t.sg_type, sizeof(char), saveIn_t.sg_type_len, inFile);
-	fread(&saveIn_t.remaining_data_len, sizeof(int32_t), 1, inFile);
+	fread(&saveIn_t.remaining_data_len, sizeof(int), 1, inFile);
 	payloadStart = ftell(inFile);
 	saveIn_t.remaining_data = malloc(saveIn_t.remaining_data_len);
 	fread(saveIn_t.remaining_data, sizeof(char), saveIn_t.remaining_data_len, inFile);
@@ -165,23 +160,23 @@ int main(int argc, char** argv) {
 
 	printf("CSAV001SCA Writing new file...\n");
 	fwrite(saveOut_t.header, sizeof(char), 4, outFile);
-	fwrite(&saveOut_t.sg_version, sizeof(int32_t), 1, outFile);
-	fwrite(&saveOut_t.pkg_version, sizeof(int32_t), 1, outFile);
+	fwrite(&saveOut_t.sg_version, sizeof(int), 1, outFile);
+	fwrite(&saveOut_t.pkg_version, sizeof(int), 1, outFile);
 	fwrite(&saveOut_t.engine_major, sizeof(int16_t), 1, outFile);
 	fwrite(&saveOut_t.engine_minor, sizeof(int16_t), 1, outFile);
 	fwrite(&saveOut_t.engine_patch, sizeof(int16_t), 1, outFile);
-	fwrite(&saveOut_t.engine_build, sizeof(uint32_t), 1, outFile);
-	fwrite(&saveOut_t.build_id_length, sizeof(int32_t), 1, outFile);
+	fwrite(&saveOut_t.engine_build, sizeof(unsigned int), 1, outFile);
+	fwrite(&saveOut_t.build_id_length, sizeof(int), 1, outFile);
 	fwrite(saveOut_t.build_id, sizeof(char), saveOut_t.build_id_length, outFile);
-	fwrite(&saveOut_t.fmt_version, sizeof(int32_t), 1, outFile);
-	fwrite(&saveOut_t.fmt_count, sizeof(int32_t), 1, outFile);
+	fwrite(&saveOut_t.fmt_version, sizeof(int), 1, outFile);
+	fwrite(&saveOut_t.fmt_count, sizeof(int), 1, outFile);
 	for(i = 0; i < saveOut_t.fmt_count; i++) {
 		fwrite(kvpOut_t[i].guid, sizeof(char), 16, outFile);
-		fwrite(&kvpOut_t[i].entry, sizeof(int32_t), 1, outFile);
+		fwrite(&kvpOut_t[i].entry, sizeof(int), 1, outFile);
 	}
-	fwrite(&saveOut_t.sg_type_len, sizeof(int32_t), 1, outFile);
+	fwrite(&saveOut_t.sg_type_len, sizeof(int), 1, outFile);
 	fwrite(saveOut_t.sg_type, sizeof(char), saveOut_t.sg_type_len, outFile);
-	fwrite(&saveOut_t.remaining_data_len, sizeof(int32_t), 1, outFile);
+	fwrite(&saveOut_t.remaining_data_len, sizeof(int), 1, outFile);
 	fwrite(saveOut_t.remaining_data, sizeof(char), saveOut_t.remaining_data_len, outFile);
 
 
